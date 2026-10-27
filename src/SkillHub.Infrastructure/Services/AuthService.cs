@@ -74,6 +74,76 @@ public class AuthService : IAuthService
         return await GenerateAuthResponseAsync(user, primaryRole);
     }
 
+    public async Task<UserProfileDto> GetProfileAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException($"User with ID '{userId}' was not found.");
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var primaryRole = roles.FirstOrDefault() ?? "Participant";
+
+        return new UserProfileDto
+        {
+            Id = user.Id,
+            Email = user.Email ?? string.Empty,
+            FullName = user.FullName,
+            Specialty = user.Specialty,
+            Role = primaryRole,
+            CreatedAt = user.CreatedAt
+        };
+    }
+
+    public async Task<UserProfileDto> UpdateProfileAsync(string userId, UpdateProfileRequestDto request)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException($"User with ID '{userId}' was not found.");
+
+        if (string.IsNullOrWhiteSpace(request.FullName))
+            throw new BusinessRuleValidationException("Full name cannot be empty.");
+
+        user.FullName = request.FullName.Trim();
+        if (request.Specialty != null)
+        {
+            user.Specialty = request.Specialty.Trim();
+        }
+
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            throw new BusinessRuleValidationException($"Failed to update profile: {errors}");
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var primaryRole = roles.FirstOrDefault() ?? "Participant";
+
+        return new UserProfileDto
+        {
+            Id = user.Id,
+            Email = user.Email ?? string.Empty,
+            FullName = user.FullName,
+            Specialty = user.Specialty,
+            Role = primaryRole,
+            CreatedAt = user.CreatedAt
+        };
+    }
+
+    public async Task ChangePasswordAsync(string userId, ChangePasswordRequestDto request)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException($"User with ID '{userId}' was not found.");
+
+        var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            throw new BusinessRuleValidationException($"Failed to change password: {errors}");
+        }
+    }
+
     private async Task<AuthResponseDto> GenerateAuthResponseAsync(ApplicationUser user, string role)
     {
         var jwtSettings = _configuration.GetSection("Jwt");

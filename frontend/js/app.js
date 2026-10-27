@@ -6,10 +6,11 @@ const state = {
     myEnrollments: [],
     topWorkshops: [],
     currentUser: authStorage.getUser(),
-    activeTab: 'workshops', // 'workshops' | 'enrollments' | 'admin'
+    activeTab: 'workshops', // 'workshops' | 'enrollments' | 'profile' | 'admin'
     searchQuery: '',
     selectedCategory: '',
-    selectedExcelFile: null
+    selectedExcelFile: null,
+    selectedDetailWorkshop: null
 };
 
 // DOM Elements
@@ -18,6 +19,8 @@ const elements = {
     navBrand: document.getElementById('nav-brand'),
     tabWorkshops: document.getElementById('tab-workshops'),
     tabMyEnrollments: document.getElementById('tab-my-enrollments'),
+    tabProfile: document.getElementById('tab-profile'),
+    btnUserProfile: document.getElementById('btn-user-profile'),
     tabAdmin: document.getElementById('tab-admin'),
     navEnrollmentsBadge: document.getElementById('nav-enrollments-badge'),
     btnToggleTheme: document.getElementById('btn-toggle-theme'),
@@ -35,6 +38,7 @@ const elements = {
     // Views
     viewWorkshops: document.getElementById('view-workshops'),
     viewEnrollments: document.getElementById('view-enrollments'),
+    viewProfile: document.getElementById('view-profile'),
     viewAdmin: document.getElementById('view-admin'),
 
     // Catalog View
@@ -50,6 +54,46 @@ const elements = {
     enrollmentsEmpty: document.getElementById('enrollments-empty'),
     btnBackToCatalog: document.getElementById('btn-back-to-catalog'),
     btnEmptyExplore: document.getElementById('btn-empty-explore'),
+
+    // Profile View
+    btnProfileToCatalog: document.getElementById('btn-profile-to-catalog'),
+    profileEmail: document.getElementById('profile-email'),
+    profileFullName: document.getElementById('profile-fullname'),
+    profileRole: document.getElementById('profile-role'),
+    profileSpecialty: document.getElementById('profile-specialty'),
+    formProfileInfo: document.getElementById('form-profile-info'),
+    formProfilePassword: document.getElementById('form-profile-password'),
+    profileCurrentPassword: document.getElementById('profile-current-password'),
+    profileNewPassword: document.getElementById('profile-new-password'),
+    profileConfirmPassword: document.getElementById('profile-confirm-password'),
+    profileStatActive: document.getElementById('profile-stat-active'),
+    profileStatCerts: document.getElementById('profile-stat-certs'),
+    profileStatTotal: document.getElementById('profile-stat-total'),
+
+    // Workshop Detail Modal (Platzi Style)
+    modalWorkshopDetail: document.getElementById('modal-workshop-detail'),
+    btnCloseWorkshopDetail: document.getElementById('btn-close-workshop-detail'),
+    detailHero: document.getElementById('detail-hero'),
+    detailSchoolBadge: document.getElementById('detail-school-badge'),
+    detailCodeBadge: document.getElementById('detail-code-badge'),
+    detailTitle: document.getElementById('detail-title'),
+    detailDescription: document.getElementById('detail-description'),
+    detailInstructorAvatar: document.getElementById('detail-instructor-avatar'),
+    detailInstructorName: document.getElementById('detail-instructor-name'),
+    detailInstructorSpecialty: document.getElementById('detail-instructor-specialty'),
+    detailSchedule: document.getElementById('detail-schedule'),
+    detailSyllabusContainer: document.getElementById('detail-syllabus-container'),
+    detailSeatsCount: document.getElementById('detail-seats-count'),
+    detailSeatsTotal: document.getElementById('detail-seats-total'),
+    detailCapacityBar: document.getElementById('detail-capacity-bar'),
+    detailActionAuth: document.getElementById('detail-action-auth'),
+    detailActionGuest: document.getElementById('detail-action-guest'),
+    btnDetailEnroll: document.getElementById('btn-detail-enroll'),
+    formQuickEnroll: document.getElementById('form-quick-enroll'),
+    quickName: document.getElementById('quick-name'),
+    quickEmail: document.getElementById('quick-email'),
+    quickPassword: document.getElementById('quick-password'),
+    btnDetailSwitchLogin: document.getElementById('btn-detail-switch-login'),
 
     // Admin View
     btnAdminRefresh: document.getElementById('btn-admin-refresh'),
@@ -142,10 +186,29 @@ function setupEventListeners() {
         }
         switchTab('enrollments');
     });
+    elements.tabProfile?.addEventListener('click', () => switchTab('profile'));
+    elements.btnUserProfile?.addEventListener('click', () => switchTab('profile'));
     elements.tabAdmin?.addEventListener('click', () => switchTab('admin'));
     elements.btnBackToCatalog?.addEventListener('click', () => switchTab('workshops'));
     elements.btnEmptyExplore?.addEventListener('click', () => switchTab('workshops'));
+    elements.btnProfileToCatalog?.addEventListener('click', () => switchTab('workshops'));
     elements.btnAdminRefresh?.addEventListener('click', loadAdminData);
+
+    // Profile & Password Forms
+    elements.formProfileInfo?.addEventListener('submit', handleUpdateProfile);
+    elements.formProfilePassword?.addEventListener('submit', handleChangePassword);
+
+    // Workshop Detail Modal
+    elements.btnCloseWorkshopDetail?.addEventListener('click', closeWorkshopDetail);
+    elements.modalWorkshopDetail?.addEventListener('click', (e) => {
+        if (e.target === elements.modalWorkshopDetail) closeWorkshopDetail();
+    });
+    elements.btnDetailEnroll?.addEventListener('click', handleDetailEnroll);
+    elements.formQuickEnroll?.addEventListener('submit', handleQuickEnroll);
+    elements.btnDetailSwitchLogin?.addEventListener('click', () => {
+        closeWorkshopDetail();
+        openAuthModal('login');
+    });
 
     // Search & Filter
     elements.inputSearch?.addEventListener('input', (e) => {
@@ -172,8 +235,9 @@ function setupEventListeners() {
         if (e.target === elements.modalAuth) closeAuthModal();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !elements.modalAuth?.classList.contains('hidden')) {
-            closeAuthModal();
+        if (e.key === 'Escape') {
+            if (!elements.modalAuth?.classList.contains('hidden')) closeAuthModal();
+            if (!elements.modalWorkshopDetail?.classList.contains('hidden')) closeWorkshopDetail();
         }
     });
 
@@ -224,7 +288,7 @@ function switchTab(tab) {
     state.activeTab = tab;
 
     // Reset tab active styles
-    const tabs = [elements.tabWorkshops, elements.tabMyEnrollments, elements.tabAdmin];
+    const tabs = [elements.tabWorkshops, elements.tabMyEnrollments, elements.tabProfile, elements.tabAdmin];
     tabs.forEach(t => {
         if (!t) return;
         t.classList.remove('text-brand-600', 'dark:text-brand-400', 'bg-brand-50', 'dark:bg-brand-950/60');
@@ -234,6 +298,7 @@ function switchTab(tab) {
     // Hide all views
     elements.viewWorkshops?.classList.add('hidden');
     elements.viewEnrollments?.classList.add('hidden');
+    elements.viewProfile?.classList.add('hidden');
     elements.viewAdmin?.classList.add('hidden');
 
     if (tab === 'workshops') {
@@ -245,6 +310,11 @@ function switchTab(tab) {
         elements.tabMyEnrollments?.classList.add('text-brand-600', 'dark:text-brand-400', 'bg-brand-50', 'dark:bg-brand-950/60');
         elements.tabMyEnrollments?.classList.remove('text-slate-600', 'dark:text-slate-300');
         renderEnrollments();
+    } else if (tab === 'profile') {
+        elements.viewProfile?.classList.remove('hidden');
+        elements.tabProfile?.classList.add('text-brand-600', 'dark:text-brand-400', 'bg-brand-50', 'dark:bg-brand-950/60');
+        elements.tabProfile?.classList.remove('text-slate-600', 'dark:text-slate-300');
+        loadUserProfile();
     } else if (tab === 'admin') {
         elements.viewAdmin?.classList.remove('hidden');
         elements.tabAdmin?.classList.add('text-amber-600', 'dark:text-amber-400', 'bg-amber-50', 'dark:bg-amber-950/40');
@@ -265,6 +335,7 @@ function updateAuthUI() {
     if (isAuth && user) {
         elements.authGuest?.classList.add('hidden');
         elements.authUser?.classList.remove('hidden');
+        elements.tabProfile?.classList.remove('hidden');
 
         if (elements.userDisplayName) elements.userDisplayName.textContent = user.fullName || user.email;
         if (elements.userRoleBadge) {
@@ -290,8 +361,10 @@ function updateAuthUI() {
     } else {
         elements.authGuest?.classList.remove('hidden');
         elements.authUser?.classList.add('hidden');
+        elements.tabProfile?.classList.add('hidden');
         elements.tabAdmin?.classList.add('hidden');
         if (elements.navEnrollmentsBadge) elements.navEnrollmentsBadge.classList.add('hidden');
+        if (state.activeTab === 'profile') switchTab('workshops');
     }
 }
 
@@ -441,7 +514,7 @@ function renderWorkshops() {
         const timeFormatted = `${startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} — ${endDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
 
         return `
-            <div class="workshop-card bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col justify-between shadow-sm">
+            <div class="workshop-card platzi-card bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col justify-between shadow-sm cursor-pointer group" data-card-id="${w.id}">
                 <!-- Themed Top Banner -->
                 <div class="h-2.5 bg-gradient-to-r ${theme.gradient}"></div>
 
@@ -465,7 +538,7 @@ function renderWorkshops() {
 
                     <!-- Workshop Title & Description -->
                     <div class="space-y-1.5">
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-snug line-clamp-1 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-snug line-clamp-1 group-hover:text-emerald-500 transition-colors">
                             ${escapeHtml(w.title)}
                         </h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
@@ -487,11 +560,11 @@ function renderWorkshops() {
                     <!-- Workshop Schedule Details -->
                     <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 space-y-2 border border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
                         <div class="flex items-center gap-2">
-                            <i data-lucide="calendar" class="w-4 h-4 text-brand-600 dark:text-brand-400 flex-shrink-0"></i>
+                            <i data-lucide="calendar" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
                             <span class="font-medium text-slate-800 dark:text-slate-200 capitalize">${dateFormatted}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <i data-lucide="clock" class="w-4 h-4 text-brand-600 dark:text-brand-400 flex-shrink-0"></i>
+                            <i data-lucide="clock" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
                             <span>${timeFormatted}</span>
                         </div>
                     </div>
@@ -510,17 +583,43 @@ function renderWorkshops() {
 
                 <!-- Card Action Footer -->
                 <div class="p-6 pt-0 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 mt-2">
-                    <div class="pt-4">
-                        ${getActionBtnHtml(w, isEnrolled, hasSeats)}
+                    <div class="pt-4 flex items-center gap-2">
+                        <button data-detail-id="${w.id}" class="btn-card-detail flex-1 py-2 px-3 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-all border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-500"></i>
+                            <span>Ver Detalle</span>
+                        </button>
+                        <div class="flex-[1.3]">
+                            ${getActionBtnHtml(w, isEnrolled, hasSeats)}
+                        </div>
                     </div>
                 </div>
             </div>
         `;
     }).join('');
 
-    // Attach click events for enroll buttons
+    // Attach click events for cards & buttons
+    document.querySelectorAll('.workshop-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Prevent triggering if clicked directly on an interactive button
+            if (e.target.closest('.btn-enroll-action') || e.target.closest('.btn-card-detail')) return;
+            const id = parseInt(card.getAttribute('data-card-id'));
+            openWorkshopDetail(id);
+        });
+    });
+
+    document.querySelectorAll('.btn-card-detail').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = parseInt(btn.getAttribute('data-detail-id'));
+            openWorkshopDetail(id);
+        });
+    });
+
     document.querySelectorAll('.btn-enroll-action').forEach(btn => {
-        btn.addEventListener('click', () => handleEnrollClick(parseInt(btn.getAttribute('data-id'))));
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleEnrollClick(parseInt(btn.getAttribute('data-id')));
+        });
     });
 
     refreshLucideIcons();
@@ -529,26 +628,26 @@ function renderWorkshops() {
 function getActionBtnHtml(w, isEnrolled, hasSeats) {
     if (isEnrolled) {
         return `
-            <button disabled class="w-full py-2.5 px-4 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-xs rounded-xl flex items-center justify-center gap-2 cursor-default">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                Ya estás inscrito
+            <button disabled class="w-full py-2 px-3 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 cursor-default">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+                Inscrito
             </button>
         `;
     }
 
     if (!hasSeats) {
         return `
-            <button disabled class="w-full py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-medium text-xs rounded-xl flex items-center justify-center gap-2 cursor-not-allowed">
-                <i data-lucide="ban" class="w-4 h-4"></i>
-                Cupos Agotados
+            <button disabled class="w-full py-2 px-3 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-medium text-xs rounded-xl flex items-center justify-center gap-1.5 cursor-not-allowed">
+                <i data-lucide="ban" class="w-3.5 h-3.5"></i>
+                Agotado
             </button>
         `;
     }
 
     return `
-        <button data-id="${w.id}" class="btn-enroll-action w-full py-2.5 px-4 bg-brand-600 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 active:scale-[0.98] text-white font-semibold text-xs rounded-xl shadow-sm transition-all hover:shadow shadow-brand-600/30 flex items-center justify-center gap-2">
-            <i data-lucide="sparkles" class="w-4 h-4"></i>
-            Inscribirme al Taller
+        <button data-id="${w.id}" class="btn-enroll-action w-full py-2 px-3 btn-platzi active:scale-[0.98] text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            Inscribirme
         </button>
     `;
 }
@@ -968,6 +1067,328 @@ function renderTopWorkshops() {
     }).join('');
 
     refreshLucideIcons();
+}
+
+// ==========================================
+// WORKSHOP DETAIL (Platzi Course Experience)
+// ==========================================
+
+function generateSyllabus(workshop) {
+    const text = `${workshop.instructorSpecialty || ''} ${workshop.title || ''}`.toLowerCase();
+    if (text.includes('foto')) {
+        return [
+            { num: '01', title: 'Fundamentos de la Cámara y Exposición Manual', desc: 'Triángulo de exposición (ISO, diafragma, velocidad), lentes y calibración de balance de blancos.', duration: '1.5 horas' },
+            { num: '02', title: 'Composición, Iluminación y Ley de Tercios', desc: 'Manejo de luz natural, reflectores y dirección de modelos en locación presencial.', duration: '2 horas' },
+            { num: '03', title: 'Sesión Práctica de Disparo Guiado', desc: 'Taller práctico con retroalimentación en tiempo real del instructor en el aula.', duration: '2 horas' },
+            { num: '04', title: 'Revelado Digital y Entrega de Portafolio', desc: 'Edición básica en Adobe Lightroom y exportación para certificación oficial.', duration: '1.5 horas' }
+        ];
+    }
+    if (text.includes('coci') || text.includes('repos')) {
+        return [
+            { num: '01', title: 'Mise en Place, Técnicas de Corte y Seguridad', desc: 'Dominio del cuchillo, manipulación higiénica de alimentos y preparación de estaciones.', duration: '1.5 horas' },
+            { num: '02', title: 'Cocciones, Fondos y Salsas Madre', desc: 'Elaboración de reducciones, emulsiones y bases aromáticas clásicas.', duration: '2 horas' },
+            { num: '03', title: 'Elaboración del Menú Principal en Cocina', desc: 'Práctica presencial individual con ingredientes provistos por el centro de formación.', duration: '2.5 horas' },
+            { num: '04', title: 'Emplatado Profesional y Degustación Crítica', desc: 'Técnicas de presentación gastronómica de vanguardia y análisis sensorial.', duration: '1 hora' }
+        ];
+    }
+    if (text.includes('ora') || text.includes('prese')) {
+        return [
+            { num: '01', title: 'Dominio del Miedo Escénico y Lenguaje Corporal', desc: 'Respiración diafragmática, postura abierta y eliminación de muletillas.', duration: '1.5 horas' },
+            { num: '02', title: 'Estructura del Discurso y Storytelling Persuasivo', desc: 'Cómo abrir una charla memorable, generar empatía y conectar con la audiencia.', duration: '2 horas' },
+            { num: '03', title: 'Modulación de la Voz, Pausas y Proyección', desc: 'Ejercicios presenciales de entonación, volumen y ritmo para retener la atención.', duration: '1.5 horas' },
+            { num: '04', title: 'Presentación de Pitch y Evaluación 360°', desc: 'Discurso en vivo frente al grupo con retroalimentación directa y video análisis.', duration: '2 horas' }
+        ];
+    }
+    if (text.includes('mús') || text.includes('guit')) {
+        return [
+            { num: '01', title: 'Afinación, Postura y Calentamiento Instrumental', desc: 'Técnicas de prevención de lesiones y ergonomía con el instrumento.', duration: '1 hora' },
+            { num: '02', title: 'Armonía Aplicada y Progresiones de Acordes', desc: 'Escalas mayores, menores y digitación rítmica en compases estándar.', duration: '2 horas' },
+            { num: '03', title: 'Ensamble y Coordinación Rítmica en Vivo', desc: 'Dinámicas grupales de tempo, dinámicas de volumen y escucha activa.', duration: '2 horas' },
+            { num: '04', title: 'Interpretación de Obra y Cierre Formativo', desc: 'Ejecución de pieza musical evaluada por el instructor.', duration: '1.5 horas' }
+        ];
+    }
+    return [
+        { num: '01', title: 'Fundamentos y Análisis de Requerimientos', desc: 'Bases conceptuales, arquitectura de la solución y preparación del entorno de trabajo.', duration: '1.5 horas' },
+        { num: '02', title: 'Metodología Práctica y Buenas Prácticas de la Industria', desc: 'Patrones probados, diseño modular y optimización del flujo creativo/técnico.', duration: '2 horas' },
+        { num: '03', title: 'Proyecto Aplicado Presencial (Hands-on)', desc: 'Construcción en tiempo real con acompañamiento personalizado del docente.', duration: '2.5 horas' },
+        { num: '04', title: 'Validación, Despliegue y Emisión de Certificado', desc: 'Revisión final de entregables y rúbrica para constancia de acreditación.', duration: '1 hora' }
+    ];
+}
+
+function openWorkshopDetail(workshopId) {
+    const workshop = state.workshops.find(w => w.id === workshopId);
+    if (!workshop) return;
+
+    state.selectedDetailWorkshop = workshop;
+    const theme = getCategoryTheme(workshop.instructorSpecialty, workshop.title);
+
+    // Header info
+    if (elements.detailSchoolBadge) elements.detailSchoolBadge.textContent = `Escuela de ${theme.label}`;
+    if (elements.detailCodeBadge) elements.detailCodeBadge.textContent = workshop.code;
+    if (elements.detailTitle) elements.detailTitle.textContent = workshop.title;
+    if (elements.detailDescription) elements.detailDescription.textContent = workshop.description;
+
+    // Instructor info
+    if (elements.detailInstructorName) elements.detailInstructorName.textContent = workshop.instructorName;
+    if (elements.detailInstructorSpecialty) elements.detailInstructorSpecialty.textContent = workshop.instructorSpecialty || 'Instructor Especialista SkillHub';
+    if (elements.detailInstructorAvatar) elements.detailInstructorAvatar.textContent = workshop.instructorName.charAt(0).toUpperCase();
+
+    // Schedule info
+    const startDate = new Date(workshop.startDateTime);
+    const endDate = new Date(workshop.endDateTime);
+    const dateFormatted = startDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const timeFormatted = `${startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} — ${endDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+    if (elements.detailSchedule) elements.detailSchedule.textContent = `${dateFormatted} (${timeFormatted})`;
+
+    // Seats & capacity
+    const occupied = workshop.capacity - workshop.availableSeats;
+    const occupancyPct = Math.round((occupied / workshop.capacity) * 100);
+    if (elements.detailSeatsCount) elements.detailSeatsCount.textContent = workshop.availableSeats;
+    if (elements.detailSeatsTotal) elements.detailSeatsTotal.textContent = `de ${workshop.capacity} cupos totales`;
+    if (elements.detailCapacityBar) {
+        elements.detailCapacityBar.style.width = `${occupancyPct}%`;
+        elements.detailCapacityBar.className = `h-full progress-bar-fill ${workshop.availableSeats === 0 ? 'bg-rose-500' : (workshop.availableSeats <= 3 ? 'bg-amber-500' : 'bg-emerald-500')}`;
+    }
+
+    // Modular Syllabus
+    const syllabus = generateSyllabus(workshop);
+    if (elements.detailSyllabusContainer) {
+        elements.detailSyllabusContainer.innerHTML = syllabus.map(item => `
+            <div class="syllabus-item pb-4">
+                <span class="syllabus-dot"></span>
+                <div class="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                            <span class="text-[10px] text-emerald-500 font-mono font-bold">${item.num}</span>
+                            ${escapeHtml(item.title)}
+                        </span>
+                        <span class="text-[10px] text-slate-400 font-medium px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            ${item.duration}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${escapeHtml(item.desc)}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Action Area (Auth vs Guest)
+    const isAuth = authStorage.isAuthenticated();
+    const isEnrolled = state.myEnrollments.some(e => e.workshopId === workshop.id && e.status === 1);
+    const hasSeats = workshop.availableSeats > 0;
+
+    if (isAuth) {
+        elements.detailActionAuth?.classList.remove('hidden');
+        elements.detailActionGuest?.classList.add('hidden');
+
+        if (elements.btnDetailEnroll) {
+            if (isEnrolled) {
+                elements.btnDetailEnroll.disabled = true;
+                elements.btnDetailEnroll.className = 'w-full py-3 px-4 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-default';
+                elements.btnDetailEnroll.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i><span>Ya estás inscrito</span>';
+            } else if (!hasSeats) {
+                elements.btnDetailEnroll.disabled = true;
+                elements.btnDetailEnroll.className = 'w-full py-3 px-4 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-not-allowed';
+                elements.btnDetailEnroll.innerHTML = '<i data-lucide="ban" class="w-4 h-4"></i><span>Cupos Agotados</span>';
+            } else {
+                elements.btnDetailEnroll.disabled = false;
+                elements.btnDetailEnroll.className = 'w-full py-3 px-4 btn-platzi rounded-xl text-sm font-bold shadow-md flex items-center justify-center gap-2';
+                elements.btnDetailEnroll.innerHTML = '<i data-lucide="sparkles" class="w-4 h-4"></i><span>Inscribirme Ahora</span>';
+            }
+        }
+    } else {
+        elements.detailActionAuth?.classList.add('hidden');
+        elements.detailActionGuest?.classList.remove('hidden');
+        if (elements.formQuickEnroll) elements.formQuickEnroll.reset();
+    }
+
+    elements.modalWorkshopDetail?.classList.remove('hidden');
+    refreshLucideIcons();
+}
+
+function closeWorkshopDetail() {
+    elements.modalWorkshopDetail?.classList.add('hidden');
+    state.selectedDetailWorkshop = null;
+}
+
+async function handleDetailEnroll() {
+    if (!state.selectedDetailWorkshop) return;
+    const workshop = state.selectedDetailWorkshop;
+    closeWorkshopDetail();
+    await handleEnrollClick(workshop.id);
+}
+
+async function handleQuickEnroll(e) {
+    e.preventDefault();
+    if (!state.selectedDetailWorkshop) return;
+
+    const workshop = state.selectedDetailWorkshop;
+    const fullName = elements.quickName?.value.trim();
+    const email = elements.quickEmail?.value.trim();
+    const password = elements.quickPassword?.value;
+
+    const submitBtn = elements.formQuickEnroll?.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+        // 1. Register participant
+        await api.register(fullName, email, password);
+
+        // 2. Direct enrollment into selected workshop
+        await api.enroll(workshop.id);
+
+        closeWorkshopDetail();
+
+        // Trigger celebratory confetti
+        if (window.confetti) {
+            window.confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        }
+
+        Swal.fire({
+            title: '¡Bienvenido e Inscrito!',
+            html: `Tu cuenta ha sido creada y quedaste registrado exitosamente en el taller <strong>${escapeHtml(workshop.title)}</strong>.<br><br>Fecha: <strong>${new Date(workshop.startDateTime).toLocaleDateString('es-ES')}</strong>.`,
+            icon: 'success',
+            confirmButtonColor: '#00d074'
+        });
+
+        await loadMyEnrollments();
+        await loadWorkshops();
+    } catch (err) {
+        Swal.fire({
+            title: 'No se pudo completar el registro',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
+    }
+}
+
+// ==========================================
+// USER PROFILE & LEARNING DASHBOARD
+// ==========================================
+
+async function loadUserProfile() {
+    if (!authStorage.isAuthenticated()) {
+        openAuthModal('login');
+        return;
+    }
+
+    try {
+        const profile = await api.getProfile();
+
+        if (elements.profileEmail) elements.profileEmail.value = profile.email;
+        if (elements.profileFullName) elements.profileFullName.value = profile.fullName;
+        if (elements.profileRole) elements.profileRole.value = profile.role === 'Employee' ? 'Instructor / Administrador' : 'Participante Estudiante';
+        if (elements.profileSpecialty) elements.profileSpecialty.value = profile.specialty || '';
+
+        // Calculate and display metrics
+        const total = state.myEnrollments.length;
+        const active = state.myEnrollments.filter(e => e.status === 1).length;
+        const certs = active; // PDF certificates are available for active enrollments
+
+        if (elements.profileStatTotal) elements.profileStatTotal.textContent = total;
+        if (elements.profileStatActive) elements.profileStatActive.textContent = active;
+        if (elements.profileStatCerts) elements.profileStatCerts.textContent = certs;
+
+    } catch (err) {
+        console.error('Error fetching profile:', err);
+        showToast('error', 'Error al cargar los datos del perfil.');
+    }
+}
+
+async function handleUpdateProfile(e) {
+    e.preventDefault();
+    const fullName = elements.profileFullName?.value.trim();
+    const specialty = elements.profileSpecialty?.value.trim();
+
+    if (!fullName) {
+        showToast('error', 'El nombre completo no puede estar vacío.');
+        return;
+    }
+
+    const submitBtn = document.getElementById('btn-save-profile');
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+        const updated = await api.updateProfile(fullName, specialty);
+
+        // Update local state and storage
+        const current = authStorage.getUser() || {};
+        current.fullName = updated.fullName;
+        authStorage.setSession(authStorage.getToken(), current);
+        state.currentUser = current;
+        updateAuthUI();
+
+        Swal.fire({
+            title: 'Perfil Actualizado',
+            text: 'Tus datos personales se han guardado correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#00d074'
+        });
+    } catch (err) {
+        Swal.fire({
+            title: 'Error al actualizar',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
+    }
+}
+
+async function handleChangePassword(e) {
+    e.preventDefault();
+    const currentPassword = elements.profileCurrentPassword?.value;
+    const newPassword = elements.profileNewPassword?.value;
+    const confirmPassword = elements.profileConfirmPassword?.value;
+
+    if (!currentPassword || !newPassword) {
+        showToast('error', 'Completa los campos de contraseña.');
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        Swal.fire({
+            title: 'Contraseñas no coinciden',
+            text: 'La nueva contraseña y la confirmación no son iguales.',
+            icon: 'warning',
+            confirmButtonColor: '#4f46e5'
+        });
+        return;
+    }
+
+    if (newPassword.length < 6) {
+        showToast('error', 'La nueva contraseña debe tener al menos 6 caracteres.');
+        return;
+    }
+
+    const submitBtn = document.getElementById('btn-save-password');
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+        await api.changePassword(currentPassword, newPassword);
+
+        if (elements.formProfilePassword) elements.formProfilePassword.reset();
+
+        Swal.fire({
+            title: 'Contraseña Modificada',
+            text: 'Tu contraseña de acceso ha sido actualizada con éxito.',
+            icon: 'success',
+            confirmButtonColor: '#00d074'
+        });
+    } catch (err) {
+        Swal.fire({
+            title: 'Error al cambiar contraseña',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
+    }
 }
 
 // Auth Handlers

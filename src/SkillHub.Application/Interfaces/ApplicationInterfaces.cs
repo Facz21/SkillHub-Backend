@@ -6,6 +6,9 @@ public interface IAuthService
 {
     Task<AuthResponseDto> RegisterParticipantAsync(RegisterRequestDto request);
     Task<AuthResponseDto> LoginAsync(LoginRequestDto request);
+    Task<UserProfileDto> GetProfileAsync(string userId);
+    Task<UserProfileDto> UpdateProfileAsync(string userId, UpdateProfileRequestDto request);
+    Task ChangePasswordAsync(string userId, ChangePasswordRequestDto request);
 }
 
 public interface IWorkshopService

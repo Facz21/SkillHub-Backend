@@ -104,3 +104,80 @@ body {
 .progress-bar-fill {
     transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Platzi-Inspired Design System Tokens & Aesthetics */
+.platzi-glow {
+    position: relative;
+}
+.platzi-glow::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(0, 208, 116, 0.4), rgba(0, 164, 214, 0.3));
+    border-radius: inherit;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.6;
+}
+
+/* Platzi Emerald Buttons & Badges */
+.btn-platzi {
+    background-color: #00d074;
+    color: #080d19;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.btn-platzi:hover {
+    background-color: #00b46e;
+    box-shadow: 0 4px 20px rgba(0, 208, 116, 0.35);
+    transform: translateY(-1px);
+}
+.btn-platzi:active {
+    transform: translateY(0);
+}
+
+.badge-platzi {
+    background-color: rgba(0, 208, 116, 0.12);
+    color: #00d074;
+    border: 1px solid rgba(0, 208, 116, 0.28);
+}
+
+/* Dark theme platzi card backgrounds */
+.dark .platzi-card {
+    background-color: #121f3d;
+    border-color: #1e2c4d;
+}
+.dark .platzi-card:hover {
+    border-color: #00d074;
+}
+
+/* Syllabus Timeline / Module List in Workshop Detail */
+.syllabus-item {
+    position: relative;
+    padding-left: 2rem;
+}
+.syllabus-item::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 1.25rem;
+    bottom: -0.75rem;
+    width: 2px;
+    background: #e2e8f0;
+}
+.dark .syllabus-item::before {
+    background: #1e293b;
+}
+.syllabus-item:last-child::before {
+    display: none;
+}
+.syllabus-dot {
+    position: absolute;
+    left: 0.15rem;
+    top: 0.25rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background-color: #00d074;
+    box-shadow: 0 0 8px rgba(0, 208, 116, 0.6);
+}

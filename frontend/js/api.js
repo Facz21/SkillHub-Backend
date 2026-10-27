@@ -110,6 +110,25 @@ export const api = {
         window.dispatchEvent(new CustomEvent('auth-changed'));
     },
 
+    // Profile & Security
+    async getProfile() {
+        return await request('/auth/profile');
+    },
+
+    async updateProfile(fullName, specialty) {
+        return await request('/auth/profile', {
+            method: 'PUT',
+            body: JSON.stringify({ fullName, specialty })
+        });
+    },
+
+    async changePassword(currentPassword, newPassword) {
+        return await request('/auth/change-password', {
+            method: 'PUT',
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+    },
+
     // Workshops
     async getUpcomingWorkshops() {
         return await request('/workshops');
