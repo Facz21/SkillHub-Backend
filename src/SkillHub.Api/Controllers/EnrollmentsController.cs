@@ -7,6 +7,11 @@ using SkillHub.Domain.Exceptions;
 
 namespace SkillHub.Api.Controllers;
 
+public class FileUploadDto
+{
+    public IFormFile File { get; set; } = null!;
+}
+
 [ApiController]
 [Route("api/v1/enrollments")]
 public class EnrollmentsController : ControllerBase
@@ -61,8 +66,10 @@ public class EnrollmentsController : ControllerBase
 
     [HttpPost("import")]
     [Authorize(Roles = "Employee")]
-    public async Task<ActionResult<ExcelImportResultDto>> ImportEnrollmentsFromExcel([FromForm] IFormFile file)
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<ExcelImportResultDto>> ImportEnrollmentsFromExcel([FromForm] FileUploadDto upload)
     {
+        var file = upload?.File;
         if (file == null || file.Length == 0)
             throw new BusinessRuleValidationException("Please provide a valid Excel file (.xlsx).");
 
