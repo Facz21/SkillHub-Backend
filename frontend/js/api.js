@@ -17,7 +17,11 @@ export const authStorage = {
         localStorage.removeItem('skillhub_token');
         localStorage.removeItem('skillhub_user');
     },
-    isAuthenticated: () => !!localStorage.getItem('skillhub_token')
+    isAuthenticated: () => !!localStorage.getItem('skillhub_token'),
+    isEmployee: () => {
+        const user = authStorage.getUser();
+        return user?.role === 'Employee';
+    }
 };
 
 async function request(endpoint, options = {}) {
@@ -143,5 +147,20 @@ export const api = {
         a.click();
         a.remove();
         window.URL.revokeObjectURL(blobUrl);
+    },
+
+    // Admin / Employee APIs
+    async importEnrollmentsExcel(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return await request('/enrollments/import', {
+            method: 'POST',
+            body: formData
+        });
+    },
+
+    async getTopWorkshopsReport() {
+        return await request('/reports/top-workshops');
     }
 };
