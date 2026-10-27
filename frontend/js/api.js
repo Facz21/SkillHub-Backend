@@ -1,7 +1,13 @@
 /**
  * SkillHub API Client - Decoupled REST Integration
  */
-const API_BASE_URL = 'http://localhost:5076/api/v1';
+const API_BASE_URL = (() => {
+    const host = window.location.hostname;
+    if (!host || host === '' || window.location.protocol === 'file:') {
+        return 'http://localhost:5076/api/v1';
+    }
+    return `http://${host}:5076/api/v1`;
+})();
 
 export const authStorage = {
     getToken: () => localStorage.getItem('skillhub_token'),
@@ -71,6 +77,12 @@ async function request(endpoint, options = {}) {
 
         return data;
     } catch (err) {
+        if (err.name === 'TypeError' && err.message && err.message.toLowerCase().includes('fetch')) {
+            console.error('Network / CORS connection issue reaching API:', url, err);
+            const friendlyErr = new Error(`No se pudo conectar con el servidor API en ${url}. Verifica que el backend esté corriendo en el puerto 5076.`);
+            friendlyErr.isNetworkError = true;
+            throw friendlyErr;
+        }
         throw err;
     }
 }

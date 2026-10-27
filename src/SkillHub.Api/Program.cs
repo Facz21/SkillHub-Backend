@@ -71,14 +71,15 @@ builder.Services.AddSingleton<IPdfCertificateService, QuestPdfCertificateService
 builder.Services.AddScoped<IExcelImportService, ClosedXmlImportService>();
 builder.Services.AddScoped<IExcelSeederService, ExcelSeederService>();
 
-// 5. CORS for decoupled Frontend
+// 5. CORS for decoupled Frontend (allows localhost, 127.0.0.1, file:// and any port)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.SetIsOriginAllowed(_ => true)
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -136,10 +137,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 8. HTTP Pipeline
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
+// 8. HTTP Pipeline - CORS must be placed first to ensure all responses (including preflight OPTIONS & exceptions) carry CORS headers
 app.UseCors("AllowAll");
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
