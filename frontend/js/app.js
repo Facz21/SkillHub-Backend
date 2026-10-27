@@ -176,7 +176,7 @@ const elements = {
 };
 
 // Initialize Application
-document.addEventListener('DOMContentLoaded', async () => {
+async function initApp() {
     initTheme();
     setupEventListeners();
     updateAuthUI();
@@ -185,7 +185,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         await loadMyEnrollments();
     }
     refreshLucideIcons();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
 
 // Theme Management (Dark Mode)
 function initTheme() {
@@ -1532,8 +1538,6 @@ async function handleAdminDownloadCertificate(enrollmentId, participantName) {
 function handlePrintRoster() {
     window.print();
 }
-
-async function loadAdminDataLegacy() {
 
 function renderTopWorkshops() {
     if (!elements.topWorkshopsList) return;
