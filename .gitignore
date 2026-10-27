@@ -1,0 +1,17 @@
+## .NET Core
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+
+## OS generated
+.DS_Store
+Thumbs.db
+
+## Logs & caches
+*.log
+.impeccable/
