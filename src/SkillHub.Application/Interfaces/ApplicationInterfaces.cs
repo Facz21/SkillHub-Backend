@@ -17,6 +17,7 @@ public interface IWorkshopService
     Task<WorkshopResponseDto> GetWorkshopByIdAsync(int id);
     Task<WorkshopResponseDto> CreateWorkshopAsync(CreateWorkshopRequestDto request);
     Task<IEnumerable<WorkshopEnrollmentItemDto>> GetWorkshopEnrollmentsAsync(int workshopId);
+    Task<IEnumerable<InstructorSummaryDto>> GetInstructorsAsync();
 }
 
 public interface IEnrollmentService

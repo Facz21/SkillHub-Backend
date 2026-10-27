@@ -10,7 +10,14 @@ const state = {
     searchQuery: '',
     selectedCategory: '',
     selectedExcelFile: null,
-    selectedDetailWorkshop: null
+    selectedDetailWorkshop: null,
+    // Admin & Instructor Suite
+    adminSubtab: 'roster', // 'roster' | 'import' | 'demand'
+    adminWorkshopSearch: '',
+    adminWorkshopScope: 'all', // 'all' | 'mine'
+    currentRosterWorkshop: null,
+    currentRosterEnrollments: [],
+    instructorsList: []
 };
 
 // DOM Elements
@@ -95,8 +102,23 @@ const elements = {
     quickPassword: document.getElementById('quick-password'),
     btnDetailSwitchLogin: document.getElementById('btn-detail-switch-login'),
 
-    // Admin View
+    // Admin & Instructor Suite
+    btnOpenCreateWorkshop: document.getElementById('btn-open-create-workshop'),
     btnAdminRefresh: document.getElementById('btn-admin-refresh'),
+    statAdminWorkshops: document.getElementById('stat-admin-workshops'),
+    statAdminStudents: document.getElementById('stat-admin-students'),
+    statAdminSeats: document.getElementById('stat-admin-seats'),
+    statAdminOccupancy: document.getElementById('stat-admin-occupancy'),
+    subtabAdminRoster: document.getElementById('subtab-admin-roster'),
+    subtabAdminImport: document.getElementById('subtab-admin-import'),
+    subtabAdminDemand: document.getElementById('subtab-admin-demand'),
+    adminSecRoster: document.getElementById('admin-sec-roster'),
+    adminSecImport: document.getElementById('admin-sec-import'),
+    adminSecDemand: document.getElementById('admin-sec-demand'),
+    adminSearchWorkshop: document.getElementById('admin-search-workshop'),
+    adminFilterScope: document.getElementById('admin-filter-scope'),
+    adminWorkshopsTbody: document.getElementById('admin-workshops-tbody'),
+    adminWorkshopsEmpty: document.getElementById('admin-workshops-empty'),
     excelDropzone: document.getElementById('excel-dropzone'),
     excelFileInput: document.getElementById('excel-file-input'),
     excelFileName: document.getElementById('excel-file-name'),
@@ -108,6 +130,34 @@ const elements = {
     excelRejectedWrapper: document.getElementById('excel-rejected-wrapper'),
     excelRejectedTbody: document.getElementById('excel-rejected-tbody'),
     topWorkshopsList: document.getElementById('top-workshops-list'),
+
+    // Create Workshop Modal
+    modalCreateWorkshop: document.getElementById('modal-create-workshop'),
+    btnCloseCreateWorkshop: document.getElementById('btn-close-create-workshop'),
+    formCreateWorkshop: document.getElementById('form-create-workshop'),
+    cwCode: document.getElementById('cw-code'),
+    cwTitle: document.getElementById('cw-title'),
+    cwDescription: document.getElementById('cw-description'),
+    cwInstructor: document.getElementById('cw-instructor'),
+    cwStart: document.getElementById('cw-start'),
+    cwEnd: document.getElementById('cw-end'),
+    cwCapacity: document.getElementById('cw-capacity'),
+
+    // Workshop Roster Modal
+    modalWorkshopRoster: document.getElementById('modal-workshop-roster'),
+    btnCloseRoster: document.getElementById('btn-close-roster'),
+    btnPrintRoster: document.getElementById('btn-print-roster'),
+    rosterBadgeCode: document.getElementById('roster-badge-code'),
+    rosterTitle: document.getElementById('roster-title'),
+    rosterMeta: document.getElementById('roster-meta'),
+    rosterStatTotal: document.getElementById('roster-stat-total'),
+    rosterStatActive: document.getElementById('roster-stat-active'),
+    rosterStatCancelled: document.getElementById('roster-stat-cancelled'),
+    rosterTableBody: document.getElementById('roster-table-body'),
+    rosterEmpty: document.getElementById('roster-empty'),
+    printWorkshopInfo: document.getElementById('print-workshop-info'),
+    printInstructorInfo: document.getElementById('print-instructor-info'),
+    printDate: document.getElementById('print-date'),
 
     // Modal Auth
     modalAuth: document.getElementById('modal-auth'),
@@ -194,6 +244,33 @@ function setupEventListeners() {
     elements.btnProfileToCatalog?.addEventListener('click', () => switchTab('workshops'));
     elements.btnAdminRefresh?.addEventListener('click', loadAdminData);
 
+    // Admin & Instructor Controls
+    elements.btnOpenCreateWorkshop?.addEventListener('click', openCreateWorkshopModal);
+    elements.btnCloseCreateWorkshop?.addEventListener('click', closeCreateWorkshopModal);
+    elements.modalCreateWorkshop?.addEventListener('click', (e) => {
+        if (e.target === elements.modalCreateWorkshop) closeCreateWorkshopModal();
+    });
+    elements.formCreateWorkshop?.addEventListener('submit', handleCreateWorkshop);
+
+    elements.subtabAdminRoster?.addEventListener('click', () => switchAdminSubtab('roster'));
+    elements.subtabAdminImport?.addEventListener('click', () => switchAdminSubtab('import'));
+    elements.subtabAdminDemand?.addEventListener('click', () => switchAdminSubtab('demand'));
+
+    elements.adminSearchWorkshop?.addEventListener('input', (e) => {
+        state.adminWorkshopSearch = e.target.value.toLowerCase().trim();
+        renderAdminWorkshops();
+    });
+    elements.adminFilterScope?.addEventListener('change', (e) => {
+        state.adminWorkshopScope = e.target.value;
+        renderAdminWorkshops();
+    });
+
+    elements.btnCloseRoster?.addEventListener('click', closeWorkshopRoster);
+    elements.modalWorkshopRoster?.addEventListener('click', (e) => {
+        if (e.target === elements.modalWorkshopRoster) closeWorkshopRoster();
+    });
+    elements.btnPrintRoster?.addEventListener('click', handlePrintRoster);
+
     // Profile & Password Forms
     elements.formProfileInfo?.addEventListener('submit', handleUpdateProfile);
     elements.formProfilePassword?.addEventListener('submit', handleChangePassword);
@@ -238,6 +315,8 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             if (!elements.modalAuth?.classList.contains('hidden')) closeAuthModal();
             if (!elements.modalWorkshopDetail?.classList.contains('hidden')) closeWorkshopDetail();
+            if (!elements.modalCreateWorkshop?.classList.contains('hidden')) closeCreateWorkshopModal();
+            if (!elements.modalWorkshopRoster?.classList.contains('hidden')) closeWorkshopRoster();
         }
     });
 
@@ -1015,16 +1094,446 @@ async function handleUploadExcel() {
     }
 }
 
+// Admin & Instructor Suite Navigation
+function switchAdminSubtab(subtab) {
+    state.adminSubtab = subtab;
+
+    const subtabs = [elements.subtabAdminRoster, elements.subtabAdminImport, elements.subtabAdminDemand];
+    subtabs.forEach(st => {
+        if (!st) return;
+        st.classList.remove('text-amber-600', 'dark:text-amber-400', 'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800');
+        st.classList.add('text-slate-600', 'dark:text-slate-300');
+    });
+
+    elements.adminSecRoster?.classList.add('hidden');
+    elements.adminSecImport?.classList.add('hidden');
+    elements.adminSecDemand?.classList.add('hidden');
+
+    if (subtab === 'roster') {
+        elements.adminSecRoster?.classList.remove('hidden');
+        elements.subtabAdminRoster?.classList.add('text-amber-600', 'dark:text-amber-400', 'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800');
+        elements.subtabAdminRoster?.classList.remove('text-slate-600', 'dark:text-slate-300');
+        renderAdminWorkshops();
+    } else if (subtab === 'import') {
+        elements.adminSecImport?.classList.remove('hidden');
+        elements.subtabAdminImport?.classList.add('text-amber-600', 'dark:text-amber-400', 'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800');
+        elements.subtabAdminImport?.classList.remove('text-slate-600', 'dark:text-slate-300');
+    } else if (subtab === 'demand') {
+        elements.adminSecDemand?.classList.remove('hidden');
+        elements.subtabAdminDemand?.classList.add('text-amber-600', 'dark:text-amber-400', 'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800');
+        elements.subtabAdminDemand?.classList.remove('text-slate-600', 'dark:text-slate-300');
+        renderTopWorkshops();
+    }
+    refreshLucideIcons();
+}
+
 async function loadAdminData() {
     if (!authStorage.isEmployee()) return;
 
     try {
-        state.topWorkshops = await api.getTopWorkshopsReport();
+        const [workshops, topWorkshops] = await Promise.all([
+            api.getUpcomingWorkshops(),
+            api.getTopWorkshopsReport()
+        ]);
+
+        state.workshops = workshops;
+        state.topWorkshops = topWorkshops;
+
+        // Calculate and render KPIs
+        const totalWorkshops = workshops.length;
+        const totalActiveStudents = workshops.reduce((acc, w) => acc + (w.activeEnrollmentsCount || 0), 0);
+        const totalSeats = workshops.reduce((acc, w) => acc + (w.capacity || 0), 0);
+        const totalFreeSeats = workshops.reduce((acc, w) => acc + (w.availableSeats || 0), 0);
+        const occupancyRate = totalSeats > 0 ? Math.round((totalActiveStudents / totalSeats) * 100) : 0;
+
+        if (elements.statAdminWorkshops) elements.statAdminWorkshops.textContent = totalWorkshops;
+        if (elements.statAdminStudents) elements.statAdminStudents.textContent = totalActiveStudents;
+        if (elements.statAdminSeats) elements.statAdminSeats.textContent = totalFreeSeats;
+        if (elements.statAdminOccupancy) elements.statAdminOccupancy.textContent = `${occupancyRate}%`;
+
+        renderAdminWorkshops();
         renderTopWorkshops();
     } catch (err) {
-        console.error('Error loading top workshops report:', err);
+        console.error('Error loading admin data:', err);
     }
 }
+
+function renderAdminWorkshops() {
+    if (!elements.adminWorkshopsTbody) return;
+
+    let filtered = state.workshops || [];
+
+    // Filter by search query
+    if (state.adminWorkshopSearch) {
+        const q = state.adminWorkshopSearch;
+        filtered = filtered.filter(w =>
+            w.code.toLowerCase().includes(q) ||
+            w.title.toLowerCase().includes(q) ||
+            w.instructorName.toLowerCase().includes(q)
+        );
+    }
+
+    // Filter by scope (All vs Mine)
+    if (state.adminWorkshopScope === 'mine') {
+        const myEmail = state.currentUser?.email?.toLowerCase();
+        filtered = filtered.filter(w => w.instructorEmail?.toLowerCase() === myEmail);
+    }
+
+    if (filtered.length === 0) {
+        elements.adminWorkshopsTbody.innerHTML = '';
+        elements.adminWorkshopsEmpty?.classList.remove('hidden');
+        return;
+    }
+
+    elements.adminWorkshopsEmpty?.classList.add('hidden');
+
+    elements.adminWorkshopsTbody.innerHTML = filtered.map(w => {
+        const theme = getCategoryTheme(w.instructorSpecialty, w.title);
+        const occupied = w.capacity - w.availableSeats;
+        const occupancyPct = Math.round((occupied / w.capacity) * 100);
+
+        const startDate = new Date(w.startDateTime);
+        const endDate = new Date(w.endDateTime);
+        const dateFormatted = startDate.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+        const timeFormatted = `${startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+
+        return `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                <td class="p-3.5 font-mono font-bold text-slate-900 dark:text-white">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">${w.code}</span>
+                </td>
+                <td class="p-3.5">
+                    <div class="space-y-0.5">
+                        <p class="font-bold text-slate-800 dark:text-slate-100 leading-snug">${escapeHtml(w.title)}</p>
+                        <span class="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.2 rounded border ${theme.bgLight}">
+                            <i data-lucide="${theme.icon}" class="w-3 h-3"></i>
+                            ${theme.label}
+                        </span>
+                    </div>
+                </td>
+                <td class="p-3.5 text-slate-700 dark:text-slate-300">
+                    <p class="font-medium leading-none">${escapeHtml(w.instructorName)}</p>
+                    <span class="text-[10px] text-slate-400">${escapeHtml(w.instructorEmail)}</span>
+                </td>
+                <td class="p-3.5 text-slate-600 dark:text-slate-300">
+                    <p class="font-medium capitalize leading-none">${dateFormatted}</p>
+                    <span class="text-[10px] text-slate-400">${timeFormatted}</span>
+                </td>
+                <td class="p-3.5">
+                    <div class="space-y-1 w-28">
+                        <div class="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                            <span>${occupied}/${w.capacity}</span>
+                            <span>${occupancyPct}%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="${w.availableSeats === 0 ? 'bg-rose-500' : (w.availableSeats <= 3 ? 'bg-amber-500' : 'bg-emerald-500')} h-full rounded-full" style="width: ${occupancyPct}%"></div>
+                        </div>
+                    </div>
+                </td>
+                <td class="p-3.5 text-right">
+                    <button data-roster-id="${w.id}" class="btn-admin-roster inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-700 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-800 rounded-xl transition-all shadow-sm">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-emerald-500"></i>
+                        <span>Ver Roster</span>
+                    </button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    // Attach click events to open roster
+    document.querySelectorAll('.btn-admin-roster').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-roster-id'));
+            openWorkshopRoster(id);
+        });
+    });
+
+    refreshLucideIcons();
+}
+
+// Create / Publish Workshop Modal Handlers
+async function openCreateWorkshopModal() {
+    if (!elements.modalCreateWorkshop) return;
+
+    try {
+        if (elements.cwInstructor) {
+            elements.cwInstructor.innerHTML = '<option value="">Cargando instructores...</option>';
+            const instructors = await api.getInstructors();
+            state.instructorsList = instructors;
+
+            elements.cwInstructor.innerHTML = '<option value="">Selecciona el instructor...</option>' +
+                instructors.map(i => `
+                    <option value="${escapeHtml(i.email)}" ${i.email === state.currentUser?.email ? 'selected' : ''}>
+                        ${escapeHtml(i.fullName)} (${escapeHtml(i.specialty || 'Instructor')}) — ${escapeHtml(i.email)}
+                    </option>
+                `).join('');
+        }
+
+        // Set default dates (tomorrow 09:00 to 12:00)
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(9, 0, 0, 0);
+
+        const tomorrowEnd = new Date(tomorrow);
+        tomorrowEnd.setHours(12, 0, 0, 0);
+
+        const formatForInput = (d) => {
+            const pad = (n) => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        };
+
+        if (elements.cwStart) elements.cwStart.value = formatForInput(tomorrow);
+        if (elements.cwEnd) elements.cwEnd.value = formatForInput(tomorrowEnd);
+
+        elements.modalCreateWorkshop.classList.remove('hidden');
+        refreshLucideIcons();
+    } catch (err) {
+        console.error('Error opening create workshop modal:', err);
+        showToast('error', 'Error al preparar el formulario de publicación.');
+    }
+}
+
+function closeCreateWorkshopModal() {
+    elements.modalCreateWorkshop?.classList.add('hidden');
+    elements.formCreateWorkshop?.reset();
+}
+
+async function handleCreateWorkshop(e) {
+    e.preventDefault();
+
+    const code = elements.cwCode?.value.trim().toUpperCase();
+    const title = elements.cwTitle?.value.trim();
+    const description = elements.cwDescription?.value.trim();
+    const instructorEmail = elements.cwInstructor?.value.trim();
+    const startVal = elements.cwStart?.value;
+    const endVal = elements.cwEnd?.value;
+    const capacity = parseInt(elements.cwCapacity?.value || '15');
+
+    if (!code || !title || !description || !instructorEmail || !startVal || !endVal) {
+        showToast('error', 'Por favor completa todos los campos del taller.');
+        return;
+    }
+
+    const startDateTime = new Date(startVal).toISOString();
+    const endDateTime = new Date(endVal).toISOString();
+
+    const submitBtn = elements.formCreateWorkshop?.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+        await api.createWorkshop({
+            code,
+            title,
+            description,
+            instructorEmail,
+            startDateTime,
+            endDateTime,
+            capacity
+        });
+
+        closeCreateWorkshopModal();
+
+        Swal.fire({
+            title: '¡Taller Publicado con Éxito!',
+            html: `El taller <strong>${escapeHtml(title)}</strong> (<code>${code}</code>) ya se encuentra activo en el catálogo público y disponible para inscripciones.`,
+            icon: 'success',
+            confirmButtonColor: '#00d074'
+        });
+
+        await loadWorkshops();
+        await loadAdminData();
+    } catch (err) {
+        Swal.fire({
+            title: 'No se pudo publicar el taller',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
+    }
+}
+
+// Workshop Attendance Roster Modal Handlers
+async function openWorkshopRoster(workshopId) {
+    const workshop = state.workshops.find(w => w.id === workshopId);
+    if (!workshop) return;
+
+    state.currentRosterWorkshop = workshop;
+
+    const startDate = new Date(workshop.startDateTime);
+    const endDate = new Date(workshop.endDateTime);
+    const dateFormatted = startDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const timeFormatted = `${startDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+
+    if (elements.rosterBadgeCode) elements.rosterBadgeCode.textContent = workshop.code;
+    if (elements.rosterTitle) elements.rosterTitle.textContent = workshop.title;
+    if (elements.rosterMeta) elements.rosterMeta.textContent = `Profesor: ${workshop.instructorName} · ${dateFormatted} (${timeFormatted})`;
+
+    // Printable elements
+    if (elements.printWorkshopInfo) elements.printWorkshopInfo.textContent = `Taller: ${workshop.code} - ${workshop.title} (${dateFormatted}, ${timeFormatted})`;
+    if (elements.printInstructorInfo) elements.printInstructorInfo.textContent = `Instructor: ${workshop.instructorName} (${workshop.instructorEmail})`;
+    if (elements.printDate) elements.printDate.textContent = `Generado el: ${new Date().toLocaleString('es-ES')}`;
+
+    try {
+        const enrollments = await api.getWorkshopEnrollments(workshopId);
+        state.currentRosterEnrollments = enrollments;
+
+        const total = enrollments.length;
+        const active = enrollments.filter(e => e.status === 1).length;
+        const cancelled = enrollments.filter(e => e.status === 2).length;
+
+        if (elements.rosterStatTotal) elements.rosterStatTotal.textContent = total;
+        if (elements.rosterStatActive) elements.rosterStatActive.textContent = active;
+        if (elements.rosterStatCancelled) elements.rosterStatCancelled.textContent = cancelled;
+
+        renderRosterTable(enrollments);
+
+        elements.modalWorkshopRoster?.classList.remove('hidden');
+        refreshLucideIcons();
+    } catch (err) {
+        console.error('Error fetching workshop roster:', err);
+        showToast('error', 'Error al cargar los inscritos del taller.');
+    }
+}
+
+function renderRosterTable(enrollments) {
+    if (!elements.rosterTableBody) return;
+
+    if (enrollments.length === 0) {
+        elements.rosterTableBody.innerHTML = '';
+        elements.rosterEmpty?.classList.remove('hidden');
+        return;
+    }
+
+    elements.rosterEmpty?.classList.add('hidden');
+
+    elements.rosterTableBody.innerHTML = enrollments.map((e, index) => {
+        const isActive = e.status === 1;
+        const enrolledDate = new Date(e.enrolledAt).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+        return `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                <td class="p-3 text-slate-400 font-mono font-medium">${index + 1}</td>
+                <td class="p-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center text-[10px] font-bold no-print">
+                            ${escapeHtml(e.participantName.charAt(0))}
+                        </div>
+                        <span class="font-semibold text-slate-800 dark:text-slate-200">${escapeHtml(e.participantName)}</span>
+                    </div>
+                </td>
+                <td class="p-3 font-mono text-slate-600 dark:text-slate-300">${escapeHtml(e.participantEmail)}</td>
+                <td class="p-3 text-slate-500 dark:text-slate-400">${enrolledDate}</td>
+                <td class="p-3">
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'}">
+                        ${isActive ? 'Activo' : 'Cancelado'}
+                    </span>
+                </td>
+                <td class="p-3 hidden print:table-cell border-b border-gray-300">
+                    <div class="w-28 h-6 border-b border-dashed border-gray-400"></div>
+                </td>
+                <td class="p-3 text-right no-print">
+                    <div class="inline-flex items-center gap-1.5">
+                        ${isActive ? `
+                            <button data-cert-id="${e.enrollmentId}" data-name="${escapeHtml(e.participantName)}" title="Descargar constancia oficial en PDF" class="btn-roster-cert p-1.5 text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg transition-colors">
+                                <i data-lucide="award" class="w-4 h-4"></i>
+                            </button>
+                            <button data-cancel-id="${e.enrollmentId}" data-name="${escapeHtml(e.participantName)}" title="Cancelar inscripción administrativa (sin restricción de 24h)" class="btn-roster-cancel p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors">
+                                <i data-lucide="user-x" class="w-4 h-4"></i>
+                            </button>
+                        ` : `
+                            <span class="text-[10px] text-slate-400 italic">Cancelado por ${escapeHtml(e.cancelledBy || 'usuario')}</span>
+                        `}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    // Attach actions inside roster
+    document.querySelectorAll('.btn-roster-cert').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-cert-id'));
+            const name = btn.getAttribute('data-name');
+            handleAdminDownloadCertificate(id, name);
+        });
+    });
+
+    document.querySelectorAll('.btn-roster-cancel').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-cancel-id'));
+            const name = btn.getAttribute('data-name');
+            handleAdminCancelEnrollment(id, name);
+        });
+    });
+
+    refreshLucideIcons();
+}
+
+function closeWorkshopRoster() {
+    elements.modalWorkshopRoster?.classList.add('hidden');
+    state.currentRosterWorkshop = null;
+    state.currentRosterEnrollments = [];
+}
+
+async function handleAdminCancelEnrollment(enrollmentId, participantName) {
+    const result = await Swal.fire({
+        title: '¿Cancelar inscripción de alumno?',
+        text: `Como instructor/empleado, cancelarás la inscripción de "${participantName}". Esta acción liberará el cupo de inmediato.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e11d48',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, cancelar inscripción',
+        cancelButtonText: 'No'
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+        await api.cancelEnrollment(enrollmentId);
+
+        showToast('success', `Inscripción de ${participantName} cancelada.`);
+
+        // Refresh both roster and background admin data
+        if (state.currentRosterWorkshop) {
+            await openWorkshopRoster(state.currentRosterWorkshop.id);
+        }
+        await loadWorkshops();
+        await loadAdminData();
+    } catch (err) {
+        Swal.fire({
+            title: 'Error al cancelar',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    }
+}
+
+async function handleAdminDownloadCertificate(enrollmentId, participantName) {
+    if (!state.currentRosterWorkshop) return;
+
+    try {
+        showToast('info', `Generando constancia PDF para ${participantName}...`);
+        await api.downloadCertificate(enrollmentId, state.currentRosterWorkshop.code, participantName);
+        showToast('success', 'Constancia PDF descargada.');
+    } catch (err) {
+        Swal.fire({
+            title: 'Error al generar constancia',
+            text: err.message,
+            icon: 'error',
+            confirmButtonColor: '#4f46e5'
+        });
+    }
+}
+
+function handlePrintRoster() {
+    window.print();
+}
+
+async function loadAdminDataLegacy() {
 
 function renderTopWorkshops() {
     if (!elements.topWorkshopsList) return;

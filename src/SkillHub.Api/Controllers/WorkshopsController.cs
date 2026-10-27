@@ -24,6 +24,14 @@ public class WorkshopsController : ControllerBase
         return Ok(workshops);
     }
 
+    [HttpGet("instructors")]
+    [Authorize(Roles = "Employee")]
+    public async Task<ActionResult<IEnumerable<InstructorSummaryDto>>> GetInstructors()
+    {
+        var instructors = await _workshopService.GetInstructorsAsync();
+        return Ok(instructors);
+    }
+
     [HttpGet("{id:int}")]
     [AllowAnonymous]
     public async Task<ActionResult<WorkshopResponseDto>> GetWorkshopById(int id)

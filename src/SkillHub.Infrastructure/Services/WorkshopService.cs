@@ -114,6 +114,20 @@ public class WorkshopService : IWorkshopService
         });
     }
 
+    public async Task<IEnumerable<InstructorSummaryDto>> GetInstructorsAsync()
+    {
+        var instructors = await _userManager.GetUsersInRoleAsync("Employee");
+        return instructors
+            .OrderBy(i => i.FullName)
+            .Select(i => new InstructorSummaryDto
+            {
+                Id = i.Id,
+                FullName = i.FullName,
+                Email = i.Email ?? string.Empty,
+                Specialty = i.Specialty
+            });
+    }
+
     private static WorkshopResponseDto MapToDto(Workshop w)
     {
         var activeCount = w.Enrollments.Count(e => e.Status == EnrollmentStatus.Active);

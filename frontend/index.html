@@ -252,26 +252,141 @@
         </section>
 
         <!-- VIEW 3: ADMIN / EMPLOYEE PANEL -->
-        <section id="view-admin" class="hidden space-y-8">
+        <section id="view-admin" class="hidden space-y-6">
+            <!-- Header Section with Quick Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
                 <div>
                     <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 text-xs font-semibold mb-1">
-                        <i data-lucide="shield" class="w-3.5 h-3.5"></i>
-                        Módulo Administrativo
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        Gestión Educativa & Control Operativo
                     </div>
                     <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Panel de Instructor / Gestión</h2>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Carga masiva de inscripciones desde Excel y visualización del reporte de demanda de talleres.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Publica nuevos talleres, audita listas de inscritos, descarga constancias y administra inscripciones.</p>
                 </div>
-                <button id="btn-admin-refresh" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm transition-all">
-                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                    Actualizar Datos
+                <div class="flex items-center gap-3">
+                    <button id="btn-open-create-workshop" class="btn-platzi px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>Publicar Nuevo Taller</span>
+                    </button>
+                    <button id="btn-admin-refresh" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm transition-all">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Actualizar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Summary Bar -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Talleres Publicados</p>
+                        <h4 class="text-xl font-extrabold text-slate-900 dark:text-white" id="stat-admin-workshops">0</h4>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Estudiantes Inscritos</p>
+                        <h4 class="text-xl font-extrabold text-slate-900 dark:text-white" id="stat-admin-students">0</h4>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                        <i data-lucide="ticket" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Cupos Libres Ofertados</p>
+                        <h4 class="text-xl font-extrabold text-slate-900 dark:text-white" id="stat-admin-seats">0</h4>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                        <i data-lucide="percent" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Tasa de Ocupación</p>
+                        <h4 class="text-xl font-extrabold text-slate-900 dark:text-white" id="stat-admin-occupancy">0%</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-navigation Tabs for Admin Panel -->
+            <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-1">
+                <button id="subtab-admin-roster" class="admin-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="calendar-cog" class="w-4 h-4"></i>
+                        Talleres y Roster de Asistencia
+                    </span>
+                </button>
+                <button id="subtab-admin-import" class="admin-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500"></i>
+                        Inscripción Masiva (Excel)
+                    </span>
+                </button>
+                <button id="subtab-admin-demand" class="admin-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-500"></i>
+                        Reporte de Demanda
+                    </span>
                 </button>
             </div>
 
-            <!-- Two-column Admin Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Section 1: Excel Import -->
-                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-6 shadow-sm">
+            <!-- SECTION 1: WORKSHOPS & ROSTER MANAGEMENT -->
+            <div id="admin-sec-roster" class="space-y-4">
+                <!-- Filter Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <div class="relative flex-1 max-w-md">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="admin-search-workshop" placeholder="Filtrar por código, título o instructor..."
+                            class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-slate-500 dark:text-slate-400 font-medium">Ver talleres:</label>
+                        <select id="admin-filter-scope" class="px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">Todos los talleres del centro</option>
+                            <option value="mine">Solo los dictados por mí</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Workshops Table for Instructor -->
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+                                <tr>
+                                    <th class="p-3.5 font-bold">Código</th>
+                                    <th class="p-3.5 font-bold">Taller</th>
+                                    <th class="p-3.5 font-bold">Instructor</th>
+                                    <th class="p-3.5 font-bold">Fecha y Horario</th>
+                                    <th class="p-3.5 font-bold">Ocupación</th>
+                                    <th class="p-3.5 font-bold text-right">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-workshops-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="admin-workshops-empty" class="hidden text-center py-12 px-4 space-y-2">
+                        <i data-lucide="calendar-x" class="w-8 h-8 mx-auto text-slate-400"></i>
+                        <p class="text-sm font-semibold text-slate-700 dark:text-slate-300">No se encontraron talleres con ese criterio</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: EXCEL BULK IMPORT -->
+            <div id="admin-sec-import" class="hidden space-y-6">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-6 shadow-sm max-w-3xl">
                     <div class="space-y-1">
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <i data-lucide="file-spreadsheet" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
@@ -338,9 +453,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Section 2: Top Workshops Demand Report -->
-                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-6 shadow-sm flex flex-col justify-between">
+            <!-- SECTION 3: DEMAND REPORT -->
+            <div id="admin-sec-demand" class="hidden space-y-6">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-6 shadow-sm max-w-4xl">
                     <div class="space-y-1">
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
@@ -351,7 +468,7 @@
                         </p>
                     </div>
 
-                    <div id="top-workshops-list" class="space-y-3 flex-1 overflow-y-auto max-h-[480px] pr-1">
+                    <div id="top-workshops-list" class="space-y-3 overflow-y-auto max-h-[520px] pr-1">
                         <!-- Populated by JS -->
                     </div>
                 </div>
@@ -648,6 +765,166 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 1: CREATE / PUBLISH WORKSHOP (Employee Exclusive) -->
+    <div id="modal-create-workshop" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-xl overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200 my-auto">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/70 flex items-center justify-between">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold mb-1">
+                        <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                        Nuevo Taller Presencial
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Publicar Taller en SkillHub</h3>
+                </div>
+                <button id="btn-close-create-workshop" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <form id="form-create-workshop" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Código Único (Ej: FOT-004)</label>
+                        <input type="text" id="cw-code" required placeholder="FOT-004" maxlength="20"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Cupo Máximo</label>
+                        <input type="number" id="cw-capacity" required min="1" max="500" value="15"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Título del Taller</label>
+                    <input type="text" id="cw-title" required placeholder="Ej: Iluminación de Estudio y Fotografía de Producto"
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Descripción del Taller</label>
+                    <textarea id="cw-description" required rows="2" placeholder="Resumen práctico de lo que aprenderán los participantes..."
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Instructor Responsable</label>
+                    <select id="cw-instructor" required
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                        <option value="">Selecciona un instructor...</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Fecha y Hora de Inicio</label>
+                        <input type="datetime-local" id="cw-start" required
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Fecha y Hora de Fin</label>
+                        <input type="datetime-local" id="cw-end" required
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-brand-500 inline mr-1"></i>
+                    Las reglas de negocio validan que la fecha sea futura y que la hora de fin sea posterior a la de inicio.
+                </div>
+
+                <button type="submit" id="btn-submit-create-workshop" class="w-full py-2.5 px-4 btn-platzi text-sm font-bold rounded-xl shadow-md flex items-center justify-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Publicar Taller</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: WORKSHOP ATTENDANCE ROSTER (Employee Exclusive) -->
+    <div id="modal-workshop-roster" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-4xl max-h-[92vh] overflow-y-auto transform transition-all animate-in fade-in zoom-in-95 duration-200 my-auto">
+            <!-- Modal Header (no-print) -->
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span id="roster-badge-code" class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                            COD-000
+                        </span>
+                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Roster Oficial de Asistencia</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white" id="roster-title">Título del Taller</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400" id="roster-meta">Instructor · Fecha</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="btn-print-roster" class="px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+                        <i data-lucide="printer" class="w-4 h-4 text-emerald-500"></i>
+                        <span>Imprimir Planilla</span>
+                    </button>
+                    <button id="btn-close-roster" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area (Printable area) -->
+            <div class="p-6 space-y-4" id="printable-roster-area">
+                <!-- Header for physical print -->
+                <div class="hidden print:block pb-4 border-b border-gray-300 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-black">SkillHub — Planilla de Control de Asistencia</h2>
+                        <span class="text-xs text-gray-500" id="print-date">Fecha de Impresión</span>
+                    </div>
+                    <p class="text-sm font-semibold" id="print-workshop-info">Taller: COD-000</p>
+                    <p class="text-xs text-gray-600" id="print-instructor-info">Instructor: Nombre</p>
+                </div>
+
+                <!-- Stats summary within roster (no-print) -->
+                <div class="grid grid-cols-3 gap-3 no-print">
+                    <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">Total Inscritos</span>
+                        <p class="text-lg font-bold text-slate-900 dark:text-white" id="roster-stat-total">0</p>
+                    </div>
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800/60 text-center">
+                        <span class="text-[11px] text-emerald-600 dark:text-emerald-400">Inscripciones Activas</span>
+                        <p class="text-lg font-bold text-emerald-700 dark:text-emerald-300" id="roster-stat-active">0</p>
+                    </div>
+                    <div class="bg-rose-50 dark:bg-rose-950/40 p-3 rounded-xl border border-rose-200 dark:border-rose-800/60 text-center">
+                        <span class="text-[11px] text-rose-600 dark:text-rose-400">Canceladas</span>
+                        <p class="text-lg font-bold text-rose-700 dark:text-rose-300" id="roster-stat-cancelled">0</p>
+                    </div>
+                </div>
+
+                <!-- Attendees Table -->
+                <div class="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+                            <tr>
+                                <th class="p-3 font-bold w-10">#</th>
+                                <th class="p-3 font-bold">Estudiante</th>
+                                <th class="p-3 font-bold">Correo Electrónico</th>
+                                <th class="p-3 font-bold">Fecha Inscripción</th>
+                                <th class="p-3 font-bold">Estado</th>
+                                <th class="p-3 font-bold hidden print:table-cell w-36">Firma de Asistencia</th>
+                                <th class="p-3 font-bold text-right no-print">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roster-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="roster-empty" class="hidden text-center py-12 px-4 space-y-2">
+                    <i data-lucide="users" class="w-8 h-8 mx-auto text-slate-400"></i>
+                    <p class="text-sm font-semibold text-slate-700 dark:text-slate-300">Este taller aún no cuenta con estudiantes inscritos.</p>
                 </div>
             </div>
         </div>

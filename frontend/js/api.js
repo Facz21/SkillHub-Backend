@@ -138,6 +138,21 @@ export const api = {
         return await request(`/workshops/${id}`);
     },
 
+    async createWorkshop(data) {
+        return await request('/workshops', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    },
+
+    async getInstructors() {
+        return await request('/workshops/instructors');
+    },
+
+    async getWorkshopEnrollments(workshopId) {
+        return await request(`/workshops/${workshopId}/enrollments`);
+    },
+
     // Enrollments
     async enroll(workshopId) {
         return await request('/enrollments', {
@@ -156,12 +171,13 @@ export const api = {
         });
     },
 
-    async downloadCertificate(enrollmentId, workshopCode = 'Taller') {
+    async downloadCertificate(enrollmentId, workshopCode = 'Taller', participantName = '') {
         const blob = await request(`/enrollments/${enrollmentId}/certificate`);
         const blobUrl = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = blobUrl;
-        a.download = `SkillHub_Constancia_${workshopCode}.pdf`;
+        const nameSuffix = participantName ? `_${participantName.replace(/\s+/g, '_')}` : '';
+        a.download = `SkillHub_Constancia_${workshopCode}${nameSuffix}.pdf`;
         document.body.appendChild(a);
         a.click();
         a.remove();

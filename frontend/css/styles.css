@@ -181,3 +181,25 @@ body {
     background-color: #00d074;
     box-shadow: 0 0 8px rgba(0, 208, 116, 0.6);
 }
+
+/* Printable Attendance Sheet Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #printable-roster-area, #printable-roster-area * {
+        visibility: visible;
+    }
+    #printable-roster-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000;
+        background: #fff;
+        padding: 20px;
+    }
+    .no-print {
+        display: none !important;
+    }
+}
