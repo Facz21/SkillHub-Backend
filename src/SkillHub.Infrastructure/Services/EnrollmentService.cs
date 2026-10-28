@@ -9,6 +9,10 @@ using SkillHub.Infrastructure.Data;
 
 namespace SkillHub.Infrastructure.Services;
 
+/// <summary>
+/// Application service managing participant enrollments, cancellations, re-enrollments,
+/// and conditional PDF attendance certificate generation.
+/// </summary>
 public class EnrollmentService : IEnrollmentService
 {
     private readonly AppDbContext _context;
@@ -25,6 +29,14 @@ public class EnrollmentService : IEnrollmentService
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Enrolls a participant into an upcoming workshop while enforcing all core business rules:
+    /// 1. Future workshop check
+    /// 2. Available seat capacity check (counting only active enrollments)
+    /// 3. Duplicate active enrollment prevention
+    /// 4. Schedule collision detection across active enrollments
+    /// 5. Reactivation of previously cancelled enrollments
+    /// </summary>
     public async Task<EnrollmentResponseDto> EnrollParticipantAsync(string participantId, int workshopId)
     {
         var now = DateTime.UtcNow;
@@ -57,7 +69,7 @@ public class EnrollmentService : IEnrollmentService
         if (existingEnrollment != null && existingEnrollment.Status == EnrollmentStatus.Active)
             throw new DuplicateEnrollmentException($"You are already actively enrolled in '{workshop.Title}'.");
 
-        // Rule 3: No schedule collisions with any OTHER active enrollments
+        // Rule 3: No schedule collisions with any OTHER active enrollments (StartA < EndB && EndA > StartB)
         var conflictingEnrollment = await _context.Enrollments
             .Include(e => e.Workshop)
             .Where(e => e.ParticipantId == participantId &&
@@ -77,7 +89,7 @@ public class EnrollmentService : IEnrollmentService
 
         if (existingEnrollment != null)
         {
-            // Rule 6: Re-enrollment
+            // Rule 6: Re-enrollment — reactivate cancelled record and clear cancellation metadata
             existingEnrollment.Reactivate(now);
             enrollmentToSave = existingEnrollment;
         }
@@ -100,6 +112,9 @@ public class EnrollmentService : IEnrollmentService
         return MapToDto(enrollmentToSave, now);
     }
 
+    /// <summary>
+    /// Lists all enrollments (active and cancelled) belonging to the authenticated participant.
+    /// </summary>
     public async Task<IEnumerable<EnrollmentResponseDto>> GetMyEnrollmentsAsync(string participantId)
     {
         var now = DateTime.UtcNow;
@@ -115,6 +130,11 @@ public class EnrollmentService : IEnrollmentService
         return enrollments.Select(e => MapToDto(e, now));
     }
 
+    /// <summary>
+    /// Cancels an enrollment and immediately releases the seat.
+    /// Enforces the 24-hour advance notice policy for participants, while allowing employees
+    /// to cancel at any time before the workshop starts.
+    /// </summary>
     public async Task<EnrollmentResponseDto> CancelEnrollmentAsync(int enrollmentId, string userId, bool isEmployee)
     {
         var now = DateTime.UtcNow;
@@ -139,6 +159,10 @@ public class EnrollmentService : IEnrollmentService
         return MapToDto(enrollment, now);
     }
 
+    /// <summary>
+    /// Generates a PDF attendance certificate for an active enrollment.
+    /// Throws a validation exception if the enrollment is cancelled or the requester is unauthorized.
+    /// </summary>
     public async Task<byte[]> GenerateCertificatePdfAsync(int enrollmentId, string userId, bool isEmployee)
     {
         var enrollment = await _context.Enrollments

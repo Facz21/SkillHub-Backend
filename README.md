@@ -1,226 +1,226 @@
-# SkillHub — Plataforma de Gestion de Talleres e Inscripciones (Backend API)
+# SkillHub — Workshop and Enrollment Management Platform (Backend API)
 
-SkillHub es un centro educativo dedicado a la formacion practica mediante talleres presenciales de corta duracion en areas como fotografia, cocina, oratoria, musica, diseno grafico y marketing digital. Este repositorio contiene el Backend de la plataforma, disenado bajo los principios de Clean Architecture en .NET 10 para automatizar el ciclo completo de programacion de talleres, control de cupos en tiempo real, inscripciones individuales y masivas desde archivos Excel, emision de constancias de asistencia en formato PDF y seguridad avanzada mediante ASP.NET Core Identity.
+SkillHub is an educational center dedicated to practical training through short, in-person workshops in areas such as photography, culinary arts, public speaking, music, graphic design, and digital marketing. This repository contains the Backend API of the platform, engineered following Clean Architecture principles on .NET 10 to automate the full lifecycle of workshop scheduling, real-time seat capacity control, individual and batch enrollments from Excel spreadsheets, PDF attendance certificate generation, and advanced identity security powered by ASP.NET Core Identity.
 
-Repositorio del Frontend (Next.js 16 + TypeScript): [https://github.com/Facz21/SkillHub-Frontend](https://github.com/Facz21/SkillHub-Frontend)
+Frontend Repository (Next.js 16 + TypeScript): [https://github.com/Facz21/SkillHub-Frontend](https://github.com/Facz21/SkillHub-Frontend)
 
 ---
 
-## Arquitectura del Sistema (Clean Architecture)
+## System Architecture (Clean Architecture)
 
-La solucion esta dividida en cuatro proyectos independientes dentro de `src/`, garantizando el desacoplamiento estricto entre las reglas de negocio, la persistencia de datos y la capa de exposicion HTTP:
+The solution is structured into four independent projects inside `src/`, ensuring strict decoupling between core business rules, data persistence, and the HTTP presentation layer:
 
 ```text
 +-----------------------------------------------------------------------+
 |                           SkillHub Solution                           |
 +-----------------------------------------------------------------------+
-|  1. Capa de Presentacion (src/SkillHub.Api)                           |
-|     - Controladores RESTful (/api/v1/*)                               |
-|     - Configuracion de autenticacion JWT Bearer y politicas de CORS   |
-|     - Documentacion interactiva OpenAPI (Scalar API Reference/Swagger)|
-|     - Inicializacion automatica de migraciones y seeders al arranque  |
+|  1. Presentation Layer (src/SkillHub.Api)                             |
+|     - RESTful Controllers (/api/v1/*)                                 |
+|     - JWT Bearer Authentication and CORS policy configuration         |
+|     - Interactive OpenAPI Documentation (Scalar API Reference/Swagger)|
+|     - Automatic EF Core migrations and database seeding on startup    |
 +-----------------------------------------------------------------------+
-|  2. Capa de Aplicacion (src/SkillHub.Application)                     |
-|     - Casos de uso y servicios de negocio (WorkshopService,           |
+|  2. Application Layer (src/SkillHub.Application)                      |
+|     - Use cases and business services (WorkshopService,               |
 |       EnrollmentService)                                              |
-|     - Contratos e interfaces (IAuthService, IWorkshopService,         |
-|       IEnrollmentService, IEmailService, IPdfCertificateGenerator,    |
-|       IExcelEnrollmentImporter)                                       |
-|     - Objetos de transferencia de datos (DTOs) de entrada y salida    |
+|     - Service contracts and interfaces (IAuthService,                 |
+|       IWorkshopService, IEnrollmentService, IEmailService,            |
+|       IPdfCertificateGenerator, IExcelEnrollmentImporter)             |
+|     - Request and response Data Transfer Objects (DTOs)               |
 +-----------------------------------------------------------------------+
-|  3. Capa de Infraestructura (src/SkillHub.Infrastructure)             |
-|     - Contexto de base de datos EF Core (SkillHubDbContext)           |
-|     - Configuraciones Fluent API e indices compuestos en PostgreSQL   |
-|     - Implementacion de Identity y JWT (AuthService)                  |
-|     - Servicio de correo transaccional SMTP (SmtpEmailService)        |
-|     - Generador de certificados PDF (QuestPdfCertificateGenerator)    |
-|     - Importador resiliente de Excel (ClosedXmlEnrollmentImporter)    |
-|     - Seeder inicial desde archivo Excel (ExcelSeederService)         |
+|  3. Infrastructure Layer (src/SkillHub.Infrastructure)                |
+|     - EF Core Database Context (SkillHubDbContext)                    |
+|     - Fluent API entity configurations and PostgreSQL composite       |
+|       indexes                                                         |
+|     - Identity and JWT authentication service (AuthService)           |
+|     - Transactional SMTP email service (SmtpEmailService)             |
+|     - PDF certificate generator (QuestPdfCertificateGenerator)        |
+|     - Resilient Excel batch importer (ClosedXmlEnrollmentImporter)    |
+|     - Initial database seeder from Excel (ExcelSeederService)         |
 +-----------------------------------------------------------------------+
-|  4. Capa de Dominio (src/SkillHub.Domain)                             |
-|     - Entidades centrales (Workshop, Enrollment, ApplicationUser)     |
-|     - Enumeraciones de dominio (EnrollmentStatus, Roles)              |
-|     - Excepciones de dominio (DomainValidationException,              |
-|       EntityNotFoundException, ForbiddenOperationException)           |
+|  4. Domain Layer (src/SkillHub.Domain)                                |
+|     - Core entities (Workshop, Enrollment, ApplicationUser)           |
+|     - Domain enumerations (EnrollmentStatus, Roles)                   |
+|     - Domain exceptions and business rule invariants                  |
 +-----------------------------------------------------------------------+
 ```
 
 ---
 
-## Stack Tecnologico
+## Technology Stack
 
-- **Plataforma y Lenguaje:** .NET 10 / C# 13 (ASP.NET Core Web API)
-- **Motor de Base de Datos y ORM:** PostgreSQL 16 + Entity Framework Core 10 (`Npgsql.EntityFrameworkCore.PostgreSQL`) bajo enfoque Code-First con migraciones automaticas.
-- **Seguridad, Identidad y Autenticacion:**
-  - `Microsoft.AspNetCore.Identity.EntityFrameworkCore` para gestion de usuarios, roles (`Employee` y `Participant`), bloqueo preventivo de cuentas y generacion de tokens criptograficos de recuperacion de contrasena y verificacion de correo electronico.
-  - `Microsoft.AspNetCore.Authentication.JwtBearer` para emision y validacion de tokens JWT con expiracion dinamica (2 horas por defecto o 7 dias con la opcion de recordar sesion).
-- **Correo Transaccional SMTP:** Implementacion nativa con `System.Net.Mail.SmtpClient` (`SmtpEmailService`) con soporte TLS/SSL para envio de correos HTML de confirmacion de cuenta y restablecimiento de contrasena, y modo de respaldo en consola cuando no se configuran credenciales SMTP.
-- **Generacion de Documentos PDF:** `QuestPDF` (2025.1.1) para la composicion programatica de certificados de asistencia en tamano A4 horizontal con identificador unico de verificacion.
-- **Procesamiento de Hojas de Calculo:** `ClosedXML` (0.104.2) para lectura de datos semilla (`SkillHub_Data.xlsx`) e importacion masiva de inscripciones desde archivos `.xlsx`.
-- **Documentacion de API:** `Scalar.AspNetCore` y `Swashbuckle.AspNetCore` (Swagger UI).
-- **Contenerizacion:** `Dockerfile` multi-stage optimizado y `docker-compose.yml` con orquestacion de PostgreSQL (con healthcheck) y el servicio Web API.
+- **Runtime and Language:** .NET 10 / C# 13 (ASP.NET Core Web API)
+- **Database Engine and ORM:** PostgreSQL 16 + Entity Framework Core 10 (`Npgsql.EntityFrameworkCore.PostgreSQL`) using a Code-First approach with automated migrations.
+- **Security, Identity, and Authentication:**
+  - `Microsoft.AspNetCore.Identity.EntityFrameworkCore` for user management, role-based access control (`Employee` and `Participant`), account lockout protection, and cryptographic token generation for password recovery and email confirmation.
+  - `Microsoft.AspNetCore.Authentication.JwtBearer` for issuing and validating JWT tokens with dynamic expiration (2 hours by default or 7 days when `RememberMe` is enabled).
+- **Transactional SMTP Email Service:** Native implementation via `System.Net.Mail.SmtpClient` (`SmtpEmailService`) with TLS/SSL support for sending HTML account verification and password reset emails, including an automatic console fallback mode when SMTP credentials are not configured.
+- **PDF Document Generation:** `QuestPDF` (2025.1.1) for programmatic composition of landscape A4 attendance certificates with unique verification codes.
+- **Spreadsheet Processing:** `ClosedXML` (0.104.2) for reading seed data (`SkillHub_Data.xlsx`) and performing resilient batch enrollment imports from `.xlsx` files.
+- **API Documentation:** `Scalar.AspNetCore` and `Swashbuckle.AspNetCore` (Swagger UI).
+- **Containerization:** Multi-stage `Dockerfile` and `docker-compose.yml` orchestrating PostgreSQL 16 (with healthchecks) and the .NET 10 Web API service.
 
 ---
 
-## Reglas de Negocio Implementadas
+## Enforced Business Rules
 
-1. **Control Estricto de Cupo Maximo:**
-   Cada taller define una capacidad maxima (`MaxCapacity > 0`). El sistema calcula en tiempo real los asientos ocupados considerando unicamente las inscripciones en estado `Active`. Cuando los cupos disponibles llegan a cero, cualquier intento de inscripcion individual o por lote es rechazado.
-2. **Prevencion de Inscripciones Duplicadas:**
-   Un participante no puede mantener mas de una inscripcion activa en el mismo taller simultaneamente.
-3. **Deteccion de Cruce de Horarios (Colisiones):**
-   Antes de confirmar una inscripcion, el sistema verifica que el rango horario del nuevo taller (`StartDate` a `EndDate`, calculado a partir de `DurationMinutes`) no se solape con ningun otro taller en el que el participante ya posea una inscripcion activa, evaluando la condicion matematica:
+1. **Strict Maximum Capacity Control:**
+   Each workshop defines a maximum seat capacity (`Capacity > 0`). The system calculates occupied seats in real time by counting only enrollments in `Active` status. Once available seats reach zero, any individual or batch enrollment attempt is rejected.
+2. **Duplicate Enrollment Prevention:**
+   A participant cannot hold more than one active enrollment in the same workshop simultaneously.
+3. **Schedule Collision Detection:**
+   Before confirming an enrollment, the system verifies that the time window of the target workshop (`StartDateTime` to `EndDateTime`) does not overlap with any other workshop in which the participant already holds an active enrollment, evaluating the condition:
    `Start_A < End_B AND End_A > Start_B`.
-4. **Restriccion de Talleres Futuros:**
-   Solo se permiten inscripciones en talleres cuya fecha y hora de inicio sea posterior al instante actual (`StartDate > DateTime.UtcNow`).
-5. **Politica Diferenciada de Cancelacion y Auditoria:**
-   - **Participante:** Puede cancelar su propia inscripcion unicamente si faltan **al menos 24 horas** para el inicio del taller.
-   - **Instructor / Empleado (`Employee`):** Puede cancelar la inscripcion de cualquier participante en cualquier momento previo al inicio del taller, sin la restriccion de las 24 horas.
-   - **Liberacion y Trazabilidad:** Al cancelar, el estado pasa a `Cancelled`, el cupo se libera de inmediato y se registran los campos de auditoria `CancelledAt` (UTC) y `CancelledBy` (correo del ejecutor).
-6. **Re-inscripcion Permitida:**
-   Un participante que haya cancelado previamente su inscripcion en un taller puede volver a inscribirse en el mismo taller siempre que existan cupos disponibles y se cumplan las demas reglas de negocio. En este caso, el registro existente se reactiva limpiando los metadatos de cancelacion previos.
-7. **Importacion Masiva Resiliente desde Excel (`.xlsx`):**
-   El endpoint de carga masiva procesa fila por fila sin abortar la transaccion global ante registros invalidos. Las filas que cumplen todas las validaciones se persisten en la base de datos, mientras que las filas con errores (participante inexistente, taller inexistente, cupo agotado, duplicado o cruce de horario) se reportan detalladamente indicando el numero de fila y el motivo exacto del rechazo.
-8. **Emision Condicional de Certificados PDF:**
-   Los certificados de asistencia solo pueden generarse para inscripciones en estado `Active`. Si una inscripcion fue cancelada, el sistema rechaza la generacion con codigo HTTP `400 Bad Request`. Tanto el participante titular como cualquier usuario con rol `Employee` estan autorizados para descargar la constancia.
-9. **Seguridad de Identidad y Sesiones:**
-   - Registro con envio automatico de enlace de verificacion de correo electronico.
-   - Recuperacion de contrasena protegida contra enumeracion de usuarios.
-   - Sesiones JWT de corta duracion (2 horas) o larga duracion (7 dias) segun la preferencia `RememberMe`.
+4. **Upcoming Workshops Only:**
+   Enrollments are permitted exclusively for workshops whose start date and time is in the future (`StartDateTime > DateTime.UtcNow`).
+5. **Differentiated Cancellation Policy and Audit Trail:**
+   - **Participant:** May cancel their own enrollment only if **at least 24 hours** remain before the workshop starts.
+   - **Instructor / Employee (`Employee`):** May cancel any participant's enrollment at any time prior to the workshop start time, without the 24-hour restriction.
+   - **Seat Release and Traceability:** Upon cancellation, the enrollment transitions to `Cancelled`, the seat is immediately released, and audit metadata (`CancelledAt` in UTC and `CancelledBy`) is permanently recorded.
+6. **Re-enrollment Support:**
+   A participant who previously cancelled an enrollment in a workshop may re-enroll in that same workshop as long as seats remain available and all business rules are satisfied. In this scenario, the existing record is reactivated and previous cancellation metadata is cleared.
+7. **Resilient Excel Batch Import (`.xlsx`):**
+   The batch import endpoint processes rows sequentially without aborting the entire operation when invalid rows are encountered. Valid rows are persisted to the database, while rejected rows (non-existent participant, non-existent workshop, full capacity, duplicate enrollment, or schedule collision) are reported with the exact row number and rejection reason.
+8. **Conditional PDF Certificate Generation:**
+   Attendance certificates can only be generated for enrollments in `Active` status. Cancelled enrollments return an HTTP `400 Bad Request` response. Both the enrolled participant and any user with the `Employee` role are authorized to download the certificate.
+9. **Identity Security and Session Management:**
+   - User registration triggers an automatic email confirmation link.
+   - Password recovery is protected against user enumeration.
+   - Dynamic JWT lifetimes support short-lived sessions (2 hours) or persistent sessions (7 days) based on the `RememberMe` flag.
 
 ---
 
-## Modelo de Datos
+## Data Model
 
-### Entidades Principales
+### Core Entities
 
-- **`ApplicationUser` (hereda de `IdentityUser`):**
+- **`ApplicationUser` (inherits from `IdentityUser`):**
   - `Id` (string, PK)
   - `FullName` (string, max 150)
-  - `Specialty` (string?, max 100, especialidad docente para usuarios con rol `Employee`)
+  - `Specialty` (string?, max 100, teaching specialty for users with the `Employee` role)
   - `CreatedAt` (DateTime UTC)
-  - `Email`, `EmailConfirmed`, `PasswordHash` (gestionados por ASP.NET Core Identity)
+  - `Email`, `EmailConfirmed`, `PasswordHash` (managed by ASP.NET Core Identity)
 
 - **`Workshop`:**
-  - `Id` (int, PK autoincremental)
-  - `Code` (string, codigo unico del taller, ej. `FOT-001`)
-  - `Title` (string, nombre del taller)
-  - `Description` (string, descripcion detallada)
-  - `InstructorId` (string, FK hacia `ApplicationUser`)
-  - `StartDateTime` (DateTime UTC, fecha y hora de inicio)
-  - `EndDateTime` (DateTime UTC, fecha y hora de finalizacion)
-  - `Capacity` (int, cupo maximo de participantes)
+  - `Id` (int, auto-increment PK)
+  - `Code` (string, unique workshop code, e.g., `FOT-001`)
+  - `Title` (string, workshop name)
+  - `Description` (string, detailed description)
+  - `InstructorId` (string, FK to `ApplicationUser`)
+  - `StartDateTime` (DateTime UTC, start date and time)
+  - `EndDateTime` (DateTime UTC, end date and time)
+  - `Capacity` (int, maximum number of participants)
   - `CreatedAt` (DateTime UTC)
 
 - **`Enrollment`:**
-  - `Id` (int, PK autoincremental)
-  - `WorkshopId` (int, FK hacia `Workshop`)
-  - `ParticipantId` (string, FK hacia `ApplicationUser`)
+  - `Id` (int, auto-increment PK)
+  - `WorkshopId` (int, FK to `Workshop`)
+  - `ParticipantId` (string, FK to `ApplicationUser`)
   - `EnrolledAt` (DateTime UTC)
   - `Status` (`EnrollmentStatus`: `Active = 1`, `Cancelled = 2`)
   - `CancelledAt` (DateTime? UTC)
-  - `CancelledBy` (string?, identificador del usuario que ejecuto la cancelacion)
+  - `CancelledBy` (string?, identifier of the user who executed the cancellation)
 
 ---
 
-## Especificacion Detallada de Endpoints REST (`/api/v1`)
+## REST API Endpoints Specification (`/api/v1`)
 
-### 1. Autenticacion y Gestion de Identidad (`/api/v1/auth`)
+### 1. Authentication and Identity Management (`/api/v1/auth`)
 
-| Metodo | Ruta | Acceso | Descripcion |
+| Method | Route | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/auth/register` | Publico | Registra un nuevo participante, asigna el rol `Participant` y envia correo de confirmacion. |
-| `POST` | `/api/v1/auth/login` | Publico | Autentica credenciales (`Email`, `Password`, `RememberMe`) y retorna el token JWT junto al perfil del usuario. |
-| `POST` | `/api/v1/auth/forgot-password` | Publico | Genera un token de recuperacion de contrasena y envia el enlace de restablecimiento por correo SMTP. |
-| `POST` | `/api/v1/auth/reset-password` | Publico | Restablece la contrasena del usuario validando el token criptografico de Identity. |
-| `POST` | `/api/v1/auth/confirm-email` | Publico | Confirma la direccion de correo electronico del usuario mediante el token enviado al registrarse. |
-| `POST` | `/api/v1/auth/resend-confirmation` | Publico | Reenvia el enlace de verificacion de correo a cuentas pendientes de confirmacion. |
+| `POST` | `/api/v1/auth/register` | Public | Registers a new participant, assigns the `Participant` role, and sends a confirmation email. |
+| `POST` | `/api/v1/auth/login` | Public | Authenticates credentials (`Email`, `Password`, `RememberMe`) and returns the JWT token and user profile. |
+| `POST` | `/api/v1/auth/forgot-password` | Public | Generates a password reset token and sends a recovery link via SMTP email. |
+| `POST` | `/api/v1/auth/reset-password` | Public | Resets the user's password after validating the cryptographic Identity token. |
+| `POST` | `/api/v1/auth/confirm-email` | Public | Confirms the user's email address using the verification token sent upon registration. |
+| `POST` | `/api/v1/auth/resend-confirmation` | Public | Resends the email verification link to accounts pending confirmation. |
 
-### 2. Talleres e Instructores (`/api/v1/workshops`)
+### 2. Workshops and Instructors (`/api/v1/workshops`)
 
-| Metodo | Ruta | Acceso | Descripcion |
+| Method | Route | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/workshops` | Publico | Lista todos los talleres futuros ordenados por fecha de inicio con cupos activos y disponibles calculados. |
-| `GET` | `/api/v1/workshops/{id}` | Publico | Obtiene el detalle completo de un taller especifico por su identificador `Guid`. |
-| `GET` | `/api/v1/workshops/instructors` | Publico | Lista todos los instructores registrados (rol `Employee`) con su nombre, correo y especialidad. |
-| `POST` | `/api/v1/workshops` | `Employee` | Crea un nuevo taller validando fecha futura, capacidad mayor a cero, duracion positiva e instructor valido. |
-| `GET` | `/api/v1/workshops/{id}/enrollments` | `Employee` | Obtiene la nomina completa de participantes inscritos en un taller especifico. |
+| `GET` | `/api/v1/workshops` | Public | Lists all upcoming workshops ordered by start date with calculated active enrollments and available seats. |
+| `GET` | `/api/v1/workshops/{id}` | Public | Retrieves full details for a specific workshop by its integer `Id`. |
+| `GET` | `/api/v1/workshops/instructors` | Public | Lists all registered instructors (`Employee` role) with their name, email, and specialty. |
+| `POST` | `/api/v1/workshops` | `Employee` | Creates a new workshop after validating future dates, positive capacity, and instructor existence. |
+| `GET` | `/api/v1/workshops/{id}/enrollments` | `Employee` | Retrieves the complete roster of participants enrolled in a specific workshop. |
 
-### 3. Inscripciones, Carga Masiva y Certificados (`/api/v1/enrollments`)
+### 3. Enrollments, Batch Import, and Certificates (`/api/v1/enrollments`)
 
-| Metodo | Ruta | Acceso | Descripcion |
+| Method | Route | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/enrollments` | `Participant` | Inscribe al participante autenticado en un taller validando cupos, duplicados y cruces de horario. |
-| `GET` | `/api/v1/enrollments/mine` | `Participant` | Retorna el historial de inscripciones (activas y canceladas) del participante autenticado. |
-| `PATCH` | `/api/v1/enrollments/{id}/cancel` | Titular / `Employee` | Cancela una inscripcion aplicando la politica de 24 horas para participantes o cancelacion directa para empleados. |
-| `POST` | `/api/v1/enrollments/import` | `Employee` | Importa inscripciones masivas desde un archivo Excel (`.xlsx` en `multipart/form-data`) devolviendo conteo de exitos y detalle de rechazos por fila. |
-| `GET` | `/api/v1/enrollments/{id}/certificate` | Titular / `Employee` | Genera y descarga en tiempo real el certificado de asistencia en formato PDF para una inscripcion activa. |
+| `POST` | `/api/v1/enrollments` | `Participant` | Enrolls the authenticated participant into a workshop after validating capacity, duplicates, and schedule overlaps. |
+| `GET` | `/api/v1/enrollments/mine` | `Participant` | Returns the enrollment history (active and cancelled) of the authenticated participant. |
+| `PATCH` | `/api/v1/enrollments/{id}/cancel` | Owner / `Employee` | Cancels an enrollment enforcing the 24-hour policy for participants or direct cancellation for employees. |
+| `POST` | `/api/v1/enrollments/import` | `Employee` | Batch imports enrollments from an Excel file (`.xlsx` via `multipart/form-data`), returning success counts and row-level rejection diagnostics. |
+| `GET` | `/api/v1/enrollments/{id}/certificate` | Owner / `Employee` | Generates and streams a real-time PDF attendance certificate for an active enrollment. |
 
-### 4. Reportes Administrativos (`/api/v1/reports`)
+### 4. Administrative Reports (`/api/v1/reports`)
 
-| Metodo | Ruta | Acceso | Descripcion |
+| Method | Route | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/reports/top-workshops` | `Employee` | Retorna el ranking de talleres ordenados de forma descendente por cantidad de inscripciones activas. |
+| `GET` | `/api/v1/reports/top-workshops` | `Employee` | Returns the workshop demand ranking ordered descending by active enrollments. |
 
 ---
 
-## Guia de Despliegue y Ejecucion
+## Deployment and Execution Guide
 
-### Opcion A: Despliegue Completo con Docker Compose (Recomendado)
+### Option A: Full Deployment with Docker Compose (Recommended)
 
-El repositorio incluye un archivo `docker-compose.yml` y un `Dockerfile` multi-stage que levantan tanto la base de datos PostgreSQL 16 como la API en `.NET 10`, aplicando migraciones y cargando los datos iniciales de `SkillHub_Data.xlsx` automaticamente.
+The repository includes a `docker-compose.yml` file and a multi-stage `Dockerfile` that launch both PostgreSQL 16 and the .NET 10 Web API, automatically applying EF Core migrations and seeding initial data from `SkillHub_Data.xlsx`.
 
-1. Clonar el repositorio y ubicarse en la raiz:
+1. Clone the repository and navigate to the project root:
    ```bash
    git clone https://github.com/Facz21/SkillHub-Backend.git
    cd SkillHub-Backend
    ```
-2. Construir e iniciar los contenedores en segundo plano:
+2. Build and start the containers in detached mode:
    ```bash
    docker compose up -d --build
    ```
-3. Verificar que los contenedores `skillhub-postgres` y `skillhub-api` esten activos:
+3. Verify that both `skillhub-postgres` and `skillhub-api` containers are running:
    ```bash
    docker ps
    ```
-4. La API estara disponible en `http://localhost:5076`.
+4. The API will be available at `http://localhost:5076`.
 
-### Opcion B: Ejecucion Local para Desarrollo
+### Option B: Local Development Execution
 
-#### 1. Prerrequisitos
-- .NET SDK 10.0 instalado (`dotnet --version`)
-- Instancia de PostgreSQL en ejecucion (puede iniciarse solo la base de datos con `docker compose up -d postgres`)
+#### 1. Prerequisites
+- .NET SDK 10.0 installed (`dotnet --version`)
+- Running PostgreSQL instance (you can start only the database container with `docker compose up -d postgres`)
 
-#### 2. Configuracion de Variables y Secretos de Usuario (Opcional para SMTP Real)
-Por seguridad, las credenciales SMTP no se almacenan en archivos versionados por Git. Para habilitar el envio real de correos mediante Gmail u otro proveedor SMTP en entorno local, configure `.NET User Secrets`:
+#### 2. Environment and User Secrets Configuration (Optional for Real SMTP)
+For security reasons, SMTP credentials are never stored in Git-tracked files. To enable real email delivery via Gmail or another SMTP provider during local development, configure `.NET User Secrets`:
 ```bash
 dotnet user-secrets set "Smtp:Host" "smtp.gmail.com" --project src/SkillHub.Api
 dotnet user-secrets set "Smtp:Port" "587" --project src/SkillHub.Api
-dotnet user-secrets set "Smtp:Username" "tu_correo@gmail.com" --project src/SkillHub.Api
-dotnet user-secrets set "Smtp:Password" "tu_app_password" --project src/SkillHub.Api
-dotnet user-secrets set "Smtp:FromEmail" "tu_correo@gmail.com" --project src/SkillHub.Api
+dotnet user-secrets set "Smtp:Username" "your_email@gmail.com" --project src/SkillHub.Api
+dotnet user-secrets set "Smtp:Password" "your_app_password" --project src/SkillHub.Api
+dotnet user-secrets set "Smtp:FromEmail" "your_email@gmail.com" --project src/SkillHub.Api
 ```
-*(Si no se configuran credenciales SMTP, el sistema opera en modo desarrollo registrando los enlaces de confirmacion y recuperacion directamente en los logs de consola de la API).*
+*(If no SMTP credentials are provided, the application runs in development fallback mode and logs confirmation and password reset links directly to the API console).*
 
-#### 3. Iniciar la API
+#### 3. Start the API
 ```bash
 dotnet run --project src/SkillHub.Api
 ```
-Al iniciar por primera vez, el sistema ejecutara automaticamente las migraciones de Entity Framework Core y poblara la base de datos a partir del archivo `SkillHub_Data.xlsx`.
+On first startup, the application automatically runs Entity Framework Core migrations and populates the database from `SkillHub_Data.xlsx`.
 
-#### 4. Documentacion Interactiva de la API
-En entorno de desarrollo (`ASPNETCORE_ENVIRONMENT=Development`), puede explorar y probar todos los endpoints desde el navegador en:
+#### 4. Interactive API Documentation
+When running in development mode (`ASPNETCORE_ENVIRONMENT=Development`), interactive documentation is available at:
 - **Scalar API Reference:** `http://localhost:5076/scalar/v1`
-- **Swagger UI:** `http://localhost:5076/swagger/v1/swagger.json`
+- **Swagger OpenAPI JSON:** `http://localhost:5076/swagger/v1/swagger.json`
 
 ---
 
-## Credenciales de Prueba Pre-cargadas
+## Pre-Seeded Test Credentials
 
-Al iniciar el sistema, el servicio `ExcelSeederService` crea automaticamente las siguientes cuentas de prueba a partir de `SkillHub_Data.xlsx`:
+On initial startup, `ExcelSeederService` automatically creates the following accounts from `SkillHub_Data.xlsx`:
 
-### Cuentas de Instructores / Empleados (Rol: `Employee`)
-| Nombre Completo | Correo Electronico | Contrasena | Especialidad |
+### Instructor / Employee Accounts (Role: `Employee`)
+| Full Name | Email Address | Password | Specialty |
 | :--- | :--- | :--- | :--- |
 | Andres Felipe Mejia Arango | `andres.mejia@correo.com` | `Instructor2026*` | Fotografia |
 | Rosa Elena Barrios Polo | `rosa.barrios@correo.com` | `Instructor2026*` | Cocina |
@@ -229,8 +229,8 @@ Al iniciar el sistema, el servicio `ExcelSeederService` crea automaticamente las
 | Santiago Vargas Montoya | `santiago.vargas@correo.com` | `Instructor2026*` | Musica |
 | Carolina Suarez Restrepo | `carolina.suarez@correo.com` | `Instructor2026*` | Marketing digital |
 
-### Cuentas de Participantes (Rol: `Participant`)
-| Nombre Completo | Correo Electronico | Contrasena | Rol |
+### Participant Accounts (Role: `Participant`)
+| Full Name | Email Address | Password | Role |
 | :--- | :--- | :--- | :--- |
 | Jorge Andres Perez Rojas | `jorge.perez@correo.com` | `Skillhub2026*` | Participant |
 | Luz Marina Ospina Rios | `luz.ospina@correo.com` | `Skillhub2026*` | Participant |
@@ -238,14 +238,14 @@ Al iniciar el sistema, el servicio `ExcelSeederService` crea automaticamente las
 
 ---
 
-## Entregables de Base de Datos Incluidos
+## Included Database Deliverables
 
-- **Migraciones Code-First:** Ubicadas en `src/SkillHub.Infrastructure/Migrations`, incluyendo el esquema inicial de talleres e inscripciones, la integracion con tablas de ASP.NET Core Identity y el soporte de estado de verificacion de correo electronico.
-- **Volcado SQL (`SkillHub_Database_Dump.sql`):** Archivo SQL completo con la estructura DDL y datos pre-cargados en la raiz del repositorio.
-- **Fuente de Datos Semilla (`SkillHub_Data.xlsx`):** Libro de Excel con las hojas de Instructores, Participantes, Talleres e Inscripciones procesadas por el seeder e importador.
+- **Code-First Migrations:** Located in `src/SkillHub.Infrastructure/Migrations`, covering the initial workshop and enrollment schema, ASP.NET Core Identity tables, and email confirmation state.
+- **Complete SQL Dump (`SkillHub_Database_Dump.sql`):** Full SQL export containing the database DDL structure and pre-populated data (`INSERT INTO` statements) at the repository root.
+- **Seed Workbook (`SkillHub_Data.xlsx`):** Excel spreadsheet containing Instructors, Participants, Workshops, and Enrollments sheets processed by the seeder and batch importer.
 
 ---
 
-## Autor
+## Author
 
 Andrés Felipe Cortés Zambrano

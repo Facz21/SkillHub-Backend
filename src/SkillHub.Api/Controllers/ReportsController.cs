@@ -5,6 +5,9 @@ using SkillHub.Application.Interfaces;
 
 namespace SkillHub.Api.Controllers;
 
+/// <summary>
+/// REST Controller providing administrative analytics and demand reports.
+/// </summary>
 [ApiController]
 [Route("api/v1/reports")]
 public class ReportsController : ControllerBase
@@ -16,6 +19,10 @@ public class ReportsController : ControllerBase
         _reportService = reportService;
     }
 
+    /// <summary>
+    /// Returns the ranking of workshops ordered descending by active enrollments.
+    /// Restricted to users with the "Employee" role.
+    /// </summary>
     [HttpGet("top-workshops")]
     [Authorize(Roles = "Employee")]
     public async Task<ActionResult<IEnumerable<TopWorkshopReportDto>>> GetTopWorkshops()

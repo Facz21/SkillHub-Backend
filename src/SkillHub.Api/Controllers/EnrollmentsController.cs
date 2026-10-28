@@ -7,11 +7,18 @@ using SkillHub.Domain.Exceptions;
 
 namespace SkillHub.Api.Controllers;
 
+/// <summary>
+/// Multipart form wrapper for Excel spreadsheet uploads.
+/// </summary>
 public class FileUploadDto
 {
     public IFormFile File { get; set; } = null!;
 }
 
+/// <summary>
+/// REST Controller managing participant workshop enrollments, cancellations,
+/// resilient Excel batch imports (.xlsx), and PDF attendance certificate downloads.
+/// </summary>
 [ApiController]
 [Route("api/v1/enrollments")]
 public class EnrollmentsController : ControllerBase
@@ -27,6 +34,9 @@ public class EnrollmentsController : ControllerBase
         _excelImportService = excelImportService;
     }
 
+    /// <summary>
+    /// Enrolls the authenticated participant into a workshop, enforcing capacity, duplicate, and schedule collision rules.
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Participant")]
     public async Task<ActionResult<EnrollmentResponseDto>> EnrollInWorkshop([FromBody] CreateEnrollmentRequestDto request)
@@ -39,6 +49,9 @@ public class EnrollmentsController : ControllerBase
         return StatusCode(StatusCodes.Status201Created, enrollment);
     }
 
+    /// <summary>
+    /// Returns all active and cancelled enrollments belonging to the authenticated participant.
+    /// </summary>
     [HttpGet("mine")]
     [Authorize(Roles = "Participant")]
     public async Task<ActionResult<IEnumerable<EnrollmentResponseDto>>> GetMyEnrollments()
@@ -51,6 +64,10 @@ public class EnrollmentsController : ControllerBase
         return Ok(enrollments);
     }
 
+    /// <summary>
+    /// Cancels an enrollment and immediately releases the seat.
+    /// Enforces the 24-hour rule for participants; allows direct cancellation for employees.
+    /// </summary>
     [HttpPatch("{id:int}/cancel")]
     [Authorize]
     public async Task<ActionResult<EnrollmentResponseDto>> CancelEnrollment(int id)
@@ -64,6 +81,10 @@ public class EnrollmentsController : ControllerBase
         return Ok(enrollment);
     }
 
+    /// <summary>
+    /// Resiliently imports participant enrollments in batch from an Excel spreadsheet (.xlsx).
+    /// Persists valid rows and reports rejected rows with row numbers and detailed reasons.
+    /// </summary>
     [HttpPost("import")]
     [Authorize(Roles = "Employee")]
     [Consumes("multipart/form-data")]
@@ -81,6 +102,10 @@ public class EnrollmentsController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Generates and downloads a PDF attendance certificate for an active enrollment.
+    /// Accessible by the enrolled participant or any user with the "Employee" role.
+    /// </summary>
     [HttpGet("{id:int}/certificate")]
     [Authorize]
     public async Task<IActionResult> DownloadCertificatePdf(int id)

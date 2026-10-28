@@ -5,6 +5,10 @@ using SkillHub.Application.Interfaces;
 
 namespace SkillHub.Api.Controllers;
 
+/// <summary>
+/// REST Controller for querying upcoming workshops, listing instructors, creating new workshops,
+/// and inspecting workshop participant rosters.
+/// </summary>
 [ApiController]
 [Route("api/v1/workshops")]
 public class WorkshopsController : ControllerBase
@@ -16,6 +20,9 @@ public class WorkshopsController : ControllerBase
         _workshopService = workshopService;
     }
 
+    /// <summary>
+    /// Public endpoint returning all upcoming workshops with calculated available seats.
+    /// </summary>
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<WorkshopResponseDto>>> GetUpcomingWorkshops()
@@ -24,6 +31,9 @@ public class WorkshopsController : ControllerBase
         return Ok(workshops);
     }
 
+    /// <summary>
+    /// Returns the list of registered instructors ("Employee" role) for workshop assignment.
+    /// </summary>
     [HttpGet("instructors")]
     [Authorize(Roles = "Employee")]
     public async Task<ActionResult<IEnumerable<InstructorSummaryDto>>> GetInstructors()
@@ -32,6 +42,9 @@ public class WorkshopsController : ControllerBase
         return Ok(instructors);
     }
 
+    /// <summary>
+    /// Public endpoint returning detailed information for a single workshop by ID.
+    /// </summary>
     [HttpGet("{id:int}")]
     [AllowAnonymous]
     public async Task<ActionResult<WorkshopResponseDto>> GetWorkshopById(int id)
@@ -40,6 +53,9 @@ public class WorkshopsController : ControllerBase
         return Ok(workshop);
     }
 
+    /// <summary>
+    /// Creates a new workshop. Restricted to users with the "Employee" role.
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Employee")]
     public async Task<ActionResult<WorkshopResponseDto>> CreateWorkshop([FromBody] CreateWorkshopRequestDto request)
@@ -48,6 +64,9 @@ public class WorkshopsController : ControllerBase
         return CreatedAtAction(nameof(GetWorkshopById), new { id = workshop.Id }, workshop);
     }
 
+    /// <summary>
+    /// Lists all enrolled participants for a specific workshop. Restricted to "Employee" role.
+    /// </summary>
     [HttpGet("{id:int}/enrollments")]
     [Authorize(Roles = "Employee")]
     public async Task<ActionResult<IEnumerable<WorkshopEnrollmentItemDto>>> GetWorkshopEnrollments(int id)

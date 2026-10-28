@@ -6,6 +6,11 @@ using SkillHub.Application.Interfaces;
 
 namespace SkillHub.Infrastructure.Services;
 
+/// <summary>
+/// Infrastructure service responsible for dispatching transactional HTML emails via SMTP
+/// (e.g., Gmail SMTP with TLS on port 587). Automatically falls back to console logging
+/// if SMTP credentials are not configured in the environment or User Secrets.
+/// </summary>
 public class SmtpEmailService : IEmailService
 {
     private readonly IConfiguration _configuration;
@@ -17,6 +22,10 @@ public class SmtpEmailService : IEmailService
         _logger = logger;
     }
 
+    /// <summary>
+    /// Sends an HTML email to the specified recipient. Returns true if sent via real SMTP,
+    /// or false if handled via local development fallback.
+    /// </summary>
     public async Task<bool> SendEmailAsync(string toEmail, string subject, string htmlBody)
     {
         var smtpSection = _configuration.GetSection("Smtp");
@@ -27,6 +36,7 @@ public class SmtpEmailService : IEmailService
         var fromName = smtpSection["FromName"] ?? "SkillHub — Plataforma de Talleres";
         var enableSsl = !bool.TryParse(smtpSection["EnableSsl"], out var ssl) || ssl;
 
+        // Fallback mode when SMTP credentials are absent
         if (string.IsNullOrWhiteSpace(host) ||
             string.IsNullOrWhiteSpace(username) ||
             string.IsNullOrWhiteSpace(rawPassword))
@@ -38,6 +48,7 @@ public class SmtpEmailService : IEmailService
             return false;
         }
 
+        // Strip spaces from Google App Passwords if present
         var password = rawPassword.Replace(" ", string.Empty).Trim();
         var port = int.TryParse(portStr, out var parsedPort) ? parsedPort : 587;
 
