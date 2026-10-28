@@ -31,6 +31,34 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult<AuthTokenDispatchResponseDto>> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
+    {
+        var response = await _authService.ForgotPasswordAsync(request);
+        return Ok(response);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+    {
+        await _authService.ResetPasswordAsync(request);
+        return Ok(new { message = "Contraseña restablecida exitosamente." });
+    }
+
+    [HttpPost("resend-confirmation")]
+    public async Task<ActionResult<AuthTokenDispatchResponseDto>> ResendConfirmation([FromBody] ForgotPasswordRequestDto request)
+    {
+        var response = await _authService.ResendEmailConfirmationAsync(request);
+        return Ok(response);
+    }
+
+    [HttpPost("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequestDto request)
+    {
+        await _authService.ConfirmEmailAsync(request);
+        return Ok(new { message = "Correo electrónico confirmado exitosamente." });
+    }
+
     [HttpGet("profile")]
     [Authorize]
     public async Task<ActionResult<UserProfileDto>> GetProfile()

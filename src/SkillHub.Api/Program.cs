@@ -13,6 +13,9 @@ using SkillHub.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Ensure .NET User Secrets are always loaded (keeps SMTP credentials outside Git)
+builder.Configuration.AddUserSecrets<Program>(optional: true);
+
 // 1. Database Context (PostgreSQL)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -63,6 +66,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 // 4. Application & Infrastructure Services (Clean Architecture Dependency Injection)
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IWorkshopService, WorkshopService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();

@@ -17,5 +17,27 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skillhub-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:5076
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=SkillHubDb;Username=postgres;Password=postgres"
+      Smtp__Host: "smtp.gmail.com"
+      Smtp__Port: "587"
+      Smtp__EnableSsl: "true"
+      Smtp__FromName: "SkillHub — Plataforma de Talleres"
+      Smtp__Username: "${SMTP_USERNAME:-}"
+      Smtp__Password: "${SMTP_PASSWORD:-}"
+    ports:
+      - "5076:5076"
+
 volumes:
   postgres_data:

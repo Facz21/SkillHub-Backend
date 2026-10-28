@@ -9,6 +9,15 @@ public interface IAuthService
     Task<UserProfileDto> GetProfileAsync(string userId);
     Task<UserProfileDto> UpdateProfileAsync(string userId, UpdateProfileRequestDto request);
     Task ChangePasswordAsync(string userId, ChangePasswordRequestDto request);
+    Task<AuthTokenDispatchResponseDto> ForgotPasswordAsync(ForgotPasswordRequestDto request);
+    Task ResetPasswordAsync(ResetPasswordRequestDto request);
+    Task<AuthTokenDispatchResponseDto> ResendEmailConfirmationAsync(ForgotPasswordRequestDto request);
+    Task ConfirmEmailAsync(ConfirmEmailRequestDto request);
+}
+
+public interface IEmailService
+{
+    Task<bool> SendEmailAsync(string toEmail, string subject, string htmlBody);
 }
 
 public interface IWorkshopService

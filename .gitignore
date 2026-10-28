@@ -1,6 +1,8 @@
-## .NET Core
+## .NET Core & Build Artifacts
 bin/
 obj/
+out/
+publish/
 *.user
 *.userosscache
 *.sln.docstates
@@ -8,10 +10,18 @@ obj/
 .vscode/
 .idea/
 
-## OS generated
+## Separate Frontend Repository
+frontend/
+
+## OS & Temporary Lock Files
 .DS_Store
 Thumbs.db
-
-## Logs & caches
+.~lock*
 *.log
 .impeccable/
+
+## Secrets & Local Environment (Never commit credentials)
+appsettings.Local.json
+.env
+.env.*
+!.env.example
