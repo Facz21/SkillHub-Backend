@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict 17XbEei5IryOeH65VDSBHfEAXmikeFB9RKYV6TbAhtzc54SpKhdXv4vkuFial3f
 
 -- Dumped from database version 16.15
 -- Dumped by pg_dump version 16.15
@@ -18,52 +17,52 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE ONLY public."Workshops" DROP CONSTRAINT "FK_Workshops_AspNetUsers_InstructorId";
-ALTER TABLE ONLY public."Enrollments" DROP CONSTRAINT "FK_Enrollments_Workshops_WorkshopId";
-ALTER TABLE ONLY public."Enrollments" DROP CONSTRAINT "FK_Enrollments_AspNetUsers_ParticipantId";
-ALTER TABLE ONLY public."AspNetUserTokens" DROP CONSTRAINT "FK_AspNetUserTokens_AspNetUsers_UserId";
-ALTER TABLE ONLY public."AspNetUserRoles" DROP CONSTRAINT "FK_AspNetUserRoles_AspNetUsers_UserId";
-ALTER TABLE ONLY public."AspNetUserRoles" DROP CONSTRAINT "FK_AspNetUserRoles_AspNetRoles_RoleId";
-ALTER TABLE ONLY public."AspNetUserLogins" DROP CONSTRAINT "FK_AspNetUserLogins_AspNetUsers_UserId";
-ALTER TABLE ONLY public."AspNetUserClaims" DROP CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId";
-ALTER TABLE ONLY public."AspNetRoleClaims" DROP CONSTRAINT "FK_AspNetRoleClaims_AspNetRoles_RoleId";
-DROP INDEX public."UserNameIndex";
-DROP INDEX public."RoleNameIndex";
-DROP INDEX public."IX_Workshops_InstructorId";
-DROP INDEX public."IX_Workshops_Code";
-DROP INDEX public."IX_Enrollments_WorkshopId";
-DROP INDEX public."IX_Enrollments_ParticipantId_WorkshopId";
-DROP INDEX public."IX_AspNetUserRoles_RoleId";
-DROP INDEX public."IX_AspNetUserLogins_UserId";
-DROP INDEX public."IX_AspNetUserClaims_UserId";
-DROP INDEX public."IX_AspNetRoleClaims_RoleId";
-DROP INDEX public."EmailIndex";
-ALTER TABLE ONLY public."__EFMigrationsHistory" DROP CONSTRAINT "PK___EFMigrationsHistory";
-ALTER TABLE ONLY public."Workshops" DROP CONSTRAINT "PK_Workshops";
-ALTER TABLE ONLY public."Enrollments" DROP CONSTRAINT "PK_Enrollments";
-ALTER TABLE ONLY public."AspNetUsers" DROP CONSTRAINT "PK_AspNetUsers";
-ALTER TABLE ONLY public."AspNetUserTokens" DROP CONSTRAINT "PK_AspNetUserTokens";
-ALTER TABLE ONLY public."AspNetUserRoles" DROP CONSTRAINT "PK_AspNetUserRoles";
-ALTER TABLE ONLY public."AspNetUserLogins" DROP CONSTRAINT "PK_AspNetUserLogins";
-ALTER TABLE ONLY public."AspNetUserClaims" DROP CONSTRAINT "PK_AspNetUserClaims";
-ALTER TABLE ONLY public."AspNetRoles" DROP CONSTRAINT "PK_AspNetRoles";
-ALTER TABLE ONLY public."AspNetRoleClaims" DROP CONSTRAINT "PK_AspNetRoleClaims";
-DROP TABLE public."__EFMigrationsHistory";
-DROP TABLE public."Workshops";
-DROP TABLE public."Enrollments";
-DROP TABLE public."AspNetUsers";
-DROP TABLE public."AspNetUserTokens";
-DROP TABLE public."AspNetUserRoles";
-DROP TABLE public."AspNetUserLogins";
-DROP TABLE public."AspNetUserClaims";
-DROP TABLE public."AspNetRoles";
-DROP TABLE public."AspNetRoleClaims";
+ALTER TABLE IF EXISTS ONLY public."Workshops" DROP CONSTRAINT IF EXISTS "FK_Workshops_AspNetUsers_InstructorId";
+ALTER TABLE IF EXISTS ONLY public."Enrollments" DROP CONSTRAINT IF EXISTS "FK_Enrollments_Workshops_WorkshopId";
+ALTER TABLE IF EXISTS ONLY public."Enrollments" DROP CONSTRAINT IF EXISTS "FK_Enrollments_AspNetUsers_ParticipantId";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserTokens" DROP CONSTRAINT IF EXISTS "FK_AspNetUserTokens_AspNetUsers_UserId";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserRoles" DROP CONSTRAINT IF EXISTS "FK_AspNetUserRoles_AspNetUsers_UserId";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserRoles" DROP CONSTRAINT IF EXISTS "FK_AspNetUserRoles_AspNetRoles_RoleId";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserLogins" DROP CONSTRAINT IF EXISTS "FK_AspNetUserLogins_AspNetUsers_UserId";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserClaims" DROP CONSTRAINT IF EXISTS "FK_AspNetUserClaims_AspNetUsers_UserId";
+ALTER TABLE IF EXISTS ONLY public."AspNetRoleClaims" DROP CONSTRAINT IF EXISTS "FK_AspNetRoleClaims_AspNetRoles_RoleId";
+DROP INDEX IF EXISTS public."UserNameIndex";
+DROP INDEX IF EXISTS public."RoleNameIndex";
+DROP INDEX IF EXISTS public."IX_Workshops_InstructorId";
+DROP INDEX IF EXISTS public."IX_Workshops_Code";
+DROP INDEX IF EXISTS public."IX_Enrollments_WorkshopId";
+DROP INDEX IF EXISTS public."IX_Enrollments_ParticipantId_WorkshopId";
+DROP INDEX IF EXISTS public."IX_AspNetUserRoles_RoleId";
+DROP INDEX IF EXISTS public."IX_AspNetUserLogins_UserId";
+DROP INDEX IF EXISTS public."IX_AspNetUserClaims_UserId";
+DROP INDEX IF EXISTS public."IX_AspNetRoleClaims_RoleId";
+DROP INDEX IF EXISTS public."EmailIndex";
+ALTER TABLE IF EXISTS ONLY public."__EFMigrationsHistory" DROP CONSTRAINT IF EXISTS "PK___EFMigrationsHistory";
+ALTER TABLE IF EXISTS ONLY public."Workshops" DROP CONSTRAINT IF EXISTS "PK_Workshops";
+ALTER TABLE IF EXISTS ONLY public."Enrollments" DROP CONSTRAINT IF EXISTS "PK_Enrollments";
+ALTER TABLE IF EXISTS ONLY public."AspNetUsers" DROP CONSTRAINT IF EXISTS "PK_AspNetUsers";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserTokens" DROP CONSTRAINT IF EXISTS "PK_AspNetUserTokens";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserRoles" DROP CONSTRAINT IF EXISTS "PK_AspNetUserRoles";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserLogins" DROP CONSTRAINT IF EXISTS "PK_AspNetUserLogins";
+ALTER TABLE IF EXISTS ONLY public."AspNetUserClaims" DROP CONSTRAINT IF EXISTS "PK_AspNetUserClaims";
+ALTER TABLE IF EXISTS ONLY public."AspNetRoles" DROP CONSTRAINT IF EXISTS "PK_AspNetRoles";
+ALTER TABLE IF EXISTS ONLY public."AspNetRoleClaims" DROP CONSTRAINT IF EXISTS "PK_AspNetRoleClaims";
+DROP TABLE IF EXISTS public."__EFMigrationsHistory";
+DROP TABLE IF EXISTS public."Workshops";
+DROP TABLE IF EXISTS public."Enrollments";
+DROP TABLE IF EXISTS public."AspNetUsers";
+DROP TABLE IF EXISTS public."AspNetUserTokens";
+DROP TABLE IF EXISTS public."AspNetUserRoles";
+DROP TABLE IF EXISTS public."AspNetUserLogins";
+DROP TABLE IF EXISTS public."AspNetUserClaims";
+DROP TABLE IF EXISTS public."AspNetRoles";
+DROP TABLE IF EXISTS public."AspNetRoleClaims";
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: AspNetRoleClaims; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetRoleClaims; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetRoleClaims" (
@@ -74,10 +73,8 @@ CREATE TABLE public."AspNetRoleClaims" (
 );
 
 
-ALTER TABLE public."AspNetRoleClaims" OWNER TO postgres;
-
 --
--- Name: AspNetRoleClaims_Id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: AspNetRoleClaims_Id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public."AspNetRoleClaims" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -91,7 +88,7 @@ ALTER TABLE public."AspNetRoleClaims" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT
 
 
 --
--- Name: AspNetRoles; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetRoles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetRoles" (
@@ -102,10 +99,8 @@ CREATE TABLE public."AspNetRoles" (
 );
 
 
-ALTER TABLE public."AspNetRoles" OWNER TO postgres;
-
 --
--- Name: AspNetUserClaims; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetUserClaims; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetUserClaims" (
@@ -116,10 +111,8 @@ CREATE TABLE public."AspNetUserClaims" (
 );
 
 
-ALTER TABLE public."AspNetUserClaims" OWNER TO postgres;
-
 --
--- Name: AspNetUserClaims_Id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: AspNetUserClaims_Id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public."AspNetUserClaims" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -133,7 +126,7 @@ ALTER TABLE public."AspNetUserClaims" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT
 
 
 --
--- Name: AspNetUserLogins; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetUserLogins; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetUserLogins" (
@@ -144,10 +137,8 @@ CREATE TABLE public."AspNetUserLogins" (
 );
 
 
-ALTER TABLE public."AspNetUserLogins" OWNER TO postgres;
-
 --
--- Name: AspNetUserRoles; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetUserRoles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetUserRoles" (
@@ -156,10 +147,8 @@ CREATE TABLE public."AspNetUserRoles" (
 );
 
 
-ALTER TABLE public."AspNetUserRoles" OWNER TO postgres;
-
 --
--- Name: AspNetUserTokens; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetUserTokens; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetUserTokens" (
@@ -170,10 +159,8 @@ CREATE TABLE public."AspNetUserTokens" (
 );
 
 
-ALTER TABLE public."AspNetUserTokens" OWNER TO postgres;
-
 --
--- Name: AspNetUsers; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AspNetUsers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AspNetUsers" (
@@ -198,10 +185,8 @@ CREATE TABLE public."AspNetUsers" (
 );
 
 
-ALTER TABLE public."AspNetUsers" OWNER TO postgres;
-
 --
--- Name: Enrollments; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Enrollments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."Enrollments" (
@@ -215,10 +200,8 @@ CREATE TABLE public."Enrollments" (
 );
 
 
-ALTER TABLE public."Enrollments" OWNER TO postgres;
-
 --
--- Name: Enrollments_Id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: Enrollments_Id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public."Enrollments" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -232,7 +215,7 @@ ALTER TABLE public."Enrollments" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS I
 
 
 --
--- Name: Workshops; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Workshops; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."Workshops" (
@@ -248,10 +231,8 @@ CREATE TABLE public."Workshops" (
 );
 
 
-ALTER TABLE public."Workshops" OWNER TO postgres;
-
 --
--- Name: Workshops_Id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: Workshops_Id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public."Workshops" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -265,7 +246,7 @@ ALTER TABLE public."Workshops" ALTER COLUMN "Id" ADD GENERATED BY DEFAULT AS IDE
 
 
 --
--- Name: __EFMigrationsHistory; Type: TABLE; Schema: public; Owner: postgres
+-- Name: __EFMigrationsHistory; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."__EFMigrationsHistory" (
@@ -274,280 +255,256 @@ CREATE TABLE public."__EFMigrationsHistory" (
 );
 
 
-ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
-
 --
--- Data for Name: AspNetRoleClaims; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetRoleClaims; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetRoleClaims" ("Id", "RoleId", "ClaimType", "ClaimValue") FROM stdin;
-\.
 
 
 --
--- Data for Name: AspNetRoles; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetRoles; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetRoles" ("Id", "Name", "NormalizedName", "ConcurrencyStamp") FROM stdin;
-ac458124-eab1-4050-a858-d4c129b56a76	Employee	EMPLOYEE	a4ebcd3a-eec8-4f3d-acfa-8ee1f074bdb6
-8ac75963-53d5-4dee-bdbc-7325ea126690	Participant	PARTICIPANT	3e86c015-3b5c-4489-86e6-247686b30ee0
-\.
+INSERT INTO public."AspNetRoles" ("Id", "Name", "NormalizedName", "ConcurrencyStamp") VALUES ('2268832b-dc7b-49c5-99de-2b81ba73a276', 'Employee', 'EMPLOYEE', 'fc28fc06-3f2c-46b3-98e2-f1d1ab6fb941');
+INSERT INTO public."AspNetRoles" ("Id", "Name", "NormalizedName", "ConcurrencyStamp") VALUES ('ef78e0f9-846c-44ff-8a1f-bec7242fb2ee', 'Participant', 'PARTICIPANT', 'ba9696e4-cd75-4368-8785-302f0d73abc6');
 
 
 --
--- Data for Name: AspNetUserClaims; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetUserClaims; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetUserClaims" ("Id", "UserId", "ClaimType", "ClaimValue") FROM stdin;
-\.
 
 
 --
--- Data for Name: AspNetUserLogins; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetUserLogins; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetUserLogins" ("LoginProvider", "ProviderKey", "ProviderDisplayName", "UserId") FROM stdin;
-\.
 
 
 --
--- Data for Name: AspNetUserRoles; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetUserRoles; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetUserRoles" ("UserId", "RoleId") FROM stdin;
-4631a52b-2237-47d8-8817-50325c08add4	ac458124-eab1-4050-a858-d4c129b56a76
-d5c7591f-5b19-44da-9866-ef84b91c3863	ac458124-eab1-4050-a858-d4c129b56a76
-50719c00-6551-4335-8347-d48aebf5bdfc	ac458124-eab1-4050-a858-d4c129b56a76
-24f1d522-7eef-4aa5-acd1-00d33265026a	ac458124-eab1-4050-a858-d4c129b56a76
-ceda1043-c39a-41c8-b4fa-43d8a4e5de5e	ac458124-eab1-4050-a858-d4c129b56a76
-94640ef0-afe5-4aa8-a6bd-fd67bad60165	ac458124-eab1-4050-a858-d4c129b56a76
-f5a2a142-6362-4b42-8710-9c651da4c9f5	8ac75963-53d5-4dee-bdbc-7325ea126690
-4ff7f49d-0ed2-4b68-bf9a-18aac1ceb9ab	8ac75963-53d5-4dee-bdbc-7325ea126690
-c9efc6e1-34e6-476e-9fcd-a242ec9cc5dd	8ac75963-53d5-4dee-bdbc-7325ea126690
-9210a4e2-4083-42ea-a61e-63e11bb7f620	8ac75963-53d5-4dee-bdbc-7325ea126690
-60f691fd-23a5-4aad-95bf-f4043ada786c	8ac75963-53d5-4dee-bdbc-7325ea126690
-5be17416-346e-490e-af70-ac1f46b9ae2b	8ac75963-53d5-4dee-bdbc-7325ea126690
-8921725b-70fb-4af0-b166-37bed5f44544	8ac75963-53d5-4dee-bdbc-7325ea126690
-489b3312-0d9e-40cd-ac5f-4cf95db3c932	8ac75963-53d5-4dee-bdbc-7325ea126690
-f2c2b28b-f388-4e6b-a6c2-226935e4c6f5	8ac75963-53d5-4dee-bdbc-7325ea126690
-7a733074-bc62-4ee1-8a74-2c8c004e59a6	8ac75963-53d5-4dee-bdbc-7325ea126690
-2b69476a-893c-47ac-8c02-242e5f0124a9	8ac75963-53d5-4dee-bdbc-7325ea126690
-3566c008-3eb4-4b76-bb4e-0c7ebd54f616	8ac75963-53d5-4dee-bdbc-7325ea126690
-5025a4d0-406f-4a7e-bd12-e687c3e676ef	8ac75963-53d5-4dee-bdbc-7325ea126690
-8c8fcb52-e1b2-4202-bac9-373c902ccdd8	8ac75963-53d5-4dee-bdbc-7325ea126690
-2a00f0c3-d4a6-45f2-ac7e-5fb3fc585128	8ac75963-53d5-4dee-bdbc-7325ea126690
-8e62fdee-4b05-412a-8b68-a8b71ded82bc	8ac75963-53d5-4dee-bdbc-7325ea126690
-e5b83d78-ffc5-446b-b4a4-86ab9166f08d	8ac75963-53d5-4dee-bdbc-7325ea126690
-31454d69-e9d4-4d07-8154-1bf7dcacc83e	8ac75963-53d5-4dee-bdbc-7325ea126690
-2748be75-b0e0-4027-9672-778030666ad3	8ac75963-53d5-4dee-bdbc-7325ea126690
-8306a892-de51-4dc1-998e-eb25ff4ca02f	8ac75963-53d5-4dee-bdbc-7325ea126690
-1683bee6-1731-4150-8b06-9da6a3bea86b	8ac75963-53d5-4dee-bdbc-7325ea126690
-3e3cb3c4-e7f8-42df-a545-2366ce829735	8ac75963-53d5-4dee-bdbc-7325ea126690
-bf97e1ca-949f-4b4b-9b02-e56d1b6161ba	8ac75963-53d5-4dee-bdbc-7325ea126690
-a4c901dc-7179-4cea-8f09-417add89b2b7	8ac75963-53d5-4dee-bdbc-7325ea126690
-2e74a7db-9e06-417a-9b29-53605e71c003	8ac75963-53d5-4dee-bdbc-7325ea126690
-33aaada8-7953-4310-b07b-82edc4c8ac0a	8ac75963-53d5-4dee-bdbc-7325ea126690
-b06e4602-8a26-4503-b04a-04cf79e42b58	8ac75963-53d5-4dee-bdbc-7325ea126690
-4c68af0c-f219-46d6-90fc-6edacddbe960	8ac75963-53d5-4dee-bdbc-7325ea126690
-b46ad7fc-3f22-44d7-a5e1-818cf978ad40	8ac75963-53d5-4dee-bdbc-7325ea126690
-80e44804-d82a-4426-b361-62f4ea145658	8ac75963-53d5-4dee-bdbc-7325ea126690
-\.
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('55bf7d71-7899-49bb-9e0a-cb0dd67ff021', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('2a7a972e-c70f-4602-8ad9-100ddd248de2', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('7387ee97-bce7-42b7-af38-1e34c8a06b20', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('5b8b8ffa-f8a5-416f-a527-81edc3f6cb70', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('b6414c74-7341-4d62-aaaa-dae84eb54185', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('d0abd8e6-8878-4a9f-a380-eac8d1fe7517', '2268832b-dc7b-49c5-99de-2b81ba73a276');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('f98891ba-199b-440f-80eb-282cb3b8cb08', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('d1ac3c49-9797-4572-a52e-0104a7143ab2', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('d5f20945-93ca-4eae-8b4a-76d6eec433f9', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('e883dc1e-6116-4082-bd0f-fdd41bef8568', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('0547ddf6-03c7-42cb-94d1-7eb9b4442c5b', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('7d504c14-04cd-481a-b001-2471fe41bf0e', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('9062ba98-8560-4339-94be-116b67986b13', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('bcf5e9e9-0660-490c-9694-e260095f48f6', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('eaadd356-eb17-45b2-a324-e99f8cdb7597', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('3b3de762-062e-44bc-b879-186811bf313a', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('a9bd19d3-c730-4477-add8-a8bbd548a561', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('50e21981-c33a-4f3a-aecd-55d42da1248c', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('32542b3a-4126-43a0-aac8-1d3e38b15416', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('1141592f-0f12-403d-93dd-19f9d2bfaa75', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('528a0121-62cb-4b0d-bd5f-d2f6610697ba', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('256f19ac-55ce-4be0-818f-691901b12e19', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('f7855923-4f64-45a5-9311-c5352cf57bc3', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('25979e64-a0f2-416d-91c0-9dfe33e70e1b', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('f17fec4a-41e4-465f-8b81-96ee54e0af25', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('6cb16daf-d940-4f06-bf05-9894468cd002', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('f0a6d66e-90d7-4f08-bce2-8573d501aec9', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('8f5b057f-e6a7-4cdc-8c6b-16089b4e6dc4', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('3fb0423e-167c-4126-970c-ab96bfb37ad4', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('64a68c17-7249-419c-bc35-0b5186e5fcb8', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('8758857f-12b3-4fb0-a08c-93ba22e61490', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('922dfef8-9247-4de1-8617-7f9965a05874', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('4c12f0d5-1ac8-4f06-b5aa-ef37a5cf587c', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('bce9e8b9-b881-4ba6-b860-3e1460f20194', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('c9b8afce-ff47-4337-a06f-0b0287cd125a', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
+INSERT INTO public."AspNetUserRoles" ("UserId", "RoleId") VALUES ('3c101132-4997-433f-911a-6ffe15d88968', 'ef78e0f9-846c-44ff-8a1f-bec7242fb2ee');
 
 
 --
--- Data for Name: AspNetUserTokens; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetUserTokens; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetUserTokens" ("UserId", "LoginProvider", "Name", "Value") FROM stdin;
-\.
 
 
 --
--- Data for Name: AspNetUsers; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AspNetUsers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") FROM stdin;
-4631a52b-2237-47d8-8817-50325c08add4	Andrés Felipe Mejía Arango	Fotografía	2026-10-27 18:55:50.551426+00	andres.mejia@correo.com	ANDRES.MEJIA@CORREO.COM	andres.mejia@correo.com	ANDRES.MEJIA@CORREO.COM	f	AQAAAAIAAYagAAAAEA9F1nRq+VQ2W6munKmsY5Y9bsaOoLBq/3M31iFfcmbK4L9GiFeeoyY9saBc4F8qqA==	HXKBUE5LBATJCV4WRB67RAX5YXLFYXVW	c9c0ff91-f356-43e3-9340-4cf81622837c	\N	f	f	\N	t	0
-d5c7591f-5b19-44da-9866-ef84b91c3863	Rosa Elena Barrios Polo	Cocina	2026-10-27 18:55:50.701411+00	rosa.barrios@correo.com	ROSA.BARRIOS@CORREO.COM	rosa.barrios@correo.com	ROSA.BARRIOS@CORREO.COM	f	AQAAAAIAAYagAAAAEP9zd1vSnSjWOGUVrC4BGMsywkw0PrDYOMknfvU2KtZjpGPxCrh6wPmkGzKMSJcnsQ==	4RW2MRQHMLLFLEFPLRKGLZLGSWMZWEZ4	7519fb1d-b81f-44c1-a001-31bca058f508	\N	f	f	\N	t	0
-50719c00-6551-4335-8347-d48aebf5bdfc	Mauricio Jiménez Cárdenas	Oratoria	2026-10-27 18:55:50.765634+00	mauricio.jimenez@correo.com	MAURICIO.JIMENEZ@CORREO.COM	mauricio.jimenez@correo.com	MAURICIO.JIMENEZ@CORREO.COM	f	AQAAAAIAAYagAAAAEK7F8bpQJF//kp1DQLIkQQ5Z/gKXgekXFgzOOLM9kTnQseFQaLWlnHa/KsoIuTXghA==	GRNAS2ZI7JM65LMUEQMTHPBOIX2BF743	85c2392a-2896-4f77-8e79-f84418254e6d	\N	f	f	\N	t	0
-24f1d522-7eef-4aa5-acd1-00d33265026a	Natalia Herrera Castaño	Diseño gráfico	2026-10-27 18:55:50.820485+00	natalia.herrera@correo.com	NATALIA.HERRERA@CORREO.COM	natalia.herrera@correo.com	NATALIA.HERRERA@CORREO.COM	f	AQAAAAIAAYagAAAAEDTBHYuNqwFBymsoqLbayalGD7Weiu+k3VkBQ6DoCwpRI65naPk7XY1C+VBAr7seBA==	IXPLQAXYG4BUUCI54UFSMYBVT7QMPMW6	f876c06b-934c-4db4-94e5-1a213ca418d4	\N	f	f	\N	t	0
-ceda1043-c39a-41c8-b4fa-43d8a4e5de5e	Hernán Darío Quintero Gil	Música	2026-10-27 18:55:50.878126+00	hernan.quintero@correo.com	HERNAN.QUINTERO@CORREO.COM	hernan.quintero@correo.com	HERNAN.QUINTERO@CORREO.COM	f	AQAAAAIAAYagAAAAEAljSYlP6fO17zM/eqEo/brIfFKQ3YWUMxenfZFLA2ywlCne63nHK8dkPZ8tNCF2Bw==	5YXEKAPPHBXUAZJ6C5SIROFQIVTEFK6P	643cc6cc-3c63-4dce-bf4a-b303986ac12c	\N	f	f	\N	t	0
-94640ef0-afe5-4aa8-a6bd-fd67bad60165	Paola Andrea Vargas Mora	Marketing digital	2026-10-27 18:55:50.940803+00	paola.vargas@correo.com	PAOLA.VARGAS@CORREO.COM	paola.vargas@correo.com	PAOLA.VARGAS@CORREO.COM	f	AQAAAAIAAYagAAAAEF/+stwDTJlzXMrhQZ6kyAHo/51xZFL26RchqXyLZN6MqmVKpZeer6filkW+oxf85w==	GYQVAY4XCJ7NY2KBTJJ7PMSO5G5PL672	1cf63ec6-00eb-4701-90ac-0f927f8e125d	\N	f	f	\N	t	0
-f5a2a142-6362-4b42-8710-9c651da4c9f5	Jorge Andrés Pérez Rojas	\N	2026-10-27 18:55:51.001175+00	jorge.perez@correo.com	JORGE.PEREZ@CORREO.COM	jorge.perez@correo.com	JORGE.PEREZ@CORREO.COM	f	AQAAAAIAAYagAAAAEHvYaJgQT5XUpDdAIu2QoDbEZaiB6AhKyu6y1dWORPyjw5b2keEhppa79H0srvhjVA==	V4YCM6AX6FGTZ2ESBWL5HIFXQBAAHBML	2448689e-8da2-4bd9-8550-175461835b9a	\N	f	f	\N	t	0
-4ff7f49d-0ed2-4b68-bf9a-18aac1ceb9ab	Luz Marina Ospina Ríos	\N	2026-10-27 18:55:51.061287+00	luz.ospina@correo.com	LUZ.OSPINA@CORREO.COM	luz.ospina@correo.com	LUZ.OSPINA@CORREO.COM	f	AQAAAAIAAYagAAAAEHZenYoT2XKhlLmajWmYCso7IHk2uyoOPHrJUNGx1OoUyllZWfDkQtmmLKUcn5vD2g==	LCK7XOOBAVMELITF6OEHLGKTBC6M6XIG	b860cf6e-c0d1-4031-afd2-56f22cea5c30	\N	f	f	\N	t	0
-c9efc6e1-34e6-476e-9fcd-a242ec9cc5dd	Carlos Eduardo Rincón Díaz	\N	2026-10-27 18:55:51.118246+00	carlos.rincon@correo.com	CARLOS.RINCON@CORREO.COM	carlos.rincon@correo.com	CARLOS.RINCON@CORREO.COM	f	AQAAAAIAAYagAAAAEFME2Qcc2fRDxNfwRiS3UVJ4uCDGhgiagZ7i37r98ha2EtfnOsjLKX8Ovf7ByTr7Hg==	PLBCN5M2UHREBZRK743NHRLEXGMQFY5X	4bf6b6c6-6c11-4955-b479-4446b32e5342	\N	f	f	\N	t	0
-9210a4e2-4083-42ea-a61e-63e11bb7f620	Valentina Gómez Ruiz	\N	2026-10-27 18:55:51.177101+00	valentina.gomez@correo.com	VALENTINA.GOMEZ@CORREO.COM	valentina.gomez@correo.com	VALENTINA.GOMEZ@CORREO.COM	f	AQAAAAIAAYagAAAAEEcJ0rkNP1HFTnlzWvpk03r5MrloAe3zKy5hnm/D7v4PuW30Rjve5IjvLFHKuNbCPA==	PRC6MC4MZ4OV5XPHYFFKGDN4P5HW62YX	0e61a9ae-2722-473c-9fec-1c9df4a9e8bc	\N	f	f	\N	t	0
-60f691fd-23a5-4aad-95bf-f4043ada786c	Juan Camilo Restrepo Vélez	\N	2026-10-27 18:55:51.236956+00	juan.restrepo@correo.com	JUAN.RESTREPO@CORREO.COM	juan.restrepo@correo.com	JUAN.RESTREPO@CORREO.COM	f	AQAAAAIAAYagAAAAEP9dJBPglmpbI8ljG/Pgg9B0iHa5o6wJ2ZvBwuRZuq9tEfwQZssDpjX8jOdhug8Hwg==	L5ML23XXXEUBNBNEZ5LT7KG52UAGA2DC	70ce8542-fd4c-4dfa-849f-0a6d71d56ad5	\N	f	f	\N	t	0
-5be17416-346e-490e-af70-ac1f46b9ae2b	María Fernanda Torres León	\N	2026-10-27 18:55:51.296168+00	maria.torres@correo.com	MARIA.TORRES@CORREO.COM	maria.torres@correo.com	MARIA.TORRES@CORREO.COM	f	AQAAAAIAAYagAAAAEGi6ENig9uZklhv6O70kRxjgNz7+CgSMjxqcMSjY1sdf1qggCLCI7N1/ojl7DznaFw==	ZLAACG5Z4GSC5BCJIK67KSXWI75U533Y	62e59e76-ddef-4249-a0b8-0936238774cb	\N	f	f	\N	t	0
-8921725b-70fb-4af0-b166-37bed5f44544	Santiago Ramírez Henao	\N	2026-10-27 18:55:51.354608+00	santiago.ramirez@correo.com	SANTIAGO.RAMIREZ@CORREO.COM	santiago.ramirez@correo.com	SANTIAGO.RAMIREZ@CORREO.COM	f	AQAAAAIAAYagAAAAEOqyyzUGS2ZZarffUKljOihcHsnVmqNGRhpcAIccaHf5Q6b0PGztLmdw9TvQ/qkWeA==	VOMVPGL5HIWSTJZF7RIVDHWVBRY5D3QL	49d1542f-8faa-49e2-b5e4-b8b6768f4712	\N	f	f	\N	t	0
-489b3312-0d9e-40cd-ac5f-4cf95db3c932	Daniela Morales Pineda	\N	2026-10-27 18:55:51.411823+00	daniela.morales@correo.com	DANIELA.MORALES@CORREO.COM	daniela.morales@correo.com	DANIELA.MORALES@CORREO.COM	f	AQAAAAIAAYagAAAAEAYVNJv2MPWzKmzVho45c6t/XWTKtWNiOhblinANv/woC2+p1iR+iM7JOqdwE0GwIA==	YDH5S6Y7E4E5252WUXZQG2GWUPWI7QWP	2704a7a1-7deb-4cf5-9d78-dd577ddfef5a	\N	f	f	\N	t	0
-f2c2b28b-f388-4e6b-a6c2-226935e4c6f5	Sebastián Castro Duque	\N	2026-10-27 18:55:51.473194+00	sebastian.castro@correo.com	SEBASTIAN.CASTRO@CORREO.COM	sebastian.castro@correo.com	SEBASTIAN.CASTRO@CORREO.COM	f	AQAAAAIAAYagAAAAEEHudetcWweObXotDhLsg7T2Hrm1/eurt9IEz2SKJaMI6Skb2oDX3zzUTe2cVHYOAg==	ZFC4PPGAEVWDSL7GWR7RQT3ZQDVX5LBI	e43ba000-5710-480c-bf42-082a3a5a7805	\N	f	f	\N	t	0
-7a733074-bc62-4ee1-8a74-2c8c004e59a6	Laura Sofía Martínez Suárez	\N	2026-10-27 18:55:51.5312+00	laura.martinez@correo.com	LAURA.MARTINEZ@CORREO.COM	laura.martinez@correo.com	LAURA.MARTINEZ@CORREO.COM	f	AQAAAAIAAYagAAAAEEtm6Y7A3fEzz1BtzF5DnfwIomGAn1OFFSLi7jed+HqcrKnVabZikHUWStLb8OTEeQ==	HLFU7DUEZQMEEHAH32VW4QYFK5FOEYUZ	4dfda18a-ee6e-48d7-a266-2985e36d59ab	\N	f	f	\N	t	0
-2b69476a-893c-47ac-8c02-242e5f0124a9	Andrés Mauricio Salazar Ortiz	\N	2026-10-27 18:55:51.588012+00	andres.salazar@correo.com	ANDRES.SALAZAR@CORREO.COM	andres.salazar@correo.com	ANDRES.SALAZAR@CORREO.COM	f	AQAAAAIAAYagAAAAECxRkEO4OAAenxwRCtA+WUP73m4IwRMO+/AELvo+GOaBpdCvZxXqtcBOTQMseac2xQ==	WAVCTRA3JDL5KYO77A5IKKDDWNDQFJVE	c392b694-d891-4cf6-b61a-c252ddbbecf6	\N	f	f	\N	t	0
-3566c008-3eb4-4b76-bb4e-0c7ebd54f616	Camila Andrea Cárdenas Ruiz	\N	2026-10-27 18:55:51.646253+00	camila.cardenas@correo.com	CAMILA.CARDENAS@CORREO.COM	camila.cardenas@correo.com	CAMILA.CARDENAS@CORREO.COM	f	AQAAAAIAAYagAAAAEDChkQdfRfAZKEPqmVXAFHbhImceELHyIeBjz/pH3YGSvkRkdPCGvgEZ+LR7lT8dNw==	FODTREMEARU2LNIID4CTYGTTKMTOOXNJ	58af09ac-31fc-4303-8959-7fe6b3daa2de	\N	f	f	\N	t	0
-5025a4d0-406f-4a7e-bd12-e687c3e676ef	Diego Alejandro Muñoz Peña	\N	2026-10-27 18:55:51.704643+00	diego.munoz@correo.com	DIEGO.MUNOZ@CORREO.COM	diego.munoz@correo.com	DIEGO.MUNOZ@CORREO.COM	f	AQAAAAIAAYagAAAAEGHE7wrO86orfgnXvrVm5uykOM3+H7EH9TvvNMPo43cEdUT2FyFdqKGV2gd6yb8meg==	RF7UBYDQPD7L25XEPE7WI3K5IBMYEP2R	55432cbc-a439-4a62-9fda-736f7383fe0c	\N	f	f	\N	t	0
-8c8fcb52-e1b2-4202-bac9-373c902ccdd8	Juliana Ortega Sánchez	\N	2026-10-27 18:55:51.762818+00	juliana.ortega@correo.com	JULIANA.ORTEGA@CORREO.COM	juliana.ortega@correo.com	JULIANA.ORTEGA@CORREO.COM	f	AQAAAAIAAYagAAAAEFYSYpURoIc95heRbPLgfvJY449ulk/qeGwXHCi2UcjfQKeA97gRsu2RmJcPTM/WaQ==	WU7MNG3BUH4AHYSI7TQSW5XTC6GX6IBQ	107996fd-c25d-4367-926b-a50036962ca8	\N	f	f	\N	t	0
-2a00f0c3-d4a6-45f2-ac7e-5fb3fc585128	Felipe Agudelo Marín	\N	2026-10-27 18:55:51.820156+00	felipe.agudelo@correo.com	FELIPE.AGUDELO@CORREO.COM	felipe.agudelo@correo.com	FELIPE.AGUDELO@CORREO.COM	f	AQAAAAIAAYagAAAAEDXd4AG1D68/a+feFIGQr7yYtj3qWy5nvSfQjr7TJHJdHsapMnDzDJ5vqdTn8U61pA==	WFEO5BGBLB4XGE2TU7BGRCBVWMNEY7ZO	16b1907f-ce53-4f24-adce-5a5a2909a563	\N	f	f	\N	t	0
-8e62fdee-4b05-412a-8b68-a8b71ded82bc	Natalia Montoya Correa	\N	2026-10-27 18:55:51.878459+00	natalia.montoya@correo.com	NATALIA.MONTOYA@CORREO.COM	natalia.montoya@correo.com	NATALIA.MONTOYA@CORREO.COM	f	AQAAAAIAAYagAAAAEJ9ShFbpxvXezh0JLo2gH/rVwxx4qvoRv9P1zGi2krdHBtaAr+4Cl4tmocE3v0B4EQ==	KS3PCXX7VMHHMYE4MIJT4AOZSHA2LR2Y	4a3bbc0d-8ae6-46d4-b0d8-15579be12e50	\N	f	f	\N	t	0
-e5b83d78-ffc5-446b-b4a4-86ab9166f08d	Óscar Iván Guerrero Lozano	\N	2026-10-27 18:55:51.936706+00	oscar.guerrero@correo.com	OSCAR.GUERRERO@CORREO.COM	oscar.guerrero@correo.com	OSCAR.GUERRERO@CORREO.COM	f	AQAAAAIAAYagAAAAEBJkm6GRsmQUNpRO4HEYCB9snWoJdaHrs5gG+kgcHvAh9HSpKBF4+HWgdoDmZCq2qg==	4U7EVVGNRK4WPWDVF7VHHDLRDUOMBHLF	11496b22-31c2-42dd-8ca1-b498280c2e40	\N	f	f	\N	t	0
-31454d69-e9d4-4d07-8154-1bf7dcacc83e	Paula Andrea Zapata Ríos	\N	2026-10-27 18:55:51.99341+00	paula.zapata@correo.com	PAULA.ZAPATA@CORREO.COM	paula.zapata@correo.com	PAULA.ZAPATA@CORREO.COM	f	AQAAAAIAAYagAAAAEGuTDoo82WirJ/kjlBPoz+MFd7ZK6I9BreXj4LY6GBNhdNctm4zu0oQlD2tFqrlY0w==	UMOO2AHVU3IQ2EKEW4QLMNNREXWUBTOB	d6912bab-c85d-479f-9930-47ce53f126ab	\N	f	f	\N	t	0
-2748be75-b0e0-4027-9672-778030666ad3	Cristian David Becerra Mejía	\N	2026-10-27 18:55:52.051007+00	cristian.becerra@correo.com	CRISTIAN.BECERRA@CORREO.COM	cristian.becerra@correo.com	CRISTIAN.BECERRA@CORREO.COM	f	AQAAAAIAAYagAAAAEPJDJQgEe+pwZMot+foajO4j+/etZkwJe3jYQthonNwjHc+AQL+L7iizBUTjZmyo1w==	O5V73ELXIDDDUD4AVXVPVCEWY2S6PRC2	d0dd2755-8d27-49fb-befc-9b44aa7dc1f2	\N	f	f	\N	t	0
-8306a892-de51-4dc1-998e-eb25ff4ca02f	Mariana Londoño Álvarez	\N	2026-10-27 18:55:52.109189+00	mariana.londono@correo.com	MARIANA.LONDONO@CORREO.COM	mariana.londono@correo.com	MARIANA.LONDONO@CORREO.COM	f	AQAAAAIAAYagAAAAEJ0NSrpGvg+qyRGpOI38UlkEwIYrsGnJz24Esou0O73Kd0WED4s9dPig7AT8bHqEXQ==	P4TWMLH2JKUYKQV6ZV75OZQJJOAZSZ4B	718cf0b2-ec7c-4559-96f8-50c13769089f	\N	f	f	\N	t	0
-1683bee6-1731-4150-8b06-9da6a3bea86b	Javier Alonso Cuéllar Pardo	\N	2026-10-27 18:55:52.166711+00	javier.cuellar@correo.com	JAVIER.CUELLAR@CORREO.COM	javier.cuellar@correo.com	JAVIER.CUELLAR@CORREO.COM	f	AQAAAAIAAYagAAAAEDA55OgKCrWbj/ClR6nHI8PeYItZ4yTTB89IUXZrGwv+h+cdaDfe/gRypeWJrj7f5g==	NYFAGUGZUCDSJ74LDRGDWXVOUVKLH745	8db3f0fd-a557-4b9c-9eae-1e570ebf120d	\N	f	f	\N	t	0
-3e3cb3c4-e7f8-42df-a545-2366ce829735	Isabella Navarro Fuentes	\N	2026-10-27 18:55:52.226568+00	isabella.navarro@correo.com	ISABELLA.NAVARRO@CORREO.COM	isabella.navarro@correo.com	ISABELLA.NAVARRO@CORREO.COM	f	AQAAAAIAAYagAAAAEBnjbpQZG5cR5cD2IbLDzePGNz9YGcrb1BwaoDaPCNvP4N1Xy0FQj8vs7TSGFO+3Cg==	7F2CFE3IGP7RFFXR4R4VW3IRDT4ZKVFO	e3bb8456-3f93-4e5a-b2ea-5f83c364233c	\N	f	f	\N	t	0
-bf97e1ca-949f-4b4b-9b02-e56d1b6161ba	Kevin Stiven Mosquera Palacios	\N	2026-10-27 18:55:52.283251+00	kevin.mosquera@correo.com	KEVIN.MOSQUERA@CORREO.COM	kevin.mosquera@correo.com	KEVIN.MOSQUERA@CORREO.COM	f	AQAAAAIAAYagAAAAEBO+2DQ+Ds9BqTB9HAR2+B34bR4kEf5hzdXLC4vHAN4K5TM88odjyTSbxcJdtWWAOw==	WV6HPXMRFIAU3XY2YYG7QOKB5JBYDX34	4fb7e88c-8e43-424a-97bf-27159dd2896e	\N	f	f	\N	t	0
-a4c901dc-7179-4cea-8f09-417add89b2b7	Ana María Jaramillo Gaviria	\N	2026-10-27 18:55:52.341314+00	ana.jaramillo@correo.com	ANA.JARAMILLO@CORREO.COM	ana.jaramillo@correo.com	ANA.JARAMILLO@CORREO.COM	f	AQAAAAIAAYagAAAAEGD3nGUKJ+0pKfGIQ6Zi6leFvjgbB2NTbM1cX6DUC1D8EbwNdjdkJi10IvqNeni4qg==	REPCGEU2HYP54ROTLEZPRUXQCB3GSMN2	4071a43b-6a01-44f8-99e9-dc0468de0860	\N	f	f	\N	t	0
-2e74a7db-9e06-417a-9b29-53605e71c003	Luis Fernando Arias Cano	\N	2026-10-27 18:55:52.399402+00	luis.arias@correo.com	LUIS.ARIAS@CORREO.COM	luis.arias@correo.com	LUIS.ARIAS@CORREO.COM	f	AQAAAAIAAYagAAAAEN5tXXFOIl8iNUG8b5YXSq5IVwBoSC1Ma6/XGFtMLnhenJNKYrTy/nGB4aDzL+7H/g==	X5QKBAFY5ETPNT7JBXYBCJ65QMQ475YI	0499649d-5afb-4ab5-9a2b-d6cb93086c62	\N	f	f	\N	t	0
-33aaada8-7953-4310-b07b-82edc4c8ac0a	Sara Valencia Bermúdez	\N	2026-10-27 18:55:52.459885+00	sara.valencia@correo.com	SARA.VALENCIA@CORREO.COM	sara.valencia@correo.com	SARA.VALENCIA@CORREO.COM	f	AQAAAAIAAYagAAAAEF7OyaJljQL1L0gE3UEV50N+yZ69zg0BU5P81+5wTLZ/bDy7UQjaYnRKCSG1NvImPw==	7CAFNVYPEYKL2EIUMFUXDDCV3PWTXGJL	c32db729-6b6b-4470-b7f0-eccf8e15325e	\N	f	f	\N	t	0
-b06e4602-8a26-4503-b04a-04cf79e42b58	Esteban Rodríguez Molina	\N	2026-10-27 18:55:52.520669+00	esteban.rodriguez@correo.com	ESTEBAN.RODRIGUEZ@CORREO.COM	esteban.rodriguez@correo.com	ESTEBAN.RODRIGUEZ@CORREO.COM	f	AQAAAAIAAYagAAAAEParTSgimOywNaXHoz7A903WaWDl6HSyqOgdVOQ1tcv4XBo8A6riDIWdpnSX5qD9+g==	RXQOUMME5IVL2YQJOZ7UISGKCPHGRH4X	a49635d0-c58c-4020-b82e-34bb039c39cd	\N	f	f	\N	t	0
-4c68af0c-f219-46d6-90fc-6edacddbe960	Manuela Escobar Toro	\N	2026-10-27 18:55:52.578301+00	manuela.escobar@correo.com	MANUELA.ESCOBAR@CORREO.COM	manuela.escobar@correo.com	MANUELA.ESCOBAR@CORREO.COM	f	AQAAAAIAAYagAAAAEBczYGmrM2eA9sqnInyYIcXL9xCnb4uJtx9LZooIRLqkAGe4a50Lr99D2Ny5Gejg7Q==	QV2XTAJT7JGKKWI3UVVEZUJY4H7ORQXW	161d470a-af55-4ee4-a987-b709188d384f	\N	f	f	\N	t	0
-b46ad7fc-3f22-44d7-a5e1-818cf978ad40	Wilmer Alfonso Benítez Cruz	\N	2026-10-27 18:55:52.635014+00	wilmer.benitez@correo.com	WILMER.BENITEZ@CORREO.COM	wilmer.benitez@correo.com	WILMER.BENITEZ@CORREO.COM	f	AQAAAAIAAYagAAAAEI1I9rkNfgGj9vTeZ8mVbeIf+yJIhP3Vcuw+cjnLKwjwj+EjuzQ0RDhRJWBdyVljzA==	55GE4IKGHN34BXZTDD55PCUIX2YJ73O2	6bc99eb7-08cd-498e-b1f1-528f83d5bce9	\N	f	f	\N	t	0
-80e44804-d82a-4426-b361-62f4ea145658	Yuliana Patiño Osorio	\N	2026-10-27 18:55:52.693283+00	yuliana.patino@correo.com	YULIANA.PATINO@CORREO.COM	yuliana.patino@correo.com	YULIANA.PATINO@CORREO.COM	f	AQAAAAIAAYagAAAAEECEHPa7z/rmzwSY3bAW4DF1ELb/JgrYNNxBn6jsBYyLDt8Ep0k/6d4FU63tRQKsQA==	A7N3VLBNFQSLDRFC4M2ED42RXOAVXNVM	358dff6d-3045-4722-a6bc-861585a58edc	\N	f	f	\N	t	0
-\.
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('55bf7d71-7899-49bb-9e0a-cb0dd67ff021', 'Andrés Felipe Mejía Arango', 'Fotografía', '2026-10-28 00:54:06.315906+00', 'andres.mejia@correo.com', 'ANDRES.MEJIA@CORREO.COM', 'andres.mejia@correo.com', 'ANDRES.MEJIA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEFQtkOm9N1u4w5cQtJx0gLzQC1kqUR704VcLNmzwUhu8lPR5KseTllSn01/SkriWuw==', 'AZI5LHCSNQRC72T55H3UY47XWGQVPTHY', '8bfed7b6-bac2-4be2-b3b4-bf4a8337f224', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('2a7a972e-c70f-4602-8ad9-100ddd248de2', 'Rosa Elena Barrios Polo', 'Cocina', '2026-10-28 00:54:06.456252+00', 'rosa.barrios@correo.com', 'ROSA.BARRIOS@CORREO.COM', 'rosa.barrios@correo.com', 'ROSA.BARRIOS@CORREO.COM', false, 'AQAAAAIAAYagAAAAEEaBcFPjCgHBkPMdwE6qTkrYhDyLwsMJg0d5/hJFX6Eml25MSUA4aLayQKtKT6NAiA==', 'PZWNOKR6KD2PTRKIP6S7QV5BTPSCWGFE', '02873776-498d-4ae9-8840-9c154c381582', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('7387ee97-bce7-42b7-af38-1e34c8a06b20', 'Mauricio Jiménez Cárdenas', 'Oratoria', '2026-10-28 00:54:06.51908+00', 'mauricio.jimenez@correo.com', 'MAURICIO.JIMENEZ@CORREO.COM', 'mauricio.jimenez@correo.com', 'MAURICIO.JIMENEZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEDmWYew+vk8UTiQRccitBHiXi184UfmWUsl6/iE/Nqk2O+8TbbJgzUUitKmDPRXbXQ==', 'GFQ5WFFYRQWFGTUPZV4VQ2O6M27FSJ7W', '3e1eaeda-ac42-419c-8293-8171f03b2c96', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('5b8b8ffa-f8a5-416f-a527-81edc3f6cb70', 'Natalia Herrera Castaño', 'Diseño gráfico', '2026-10-28 00:54:06.577906+00', 'natalia.herrera@correo.com', 'NATALIA.HERRERA@CORREO.COM', 'natalia.herrera@correo.com', 'NATALIA.HERRERA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEKjtR6Ue6kH9zQ8emVU+f07hIUeUJpAXCi1Oz0C5a7lO7frxAwflU6PxlrcdWmZXGA==', 'LFUEAEVL4JAN3Z3QR7GNK2TMJ5DSXBYI', '34cd535d-d1a8-4067-aeb5-fc240f86a82f', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('b6414c74-7341-4d62-aaaa-dae84eb54185', 'Hernán Darío Quintero Gil', 'Música', '2026-10-28 00:54:06.639227+00', 'hernan.quintero@correo.com', 'HERNAN.QUINTERO@CORREO.COM', 'hernan.quintero@correo.com', 'HERNAN.QUINTERO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEKKgazUhIpfyp9P1Y98r8TzT0QJUxNbWRBZkiak/Rge+TRKa64lJC7gPWMW1WIOm/A==', 'WNSHLRXO6SXOVTIV54BWW6447WCZIJNL', '73adf1c5-abd3-4fe3-9150-3c581b20c814', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('d0abd8e6-8878-4a9f-a380-eac8d1fe7517', 'Paola Andrea Vargas Mora', 'Marketing digital', '2026-10-28 00:54:06.701822+00', 'paola.vargas@correo.com', 'PAOLA.VARGAS@CORREO.COM', 'paola.vargas@correo.com', 'PAOLA.VARGAS@CORREO.COM', false, 'AQAAAAIAAYagAAAAEBsiMnkQCLuVfd48sQlAoYflUaSvghyOzAwB4DlyTsbT4gw6q6iKswAcH3IEB3bkSw==', 'MPUA3J5OKJA5BJHI2UYGHDNLMOMANE6O', '1c4861dd-4de7-4bfb-9760-a20881220495', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('f98891ba-199b-440f-80eb-282cb3b8cb08', 'Jorge Andrés Pérez Rojas', NULL, '2026-10-28 00:54:06.765674+00', 'jorge.perez@correo.com', 'JORGE.PEREZ@CORREO.COM', 'jorge.perez@correo.com', 'JORGE.PEREZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEHb6wUeWG84aztyLuo34OAJ4lQ0gkVLlmUx/Iqa1GeSK9SVVvNyjw39O7zQETsA2DA==', 'RYXZDI7X2EDKD2DNIDXGI4NCY5BYKAP4', '76593f11-778c-4ddd-ba8a-331a8c085a34', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('d1ac3c49-9797-4572-a52e-0104a7143ab2', 'Luz Marina Ospina Ríos', NULL, '2026-10-28 00:54:06.827921+00', 'luz.ospina@correo.com', 'LUZ.OSPINA@CORREO.COM', 'luz.ospina@correo.com', 'LUZ.OSPINA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEAwMRsgr3Sl7j32vCKpiDBvI7pG0ciSAgu4d0ImTRTwkc94lLKxLO6DBHMAGzgXjuQ==', 'LDDAB5H4OIU6A7DG7ZCAMVNCSCCNI2QI', '4a09ca55-98e1-4df9-b5b5-7879334a6d9f', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('d5f20945-93ca-4eae-8b4a-76d6eec433f9', 'Carlos Eduardo Rincón Díaz', NULL, '2026-10-28 00:54:06.888143+00', 'carlos.rincon@correo.com', 'CARLOS.RINCON@CORREO.COM', 'carlos.rincon@correo.com', 'CARLOS.RINCON@CORREO.COM', false, 'AQAAAAIAAYagAAAAEGdD/wPjEJ8yrzXMyMDrDQPwfqZnJ6XJEeaF59Ty0hO3eO1nobqP3Huwm0RvRatPQA==', 'AWMS7LWIFUZ2VYX7LEACBI63BORVPWWA', '303c551f-e4a6-469a-86f5-b5e5cdb25108', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('e883dc1e-6116-4082-bd0f-fdd41bef8568', 'Valentina Gómez Ruiz', NULL, '2026-10-28 00:54:06.950979+00', 'valentina.gomez@correo.com', 'VALENTINA.GOMEZ@CORREO.COM', 'valentina.gomez@correo.com', 'VALENTINA.GOMEZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEGl1fXRyQJxdGTtShI3hvdpOq5+ZxpV+kfVHLIc2JMXiOA2pSTJULLAmuVFPHgfAfA==', 'QG2ITNSUEVRSOK6DL34YBGGOYI2VJAZU', '567c3c2c-cbb3-4f3e-ac49-8c5d6cf1008c', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('0547ddf6-03c7-42cb-94d1-7eb9b4442c5b', 'Juan Camilo Restrepo Vélez', NULL, '2026-10-28 00:54:07.02203+00', 'juan.restrepo@correo.com', 'JUAN.RESTREPO@CORREO.COM', 'juan.restrepo@correo.com', 'JUAN.RESTREPO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEP3CaDiBOLn9CctDwV0nJ55e/lMnRg63070j4ruZBue9RjxSFNy7+MjR/U4+LenpUw==', 'ZOZT63QK4I4C7KOJ4HVXPGQMW2WXKXMG', 'ab88780d-a7a2-400a-8a6d-72c5af7a3473', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('7d504c14-04cd-481a-b001-2471fe41bf0e', 'María Fernanda Torres León', NULL, '2026-10-28 00:54:07.082961+00', 'maria.torres@correo.com', 'MARIA.TORRES@CORREO.COM', 'maria.torres@correo.com', 'MARIA.TORRES@CORREO.COM', false, 'AQAAAAIAAYagAAAAEPTYsRnhi9/yIEur8xNdhEol4Eaec4r/6BInfSx8YL7RV9OgyXf9evJyOxfUzOwoRQ==', 'QZ4TA5YXYZJWLY3PJY7RFK37U3ZKAYWY', 'fdce7000-5425-4056-b392-78f73707803c', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('9062ba98-8560-4339-94be-116b67986b13', 'Santiago Ramírez Henao', NULL, '2026-10-28 00:54:07.14347+00', 'santiago.ramirez@correo.com', 'SANTIAGO.RAMIREZ@CORREO.COM', 'santiago.ramirez@correo.com', 'SANTIAGO.RAMIREZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEH9HLN7ueZmdF0ct8PvMSLXlfBxymdkd5WnLb6GvHUJw1YqP2AIW9KV1WaqV9An36Q==', 'OMRGZLAI2LHPYNV4LPBLEW63VQX4VHCG', '9b129333-32ef-429e-9b2b-40a82c9f1b7d', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('bcf5e9e9-0660-490c-9694-e260095f48f6', 'Daniela Morales Pineda', NULL, '2026-10-28 00:54:07.204689+00', 'daniela.morales@correo.com', 'DANIELA.MORALES@CORREO.COM', 'daniela.morales@correo.com', 'DANIELA.MORALES@CORREO.COM', false, 'AQAAAAIAAYagAAAAEJBsqN/+o7nSAYIZzeS2pfZVwxuVEkU4o0XWi0vNu6FebOsJid+AFr+y4ahUWvGaWQ==', 'GZZGURQW5ACXQYGSPWAMZ2GLLA4QV7WS', '5386574c-58ef-4011-995c-22b2e6ee6842', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('eaadd356-eb17-45b2-a324-e99f8cdb7597', 'Sebastián Castro Duque', NULL, '2026-10-28 00:54:07.266502+00', 'sebastian.castro@correo.com', 'SEBASTIAN.CASTRO@CORREO.COM', 'sebastian.castro@correo.com', 'SEBASTIAN.CASTRO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEBv3FQvR0xpG/oudiup+jgL3RZKm1ruEjVVC2L9qXgwChokcIilA9niJ/2eX0LxJdg==', 'WPAQNFXJORDKBLTKFFYESB5ZZM7PSYWZ', 'e813acf8-e01d-4df1-ad4f-ef5258a42323', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('3b3de762-062e-44bc-b879-186811bf313a', 'Laura Sofía Martínez Suárez', NULL, '2026-10-28 00:54:07.327541+00', 'laura.martinez@correo.com', 'LAURA.MARTINEZ@CORREO.COM', 'laura.martinez@correo.com', 'LAURA.MARTINEZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAECxgOUmwhO9hqyANIcJCjpqin1p2yZ3msOZpo8HmCVatXQYD3/ewFGIzDArJf/7HSw==', '5IZPYA3Z4SWMWKMPXUHMYD6ELBZOOY2X', '50ca3d72-9142-448f-b168-a74db094d1dd', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('a9bd19d3-c730-4477-add8-a8bbd548a561', 'Andrés Mauricio Salazar Ortiz', NULL, '2026-10-28 00:54:07.388412+00', 'andres.salazar@correo.com', 'ANDRES.SALAZAR@CORREO.COM', 'andres.salazar@correo.com', 'ANDRES.SALAZAR@CORREO.COM', false, 'AQAAAAIAAYagAAAAEBBILiZtiCfk6AHn98bAaSk7gqisM32ELKS5jhhhXldgZ93w0pKptZOzuSqUbMZdQQ==', 'AWIOAR3MNU2CGAANCL2QHPAKPZ35EM6I', 'e7859886-63d7-4fe2-b4e6-3e9a261316dd', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('50e21981-c33a-4f3a-aecd-55d42da1248c', 'Camila Andrea Cárdenas Ruiz', NULL, '2026-10-28 00:54:07.449821+00', 'camila.cardenas@correo.com', 'CAMILA.CARDENAS@CORREO.COM', 'camila.cardenas@correo.com', 'CAMILA.CARDENAS@CORREO.COM', false, 'AQAAAAIAAYagAAAAEKkaDu6dNGLQpWxgSfxy12NFnXK/8A8mff4Ci3/Lak1UDF6xnjqGrIXDf8pleEbrNg==', '4WTF4A6I5DIQBWNQKA3EOTBXCP63P5GP', 'd8c40392-9cba-497c-9862-d7b07d3b0cf7', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('32542b3a-4126-43a0-aac8-1d3e38b15416', 'Diego Alejandro Muñoz Peña', NULL, '2026-10-28 00:54:07.510686+00', 'diego.munoz@correo.com', 'DIEGO.MUNOZ@CORREO.COM', 'diego.munoz@correo.com', 'DIEGO.MUNOZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEJPCvecxp6ONkVSnaBTn10b+B0A3MspQTleCLB9lIW1OtmWXxVyM8FT+bzFNLlYXPA==', 'DX3TY6VGMQZWYG7AJPKACKSGJMRAA2YU', '9e3b7874-07b3-40fe-b5fc-134a16782711', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('1141592f-0f12-403d-93dd-19f9d2bfaa75', 'Juliana Ortega Sánchez', NULL, '2026-10-28 00:54:07.571649+00', 'juliana.ortega@correo.com', 'JULIANA.ORTEGA@CORREO.COM', 'juliana.ortega@correo.com', 'JULIANA.ORTEGA@CORREO.COM', false, 'AQAAAAIAAYagAAAAED+BVpxRpIkVCiz28KrYd6PlSQrnEq31f6zFP7FLa2M++CNrTHmrFXQdXWZNKt7urw==', 'BXRYAU4R3QL6GCVJJI4GB7BWSPWTBJNS', '73ffa074-d3a4-4a85-aea0-44b5d6f65751', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('528a0121-62cb-4b0d-bd5f-d2f6610697ba', 'Felipe Agudelo Marín', NULL, '2026-10-28 00:54:07.631478+00', 'felipe.agudelo@correo.com', 'FELIPE.AGUDELO@CORREO.COM', 'felipe.agudelo@correo.com', 'FELIPE.AGUDELO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEE29aMiA6yisDPPH1zZ1yJxc1LIWsfE72O39AZPxDIhVH+BhHmmlJWRs/2jA5KoOSw==', 'RPCSWFQNDZME6FK6GCI76EDF4GUO3AN6', '1cc8439d-72f5-4cfc-a714-b3b833ba1ff1', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('256f19ac-55ce-4be0-818f-691901b12e19', 'Natalia Montoya Correa', NULL, '2026-10-28 00:54:07.690469+00', 'natalia.montoya@correo.com', 'NATALIA.MONTOYA@CORREO.COM', 'natalia.montoya@correo.com', 'NATALIA.MONTOYA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEI7ftHXOt11PvdajDJMuOjLpQ57tJemSGa+QFN542QDrtQY1bXTnfLp/9sZlWnhzBw==', 'Q2DEKG7D7JGAJA34JRYV6M3ZFAGMVAQP', '810b702e-f1e0-44ba-ac4d-ed250baccea0', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('f7855923-4f64-45a5-9311-c5352cf57bc3', 'Óscar Iván Guerrero Lozano', NULL, '2026-10-28 00:54:07.749092+00', 'oscar.guerrero@correo.com', 'OSCAR.GUERRERO@CORREO.COM', 'oscar.guerrero@correo.com', 'OSCAR.GUERRERO@CORREO.COM', false, 'AQAAAAIAAYagAAAAECNEarxjo4Fjd7dlyQ6RF/EB8C2pO9l65RbDLZ1MTGY5mSBUhOyujUZjFuk8a7OzFg==', 'UGB3P46DCV6MCM4KKBDWKX7HOMJZZQI4', 'bdae0566-d95c-4035-8302-f136a4de2f68', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('25979e64-a0f2-416d-91c0-9dfe33e70e1b', 'Paula Andrea Zapata Ríos', NULL, '2026-10-28 00:54:07.808267+00', 'paula.zapata@correo.com', 'PAULA.ZAPATA@CORREO.COM', 'paula.zapata@correo.com', 'PAULA.ZAPATA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEI30mnArua8kG9gFJMX4vLOaUruHgH7wtz8AgrY+lKbZaiGrAKy/umxGmD1t4yhAeg==', '2UTKSJ7TJAJIN7IGWE4PXM3VXA7ABFVV', 'f6288500-c7f9-4fd4-89d7-f60fdd6f3e94', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('f17fec4a-41e4-465f-8b81-96ee54e0af25', 'Cristian David Becerra Mejía', NULL, '2026-10-28 00:54:07.86947+00', 'cristian.becerra@correo.com', 'CRISTIAN.BECERRA@CORREO.COM', 'cristian.becerra@correo.com', 'CRISTIAN.BECERRA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEPchpXpa/haSIRMSuH6xsBCifLxkQHwh5pampeinzOJ3Dx4jC6AuCsFNuW5659UP/Q==', 'HIJ63XRNU73VJVCKDLZMXLBPCO7YW22N', '194b2568-09a4-4f50-b807-5a2f3524908b', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('6cb16daf-d940-4f06-bf05-9894468cd002', 'Mariana Londoño Álvarez', NULL, '2026-10-28 00:54:07.92861+00', 'mariana.londono@correo.com', 'MARIANA.LONDONO@CORREO.COM', 'mariana.londono@correo.com', 'MARIANA.LONDONO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEPykpW1iquKw4WtqMzk+ePEizzmuzPREFQOBRzsx5m1MLO0W7Jjd9rNjutrdU0UfhA==', 'D6YH72LGQ5GP5H6CJXFTCOHMJS435CML', '40b37a44-e5a9-42ad-a4bb-dc5cd081edfd', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('f0a6d66e-90d7-4f08-bce2-8573d501aec9', 'Javier Alonso Cuéllar Pardo', NULL, '2026-10-28 00:54:07.987489+00', 'javier.cuellar@correo.com', 'JAVIER.CUELLAR@CORREO.COM', 'javier.cuellar@correo.com', 'JAVIER.CUELLAR@CORREO.COM', false, 'AQAAAAIAAYagAAAAEL9FcRskvgzxh/eFvLPNxtmogQkMwNJK1a8B4ZAcnQKkis3CwySVHbGzWr7zjLH0GQ==', 'VDXBQSVZZUBL7NSKMCQ7WI3TP2JJ7XKK', '602a6cc9-1395-4c4e-a6b5-28e0e1285679', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('8f5b057f-e6a7-4cdc-8c6b-16089b4e6dc4', 'Isabella Navarro Fuentes', NULL, '2026-10-28 00:54:08.04773+00', 'isabella.navarro@correo.com', 'ISABELLA.NAVARRO@CORREO.COM', 'isabella.navarro@correo.com', 'ISABELLA.NAVARRO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEEM2lqjs9vG9IZuqDcQuEra/HhSpSQQuq2zX0XXoRDgZi4c26dgIgoLOk41+D6teeA==', 'T3RHRB6VU6PTKVZFCBW2NNCE5T3DMUHW', '31eeed4e-e8f3-4924-a374-605f24453ac1', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('3fb0423e-167c-4126-970c-ab96bfb37ad4', 'Kevin Stiven Mosquera Palacios', NULL, '2026-10-28 00:54:08.10656+00', 'kevin.mosquera@correo.com', 'KEVIN.MOSQUERA@CORREO.COM', 'kevin.mosquera@correo.com', 'KEVIN.MOSQUERA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEGyf5WffW/fKbtMKZ02RJyPI47fmosUM9oJh9t+QVrUqZAw8Gc+TtqKmT2wPlQREfQ==', 'OMH7ANJBUHGNCWYZP5SGT56I3A3HOUSM', 'a76eddf2-1cea-4443-b436-e7cb0fff3c53', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('64a68c17-7249-419c-bc35-0b5186e5fcb8', 'Ana María Jaramillo Gaviria', NULL, '2026-10-28 00:54:08.165754+00', 'ana.jaramillo@correo.com', 'ANA.JARAMILLO@CORREO.COM', 'ana.jaramillo@correo.com', 'ANA.JARAMILLO@CORREO.COM', false, 'AQAAAAIAAYagAAAAENJgcSFuUc9XHtlYqHW0MFeH5xF22FeKD3tcwjHZ1Qb+/7rv+UdXIWK00v+FS4keNA==', 'RYLDK7B7GUVX7JIVW3CV563PYTYGRTVC', '01d8b04c-5e2c-4560-bb70-0888aeae9fe3', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('8758857f-12b3-4fb0-a08c-93ba22e61490', 'Luis Fernando Arias Cano', NULL, '2026-10-28 00:54:08.225791+00', 'luis.arias@correo.com', 'LUIS.ARIAS@CORREO.COM', 'luis.arias@correo.com', 'LUIS.ARIAS@CORREO.COM', false, 'AQAAAAIAAYagAAAAEC0WStXd3bk9eD1TAiNTtnPXsDyccFoE64+d21iuYyBK+OQfYw1a6kx223+50+W3kw==', 'XAILLFG7EWMX27GYOPYEQVVX63PTWRKT', '583e5e8b-654c-4142-8588-2b3352f8d0e0', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('922dfef8-9247-4de1-8617-7f9965a05874', 'Sara Valencia Bermúdez', NULL, '2026-10-28 00:54:08.283637+00', 'sara.valencia@correo.com', 'SARA.VALENCIA@CORREO.COM', 'sara.valencia@correo.com', 'SARA.VALENCIA@CORREO.COM', false, 'AQAAAAIAAYagAAAAEIHZlWm72tAf65qJBGG/52namnHmdroQG7V1SJZ4E8AJQVZUIczOB1ehhy4Jf/CPTQ==', 'O6CED5BD6WXK2QFLHF26A6L5OQZZDYYD', '07d22054-b22a-4471-9571-c5ca9bcf4552', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('4c12f0d5-1ac8-4f06-b5aa-ef37a5cf587c', 'Esteban Rodríguez Molina', NULL, '2026-10-28 00:54:08.342676+00', 'esteban.rodriguez@correo.com', 'ESTEBAN.RODRIGUEZ@CORREO.COM', 'esteban.rodriguez@correo.com', 'ESTEBAN.RODRIGUEZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEOK/z299mQc/tt4jbLbe/U7bRFFhF/I7eazHRJfCFTFQEAgXNFy7j2bN+6OM1pKa2Q==', 'EISXRVYMY75BDZBJZ7EZPOJ33QTVU54C', '2ba05497-8606-411f-a468-07b90c51925e', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('bce9e8b9-b881-4ba6-b860-3e1460f20194', 'Manuela Escobar Toro', NULL, '2026-10-28 00:54:08.400308+00', 'manuela.escobar@correo.com', 'MANUELA.ESCOBAR@CORREO.COM', 'manuela.escobar@correo.com', 'MANUELA.ESCOBAR@CORREO.COM', false, 'AQAAAAIAAYagAAAAEAwkN6r859Nr+Uk6Kn5NgRNLEJhFw5y5H2JIIw+x9Ql4XEVIDkWQbC22xOrdf9/wXg==', 'TSB7CUT6NVWLEYA7D6VFLNQQW3ALVVJQ', '598b156e-531e-462a-a0fb-a97402944680', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('c9b8afce-ff47-4337-a06f-0b0287cd125a', 'Wilmer Alfonso Benítez Cruz', NULL, '2026-10-28 00:54:08.460096+00', 'wilmer.benitez@correo.com', 'WILMER.BENITEZ@CORREO.COM', 'wilmer.benitez@correo.com', 'WILMER.BENITEZ@CORREO.COM', false, 'AQAAAAIAAYagAAAAEMlYFs4yP40o+3+2rLF6WQJsjksZW6fFw/fVDuJBiksLRRPx//zm4FMKklIP3xHjyA==', 'GMKXOFQHHENFIGLKJ6RB7WZVRINIQR6P', '0aa7e731-fc4d-41f2-b49f-91f11cc9c1fd', NULL, false, false, NULL, true, 0);
+INSERT INTO public."AspNetUsers" ("Id", "FullName", "Specialty", "CreatedAt", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('3c101132-4997-433f-911a-6ffe15d88968', 'Yuliana Patiño Osorio', NULL, '2026-10-28 00:54:08.519979+00', 'yuliana.patino@correo.com', 'YULIANA.PATINO@CORREO.COM', 'yuliana.patino@correo.com', 'YULIANA.PATINO@CORREO.COM', false, 'AQAAAAIAAYagAAAAEHQaJ+aAUewCZLq7fAIAmt+PpSDohpK5Xzi+P3mD6qGyDfmDpwJk9WJ2i8j4SHt9Kw==', 'YO5MXCTL42KCGDBWFLMQWOG7QYT5TO34', 'dfb0a06e-f8dc-4765-8c11-115984984e8a', NULL, false, false, NULL, true, 0);
 
 
 --
--- Data for Name: Enrollments; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Enrollments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") FROM stdin;
-1	f5a2a142-6362-4b42-8710-9c651da4c9f5	1	1	2026-10-27 19:06:02.59977+00	\N	\N
-2	489b3312-0d9e-40cd-ac5f-4cf95db3c932	4	1	2026-10-27 19:06:20.005404+00	\N	\N
-3	f5a2a142-6362-4b42-8710-9c651da4c9f5	4	1	2026-10-27 19:06:20.005404+00	\N	\N
-4	7a733074-bc62-4ee1-8a74-2c8c004e59a6	4	1	2026-10-27 19:06:20.005404+00	\N	\N
-5	5be17416-346e-490e-af70-ac1f46b9ae2b	4	1	2026-10-27 19:06:20.005404+00	\N	\N
-6	e5b83d78-ffc5-446b-b4a4-86ab9166f08d	4	1	2026-10-27 19:06:20.005404+00	\N	\N
-7	2a00f0c3-d4a6-45f2-ac7e-5fb3fc585128	5	1	2026-10-27 19:06:20.005404+00	\N	\N
-8	1683bee6-1731-4150-8b06-9da6a3bea86b	5	1	2026-10-27 19:06:20.005404+00	\N	\N
-9	60f691fd-23a5-4aad-95bf-f4043ada786c	5	1	2026-10-27 19:06:20.005404+00	\N	\N
-10	8c8fcb52-e1b2-4202-bac9-373c902ccdd8	5	1	2026-10-27 19:06:20.005404+00	\N	\N
-11	bf97e1ca-949f-4b4b-9b02-e56d1b6161ba	5	1	2026-10-27 19:06:20.005404+00	\N	\N
-12	2b69476a-893c-47ac-8c02-242e5f0124a9	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-13	3e3cb3c4-e7f8-42df-a545-2366ce829735	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-14	8c8fcb52-e1b2-4202-bac9-373c902ccdd8	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-15	2e74a7db-9e06-417a-9b29-53605e71c003	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-16	8921725b-70fb-4af0-b166-37bed5f44544	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-17	b46ad7fc-3f22-44d7-a5e1-818cf978ad40	6	1	2026-10-27 19:06:20.005404+00	\N	\N
-18	b06e4602-8a26-4503-b04a-04cf79e42b58	9	1	2026-10-27 19:06:20.005404+00	\N	\N
-19	8c8fcb52-e1b2-4202-bac9-373c902ccdd8	9	1	2026-10-27 19:06:20.005404+00	\N	\N
-20	e5b83d78-ffc5-446b-b4a4-86ab9166f08d	9	1	2026-10-27 19:06:20.005404+00	\N	\N
-21	33aaada8-7953-4310-b07b-82edc4c8ac0a	9	1	2026-10-27 19:06:20.005404+00	\N	\N
-22	c9efc6e1-34e6-476e-9fcd-a242ec9cc5dd	10	1	2026-10-27 19:06:20.005404+00	\N	\N
-23	3e3cb3c4-e7f8-42df-a545-2366ce829735	10	1	2026-10-27 19:06:20.005404+00	\N	\N
-24	2e74a7db-9e06-417a-9b29-53605e71c003	10	1	2026-10-27 19:06:20.005404+00	\N	\N
-25	8e62fdee-4b05-412a-8b68-a8b71ded82bc	10	1	2026-10-27 19:06:20.005404+00	\N	\N
-26	31454d69-e9d4-4d07-8154-1bf7dcacc83e	10	1	2026-10-27 19:06:20.005404+00	\N	\N
-27	b06e4602-8a26-4503-b04a-04cf79e42b58	1	1	2026-10-27 19:06:20.005404+00	\N	\N
-28	8e62fdee-4b05-412a-8b68-a8b71ded82bc	1	1	2026-10-27 19:06:20.005404+00	\N	\N
-29	9210a4e2-4083-42ea-a61e-63e11bb7f620	1	1	2026-10-27 19:06:20.005404+00	\N	\N
-30	3566c008-3eb4-4b76-bb4e-0c7ebd54f616	2	1	2026-10-27 19:06:20.005404+00	\N	\N
-31	489b3312-0d9e-40cd-ac5f-4cf95db3c932	2	1	2026-10-27 19:06:20.005404+00	\N	\N
-32	4ff7f49d-0ed2-4b68-bf9a-18aac1ceb9ab	2	1	2026-10-27 19:06:20.005404+00	\N	\N
-33	60f691fd-23a5-4aad-95bf-f4043ada786c	3	1	2026-10-27 19:06:20.005404+00	\N	\N
-34	31454d69-e9d4-4d07-8154-1bf7dcacc83e	3	1	2026-10-27 19:06:20.005404+00	\N	\N
-35	33aaada8-7953-4310-b07b-82edc4c8ac0a	3	1	2026-10-27 19:06:20.005404+00	\N	\N
-36	b46ad7fc-3f22-44d7-a5e1-818cf978ad40	3	1	2026-10-27 19:06:20.005404+00	\N	\N
-37	489b3312-0d9e-40cd-ac5f-4cf95db3c932	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-38	2a00f0c3-d4a6-45f2-ac7e-5fb3fc585128	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-39	3e3cb3c4-e7f8-42df-a545-2366ce829735	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-40	1683bee6-1731-4150-8b06-9da6a3bea86b	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-41	4ff7f49d-0ed2-4b68-bf9a-18aac1ceb9ab	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-42	8921725b-70fb-4af0-b166-37bed5f44544	13	1	2026-10-27 19:06:20.005404+00	\N	\N
-43	a4c901dc-7179-4cea-8f09-417add89b2b7	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-44	2b69476a-893c-47ac-8c02-242e5f0124a9	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-45	2748be75-b0e0-4027-9672-778030666ad3	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-46	f5a2a142-6362-4b42-8710-9c651da4c9f5	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-47	31454d69-e9d4-4d07-8154-1bf7dcacc83e	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-48	8921725b-70fb-4af0-b166-37bed5f44544	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-49	f2c2b28b-f388-4e6b-a6c2-226935e4c6f5	14	1	2026-10-27 19:06:20.005404+00	\N	\N
-50	a4c901dc-7179-4cea-8f09-417add89b2b7	15	1	2026-10-27 19:06:20.005404+00	\N	\N
-51	f5a2a142-6362-4b42-8710-9c651da4c9f5	15	1	2026-10-27 19:06:20.005404+00	\N	\N
-52	2e74a7db-9e06-417a-9b29-53605e71c003	15	1	2026-10-27 19:06:20.005404+00	\N	\N
-53	8e62fdee-4b05-412a-8b68-a8b71ded82bc	15	1	2026-10-27 19:06:20.005404+00	\N	\N
-54	a4c901dc-7179-4cea-8f09-417add89b2b7	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-55	5025a4d0-406f-4a7e-bd12-e687c3e676ef	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-56	bf97e1ca-949f-4b4b-9b02-e56d1b6161ba	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-57	2e74a7db-9e06-417a-9b29-53605e71c003	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-58	4ff7f49d-0ed2-4b68-bf9a-18aac1ceb9ab	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-59	e5b83d78-ffc5-446b-b4a4-86ab9166f08d	11	1	2026-10-27 19:06:20.005404+00	\N	\N
-60	33aaada8-7953-4310-b07b-82edc4c8ac0a	12	1	2026-10-27 19:06:20.005404+00	\N	\N
-61	f2c2b28b-f388-4e6b-a6c2-226935e4c6f5	12	1	2026-10-27 19:06:20.005404+00	\N	\N
-62	c9efc6e1-34e6-476e-9fcd-a242ec9cc5dd	7	1	2026-10-27 19:06:20.005404+00	\N	\N
-63	8e62fdee-4b05-412a-8b68-a8b71ded82bc	7	1	2026-10-27 19:06:20.005404+00	\N	\N
-64	e5b83d78-ffc5-446b-b4a4-86ab9166f08d	7	1	2026-10-27 19:06:20.005404+00	\N	\N
-65	489b3312-0d9e-40cd-ac5f-4cf95db3c932	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-66	8c8fcb52-e1b2-4202-bac9-373c902ccdd8	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-67	bf97e1ca-949f-4b4b-9b02-e56d1b6161ba	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-68	7a733074-bc62-4ee1-8a74-2c8c004e59a6	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-69	4c68af0c-f219-46d6-90fc-6edacddbe960	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-70	5be17416-346e-490e-af70-ac1f46b9ae2b	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-71	33aaada8-7953-4310-b07b-82edc4c8ac0a	8	1	2026-10-27 19:06:20.005404+00	\N	\N
-\.
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (1, 'bcf5e9e9-0660-490c-9694-e260095f48f6', 4, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (2, 'f98891ba-199b-440f-80eb-282cb3b8cb08', 4, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (3, '3b3de762-062e-44bc-b879-186811bf313a', 4, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (4, '7d504c14-04cd-481a-b001-2471fe41bf0e', 4, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (5, 'f7855923-4f64-45a5-9311-c5352cf57bc3', 4, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (6, '528a0121-62cb-4b0d-bd5f-d2f6610697ba', 5, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (7, 'f0a6d66e-90d7-4f08-bce2-8573d501aec9', 5, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (8, '0547ddf6-03c7-42cb-94d1-7eb9b4442c5b', 5, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (9, '1141592f-0f12-403d-93dd-19f9d2bfaa75', 5, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (10, '3fb0423e-167c-4126-970c-ab96bfb37ad4', 5, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (11, 'a9bd19d3-c730-4477-add8-a8bbd548a561', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (12, '8f5b057f-e6a7-4cdc-8c6b-16089b4e6dc4', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (13, '1141592f-0f12-403d-93dd-19f9d2bfaa75', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (14, '8758857f-12b3-4fb0-a08c-93ba22e61490', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (15, '9062ba98-8560-4339-94be-116b67986b13', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (16, 'c9b8afce-ff47-4337-a06f-0b0287cd125a', 6, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (17, '4c12f0d5-1ac8-4f06-b5aa-ef37a5cf587c', 9, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (18, '1141592f-0f12-403d-93dd-19f9d2bfaa75', 9, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (19, 'f7855923-4f64-45a5-9311-c5352cf57bc3', 9, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (20, '922dfef8-9247-4de1-8617-7f9965a05874', 9, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (21, 'd5f20945-93ca-4eae-8b4a-76d6eec433f9', 10, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (22, '8f5b057f-e6a7-4cdc-8c6b-16089b4e6dc4', 10, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (23, '8758857f-12b3-4fb0-a08c-93ba22e61490', 10, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (24, '256f19ac-55ce-4be0-818f-691901b12e19', 10, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (25, '25979e64-a0f2-416d-91c0-9dfe33e70e1b', 10, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (26, '4c12f0d5-1ac8-4f06-b5aa-ef37a5cf587c', 1, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (27, '256f19ac-55ce-4be0-818f-691901b12e19', 1, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (28, 'e883dc1e-6116-4082-bd0f-fdd41bef8568', 1, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (29, '50e21981-c33a-4f3a-aecd-55d42da1248c', 2, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (30, 'bcf5e9e9-0660-490c-9694-e260095f48f6', 2, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (31, 'd1ac3c49-9797-4572-a52e-0104a7143ab2', 2, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (32, '0547ddf6-03c7-42cb-94d1-7eb9b4442c5b', 3, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (33, '25979e64-a0f2-416d-91c0-9dfe33e70e1b', 3, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (34, '922dfef8-9247-4de1-8617-7f9965a05874', 3, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (35, 'c9b8afce-ff47-4337-a06f-0b0287cd125a', 3, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (36, 'bcf5e9e9-0660-490c-9694-e260095f48f6', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (37, '528a0121-62cb-4b0d-bd5f-d2f6610697ba', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (38, '8f5b057f-e6a7-4cdc-8c6b-16089b4e6dc4', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (39, 'f0a6d66e-90d7-4f08-bce2-8573d501aec9', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (40, 'd1ac3c49-9797-4572-a52e-0104a7143ab2', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (41, '9062ba98-8560-4339-94be-116b67986b13', 13, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (42, '64a68c17-7249-419c-bc35-0b5186e5fcb8', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (43, 'a9bd19d3-c730-4477-add8-a8bbd548a561', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (44, 'f17fec4a-41e4-465f-8b81-96ee54e0af25', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (45, 'f98891ba-199b-440f-80eb-282cb3b8cb08', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (46, '25979e64-a0f2-416d-91c0-9dfe33e70e1b', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (47, '9062ba98-8560-4339-94be-116b67986b13', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (48, 'eaadd356-eb17-45b2-a324-e99f8cdb7597', 14, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (49, '64a68c17-7249-419c-bc35-0b5186e5fcb8', 15, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (50, 'f98891ba-199b-440f-80eb-282cb3b8cb08', 15, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (51, '8758857f-12b3-4fb0-a08c-93ba22e61490', 15, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (52, '256f19ac-55ce-4be0-818f-691901b12e19', 15, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (53, '64a68c17-7249-419c-bc35-0b5186e5fcb8', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (54, '32542b3a-4126-43a0-aac8-1d3e38b15416', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (55, '3fb0423e-167c-4126-970c-ab96bfb37ad4', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (56, '8758857f-12b3-4fb0-a08c-93ba22e61490', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (57, 'd1ac3c49-9797-4572-a52e-0104a7143ab2', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (58, 'f7855923-4f64-45a5-9311-c5352cf57bc3', 11, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (59, '922dfef8-9247-4de1-8617-7f9965a05874', 12, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (60, 'eaadd356-eb17-45b2-a324-e99f8cdb7597', 12, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (61, 'd5f20945-93ca-4eae-8b4a-76d6eec433f9', 7, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (62, '256f19ac-55ce-4be0-818f-691901b12e19', 7, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (63, 'f7855923-4f64-45a5-9311-c5352cf57bc3', 7, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (64, 'bcf5e9e9-0660-490c-9694-e260095f48f6', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (65, '1141592f-0f12-403d-93dd-19f9d2bfaa75', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (66, '3fb0423e-167c-4126-970c-ab96bfb37ad4', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (67, '3b3de762-062e-44bc-b879-186811bf313a', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (68, 'bce9e8b9-b881-4ba6-b860-3e1460f20194', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (69, '7d504c14-04cd-481a-b001-2471fe41bf0e', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
+INSERT INTO public."Enrollments" ("Id", "ParticipantId", "WorkshopId", "Status", "EnrolledAt", "CancelledAt", "CancelledBy") VALUES (70, '922dfef8-9247-4de1-8617-7f9965a05874', 8, 1, '2026-10-28 01:06:33.090068+00', NULL, NULL);
 
 
 --
--- Data for Name: Workshops; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Workshops; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") FROM stdin;
-1	FOT-001	Fotografía con celular	Composición, luz y edición básica desde el celular	4631a52b-2237-47d8-8817-50325c08add4	2026-12-05 08:00:00+00	2026-12-05 12:00:00+00	15	2026-10-27 18:55:52.757326+00
-2	FOT-002	Retrato en exteriores	Manejo de luz natural para retratos al aire libre	4631a52b-2237-47d8-8817-50325c08add4	2027-01-16 08:00:00+00	2027-01-16 12:00:00+00	10	2026-10-27 18:55:52.783684+00
-3	FOT-003	Edición en Lightroom	Flujo de revelado y ajustes de color	4631a52b-2237-47d8-8817-50325c08add4	2027-02-06 14:00:00+00	2027-02-06 18:00:00+00	12	2026-10-27 18:55:52.784779+00
-4	COC-001	Cocina costeña	Arroz con coco, patacones y mojarra frita	d5c7591f-5b19-44da-9866-ef84b91c3863	2026-12-05 14:00:00+00	2026-12-05 18:00:00+00	12	2026-10-27 18:55:52.785397+00
-5	COC-002	Repostería básica	Tortas, galletas y postres de nevera	d5c7591f-5b19-44da-9866-ef84b91c3863	2027-01-09 09:00:00+00	2027-01-09 13:00:00+00	10	2026-10-27 18:55:52.786124+00
-6	COC-003	Cocina saludable	Platos balanceados para la semana	d5c7591f-5b19-44da-9866-ef84b91c3863	2027-02-13 09:00:00+00	2027-02-13 12:00:00+00	14	2026-10-27 18:55:52.786757+00
-7	ORA-001	Oratoria para principiantes	Técnicas para hablar en público con seguridad	50719c00-6551-4335-8347-d48aebf5bdfc	2026-12-12 09:00:00+00	2026-12-12 12:00:00+00	20	2026-10-27 18:55:52.787376+00
-8	ORA-002	Presentaciones efectivas	Cómo estructurar y presentar una idea en 10 minutos	50719c00-6551-4335-8347-d48aebf5bdfc	2027-01-23 09:00:00+00	2027-01-23 12:00:00+00	18	2026-10-27 18:55:52.787996+00
-9	DIS-001	Diseño en Canva	Piezas gráficas para redes sociales	24f1d522-7eef-4aa5-acd1-00d33265026a	2026-12-19 14:00:00+00	2026-12-19 17:00:00+00	18	2026-10-27 18:55:52.78861+00
-10	DIS-002	Fundamentos de color y tipografía	Principios visuales para piezas profesionales	24f1d522-7eef-4aa5-acd1-00d33265026a	2027-01-30 14:00:00+00	2027-01-30 17:00:00+00	15	2026-10-27 18:55:52.789159+00
-11	MUS-001	Guitarra desde cero	Acordes básicos y primeras canciones	ceda1043-c39a-41c8-b4fa-43d8a4e5de5e	2026-12-12 14:00:00+00	2026-12-12 17:00:00+00	10	2026-10-27 18:55:52.789757+00
-12	MUS-002	Producción musical en casa	Grabación y mezcla con herramientas gratuitas	ceda1043-c39a-41c8-b4fa-43d8a4e5de5e	2027-02-20 14:00:00+00	2027-02-20 18:00:00+00	12	2026-10-27 18:55:52.790332+00
-13	MKT-001	Marketing en redes sociales	Estrategia de contenido para pequeños negocios	94640ef0-afe5-4aa8-a6bd-fd67bad60165	2026-12-19 08:00:00+00	2026-12-19 12:00:00+00	20	2026-10-27 18:55:52.790936+00
-14	MKT-002	Publicidad en Meta e Instagram	Configuración y medición de campañas	94640ef0-afe5-4aa8-a6bd-fd67bad60165	2027-01-16 14:00:00+00	2027-01-16 18:00:00+00	16	2026-10-27 18:55:52.791488+00
-15	MKT-003	Emprendimiento digital	Validar y lanzar una idea de negocio en línea	94640ef0-afe5-4aa8-a6bd-fd67bad60165	2027-02-27 09:00:00+00	2027-02-27 12:00:00+00	20	2026-10-27 18:55:52.792069+00
-16	TEST-001	Taller Solapado	Prueba de cruce	4631a52b-2237-47d8-8817-50325c08add4	2026-12-05 10:00:00+00	2026-12-05 14:00:00+00	10	2026-10-27 18:57:48.753039+00
-\.
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (1, 'FOT-001', 'Fotografía con celular', 'Composición, luz y edición básica desde el celular', '55bf7d71-7899-49bb-9e0a-cb0dd67ff021', '2026-12-05 08:00:00+00', '2026-12-05 12:00:00+00', 15, '2026-10-28 00:54:08.586411+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (2, 'FOT-002', 'Retrato en exteriores', 'Manejo de luz natural para retratos al aire libre', '55bf7d71-7899-49bb-9e0a-cb0dd67ff021', '2027-01-16 08:00:00+00', '2027-01-16 12:00:00+00', 10, '2026-10-28 00:54:08.607928+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (3, 'FOT-003', 'Edición en Lightroom', 'Flujo de revelado y ajustes de color', '55bf7d71-7899-49bb-9e0a-cb0dd67ff021', '2027-02-06 14:00:00+00', '2027-02-06 18:00:00+00', 12, '2026-10-28 00:54:08.608956+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (4, 'COC-001', 'Cocina costeña', 'Arroz con coco, patacones y mojarra frita', '2a7a972e-c70f-4602-8ad9-100ddd248de2', '2026-12-05 14:00:00+00', '2026-12-05 18:00:00+00', 12, '2026-10-28 00:54:08.609734+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (5, 'COC-002', 'Repostería básica', 'Tortas, galletas y postres de nevera', '2a7a972e-c70f-4602-8ad9-100ddd248de2', '2027-01-09 09:00:00+00', '2027-01-09 13:00:00+00', 10, '2026-10-28 00:54:08.610492+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (6, 'COC-003', 'Cocina saludable', 'Platos balanceados para la semana', '2a7a972e-c70f-4602-8ad9-100ddd248de2', '2027-02-13 09:00:00+00', '2027-02-13 12:00:00+00', 14, '2026-10-28 00:54:08.611241+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (7, 'ORA-001', 'Oratoria para principiantes', 'Técnicas para hablar en público con seguridad', '7387ee97-bce7-42b7-af38-1e34c8a06b20', '2026-12-12 09:00:00+00', '2026-12-12 12:00:00+00', 20, '2026-10-28 00:54:08.611978+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (8, 'ORA-002', 'Presentaciones efectivas', 'Cómo estructurar y presentar una idea en 10 minutos', '7387ee97-bce7-42b7-af38-1e34c8a06b20', '2027-01-23 09:00:00+00', '2027-01-23 12:00:00+00', 18, '2026-10-28 00:54:08.61276+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (9, 'DIS-001', 'Diseño en Canva', 'Piezas gráficas para redes sociales', '5b8b8ffa-f8a5-416f-a527-81edc3f6cb70', '2026-12-19 14:00:00+00', '2026-12-19 17:00:00+00', 18, '2026-10-28 00:54:08.613544+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (10, 'DIS-002', 'Fundamentos de color y tipografía', 'Principios visuales para piezas profesionales', '5b8b8ffa-f8a5-416f-a527-81edc3f6cb70', '2027-01-30 14:00:00+00', '2027-01-30 17:00:00+00', 15, '2026-10-28 00:54:08.614317+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (11, 'MUS-001', 'Guitarra desde cero', 'Acordes básicos y primeras canciones', 'b6414c74-7341-4d62-aaaa-dae84eb54185', '2026-12-12 14:00:00+00', '2026-12-12 17:00:00+00', 10, '2026-10-28 00:54:08.615139+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (12, 'MUS-002', 'Producción musical en casa', 'Grabación y mezcla con herramientas gratuitas', 'b6414c74-7341-4d62-aaaa-dae84eb54185', '2027-02-20 14:00:00+00', '2027-02-20 18:00:00+00', 12, '2026-10-28 00:54:08.616008+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (13, 'MKT-001', 'Marketing en redes sociales', 'Estrategia de contenido para pequeños negocios', 'd0abd8e6-8878-4a9f-a380-eac8d1fe7517', '2026-12-19 08:00:00+00', '2026-12-19 12:00:00+00', 20, '2026-10-28 00:54:08.616774+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (14, 'MKT-002', 'Publicidad en Meta e Instagram', 'Configuración y medición de campañas', 'd0abd8e6-8878-4a9f-a380-eac8d1fe7517', '2027-01-16 14:00:00+00', '2027-01-16 18:00:00+00', 16, '2026-10-28 00:54:08.617763+00');
+INSERT INTO public."Workshops" ("Id", "Code", "Title", "Description", "InstructorId", "StartDateTime", "EndDateTime", "Capacity", "CreatedAt") VALUES (15, 'MKT-003', 'Emprendimiento digital', 'Validar y lanzar una idea de negocio en línea', 'd0abd8e6-8878-4a9f-a380-eac8d1fe7517', '2027-02-27 09:00:00+00', '2027-02-27 12:00:00+00', 20, '2026-10-28 00:54:08.618549+00');
 
 
 --
--- Data for Name: __EFMigrationsHistory; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: __EFMigrationsHistory; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
-20261027185517_InitialCreate	10.0.14
-\.
+INSERT INTO public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") VALUES ('20261027185517_InitialCreate', '10.0.14');
 
 
 --
--- Name: AspNetRoleClaims_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: AspNetRoleClaims_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public."AspNetRoleClaims_Id_seq"', 1, false);
 
 
 --
--- Name: AspNetUserClaims_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: AspNetUserClaims_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public."AspNetUserClaims_Id_seq"', 1, false);
 
 
 --
--- Name: Enrollments_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: Enrollments_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Enrollments_Id_seq"', 71, true);
-
-
---
--- Name: Workshops_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Workshops_Id_seq"', 16, true);
+SELECT pg_catalog.setval('public."Enrollments_Id_seq"', 70, true);
 
 
 --
--- Name: AspNetRoleClaims PK_AspNetRoleClaims; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Workshops_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."Workshops_Id_seq"', 15, true);
+
+
+--
+-- Name: AspNetRoleClaims PK_AspNetRoleClaims; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetRoleClaims"
@@ -555,7 +512,7 @@ ALTER TABLE ONLY public."AspNetRoleClaims"
 
 
 --
--- Name: AspNetRoles PK_AspNetRoles; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetRoles PK_AspNetRoles; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetRoles"
@@ -563,7 +520,7 @@ ALTER TABLE ONLY public."AspNetRoles"
 
 
 --
--- Name: AspNetUserClaims PK_AspNetUserClaims; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserClaims PK_AspNetUserClaims; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserClaims"
@@ -571,7 +528,7 @@ ALTER TABLE ONLY public."AspNetUserClaims"
 
 
 --
--- Name: AspNetUserLogins PK_AspNetUserLogins; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserLogins PK_AspNetUserLogins; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserLogins"
@@ -579,7 +536,7 @@ ALTER TABLE ONLY public."AspNetUserLogins"
 
 
 --
--- Name: AspNetUserRoles PK_AspNetUserRoles; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserRoles PK_AspNetUserRoles; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserRoles"
@@ -587,7 +544,7 @@ ALTER TABLE ONLY public."AspNetUserRoles"
 
 
 --
--- Name: AspNetUserTokens PK_AspNetUserTokens; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserTokens PK_AspNetUserTokens; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserTokens"
@@ -595,7 +552,7 @@ ALTER TABLE ONLY public."AspNetUserTokens"
 
 
 --
--- Name: AspNetUsers PK_AspNetUsers; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUsers PK_AspNetUsers; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUsers"
@@ -603,7 +560,7 @@ ALTER TABLE ONLY public."AspNetUsers"
 
 
 --
--- Name: Enrollments PK_Enrollments; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Enrollments PK_Enrollments; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Enrollments"
@@ -611,7 +568,7 @@ ALTER TABLE ONLY public."Enrollments"
 
 
 --
--- Name: Workshops PK_Workshops; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Workshops PK_Workshops; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Workshops"
@@ -619,7 +576,7 @@ ALTER TABLE ONLY public."Workshops"
 
 
 --
--- Name: __EFMigrationsHistory PK___EFMigrationsHistory; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: __EFMigrationsHistory PK___EFMigrationsHistory; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."__EFMigrationsHistory"
@@ -627,84 +584,84 @@ ALTER TABLE ONLY public."__EFMigrationsHistory"
 
 
 --
--- Name: EmailIndex; Type: INDEX; Schema: public; Owner: postgres
+-- Name: EmailIndex; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "EmailIndex" ON public."AspNetUsers" USING btree ("NormalizedEmail");
 
 
 --
--- Name: IX_AspNetRoleClaims_RoleId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_AspNetRoleClaims_RoleId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON public."AspNetRoleClaims" USING btree ("RoleId");
 
 
 --
--- Name: IX_AspNetUserClaims_UserId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_AspNetUserClaims_UserId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_AspNetUserClaims_UserId" ON public."AspNetUserClaims" USING btree ("UserId");
 
 
 --
--- Name: IX_AspNetUserLogins_UserId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_AspNetUserLogins_UserId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_AspNetUserLogins_UserId" ON public."AspNetUserLogins" USING btree ("UserId");
 
 
 --
--- Name: IX_AspNetUserRoles_RoleId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_AspNetUserRoles_RoleId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_AspNetUserRoles_RoleId" ON public."AspNetUserRoles" USING btree ("RoleId");
 
 
 --
--- Name: IX_Enrollments_ParticipantId_WorkshopId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_Enrollments_ParticipantId_WorkshopId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_Enrollments_ParticipantId_WorkshopId" ON public."Enrollments" USING btree ("ParticipantId", "WorkshopId");
 
 
 --
--- Name: IX_Enrollments_WorkshopId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_Enrollments_WorkshopId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_Enrollments_WorkshopId" ON public."Enrollments" USING btree ("WorkshopId");
 
 
 --
--- Name: IX_Workshops_Code; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_Workshops_Code; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "IX_Workshops_Code" ON public."Workshops" USING btree ("Code");
 
 
 --
--- Name: IX_Workshops_InstructorId; Type: INDEX; Schema: public; Owner: postgres
+-- Name: IX_Workshops_InstructorId; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX "IX_Workshops_InstructorId" ON public."Workshops" USING btree ("InstructorId");
 
 
 --
--- Name: RoleNameIndex; Type: INDEX; Schema: public; Owner: postgres
+-- Name: RoleNameIndex; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "RoleNameIndex" ON public."AspNetRoles" USING btree ("NormalizedName");
 
 
 --
--- Name: UserNameIndex; Type: INDEX; Schema: public; Owner: postgres
+-- Name: UserNameIndex; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "UserNameIndex" ON public."AspNetUsers" USING btree ("NormalizedUserName");
 
 
 --
--- Name: AspNetRoleClaims FK_AspNetRoleClaims_AspNetRoles_RoleId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetRoleClaims FK_AspNetRoleClaims_AspNetRoles_RoleId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetRoleClaims"
@@ -712,7 +669,7 @@ ALTER TABLE ONLY public."AspNetRoleClaims"
 
 
 --
--- Name: AspNetUserClaims FK_AspNetUserClaims_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserClaims FK_AspNetUserClaims_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserClaims"
@@ -720,7 +677,7 @@ ALTER TABLE ONLY public."AspNetUserClaims"
 
 
 --
--- Name: AspNetUserLogins FK_AspNetUserLogins_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserLogins FK_AspNetUserLogins_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserLogins"
@@ -728,7 +685,7 @@ ALTER TABLE ONLY public."AspNetUserLogins"
 
 
 --
--- Name: AspNetUserRoles FK_AspNetUserRoles_AspNetRoles_RoleId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserRoles FK_AspNetUserRoles_AspNetRoles_RoleId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserRoles"
@@ -736,7 +693,7 @@ ALTER TABLE ONLY public."AspNetUserRoles"
 
 
 --
--- Name: AspNetUserRoles FK_AspNetUserRoles_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserRoles FK_AspNetUserRoles_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserRoles"
@@ -744,7 +701,7 @@ ALTER TABLE ONLY public."AspNetUserRoles"
 
 
 --
--- Name: AspNetUserTokens FK_AspNetUserTokens_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AspNetUserTokens FK_AspNetUserTokens_AspNetUsers_UserId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AspNetUserTokens"
@@ -752,7 +709,7 @@ ALTER TABLE ONLY public."AspNetUserTokens"
 
 
 --
--- Name: Enrollments FK_Enrollments_AspNetUsers_ParticipantId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Enrollments FK_Enrollments_AspNetUsers_ParticipantId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Enrollments"
@@ -760,7 +717,7 @@ ALTER TABLE ONLY public."Enrollments"
 
 
 --
--- Name: Enrollments FK_Enrollments_Workshops_WorkshopId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Enrollments FK_Enrollments_Workshops_WorkshopId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Enrollments"
@@ -768,7 +725,7 @@ ALTER TABLE ONLY public."Enrollments"
 
 
 --
--- Name: Workshops FK_Workshops_AspNetUsers_InstructorId; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Workshops FK_Workshops_AspNetUsers_InstructorId; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Workshops"
@@ -779,5 +736,4 @@ ALTER TABLE ONLY public."Workshops"
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 17XbEei5IryOeH65VDSBHfEAXmikeFB9RKYV6TbAhtzc54SpKhdXv4vkuFial3f
 
